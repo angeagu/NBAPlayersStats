@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.kursea.nbaplayersstats" version="2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>NbaPlayersStats</name>
+    <description>
+        Easy app for browsing NBA Players Stats.
+		Search by Team/Player feature.
+		Complete points,minutes,assists,rebounds,blocks stats.
+    </description>
+    <author email="info@kursea.es" href="http://www.kursea.es">
+        Kursea Mobile Development Team
+    </author>
+    <content src="index.html" />
+    
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    
+    <access origin="*" />
+    
+    
+</widget>

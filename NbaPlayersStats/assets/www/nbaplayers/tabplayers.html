@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <div data-role="page" id="paginaPrincipal">
+
+        <div data-role="header" data-position="fixed">
+            <h3>NBA Players Stats</h3>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="tabplayers.html">Stats by Player</a></li>
+                    <li><a href="tabtopcategories.html">Top Categories</a></li>
+                    <li><a href="tabteams.html">Stats By Team</a></li>
+                </ul>
+            </div>
+        </div>
+
+            
+            <div data-role="content">
+                <div class="content-primary">
+                    
+                    <form>
+                        <div class="ui-body ui-body-b" data-role="fieldcontain">
+                            <label for="select-equipo">Team:</label>
+                            <select name="select-equipo" id="select-equipo" onChange="actualizaJugadores();">
+                                <option></option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                    <form>
+                        <div class="ui-body ui-body-b" data-role="fieldcontain">
+                            <label for="select-jugador">Player:</label>
+                            <select name="select-jugador" id="select-jugador">
+                                <option></option>
+                            </select>
+                        </div>
+                    </form>
+                    <br>
+                    
+                    <div data-demo-html="true">
+                        
+                        <label for="listview-jugadores">Player Search by Name: </label>
+                        <br>
+                        <br>
+                        <ul id="listview-jugadores" data-role="listview" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search Player...">
+                        </ul>
+                        
+                    </div>
+                    
+                    <br>
+                    
+                    <div align="center">
+                        <a href="#" onclick = 'cargarJugador("");' data-role="button" data-mini="true" data-inline="true" data-icon="check" data-theme="e">Show Stats</a>
+                        <br>
+                        <br>
+                        <a href="#" onclick = 'restartRequest();' data-role="button" data-mini="true" data-inline="true" data-icon="check" data-theme="e">Reload Stats</a>
+                        <br>
+                        <br>
+                        <a href="#" onclick = 'saliraplicacion(1);' data-role="button" data-mini="true" data-inline="true" data-icon="check" data-theme="e">Close App</a>				
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="popup" id="playerPopup">
+            </div>
+            
+            <div align="center" data-role="popup" id="loadingDataPopup" data-theme="b" data-dismissible="false">
+            </div>
+            
+            
+            <div id="framePlayer" class=ui-grid-b>
+            </div>
+           
+           <script>
+           		if (!jsondataready) {
+                	onDeviceReady();
+                }
+           </script>
+        </div>
+    </body>
+</html>
