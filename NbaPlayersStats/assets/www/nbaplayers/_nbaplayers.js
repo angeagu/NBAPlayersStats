@@ -2,66 +2,37 @@ $.support.cors = true;
 $.mobile.allowCrossDomainPages = true;
 $.mobile.phonegapNavigationEnabled = true;
 
-var pacers = new Array(20);
-var indexPacers=0;
-var heat = new Array(20);
-var indexHeat=0;
-var raptors = new Array(20);
-var indexRaptors=0;
-var bulls = new Array(20);
-var indexBulls=0;
-var nets = new Array(20);
-var indexNets=0;
-var wizards = new Array(20);
-var indexWizards=0;
-var bobcats = new Array(20);
-var indexBobcats=0;
-var hawks = new Array(20);
-var indexHawks=0;
-var knicks = new Array(20);
-var indexKnicks=0;
-var cavaliers = new Array(20);
-var indexCavaliers=0;
-var pistons = new Array(20);
-var indexPistons=0;
-var celtics = new Array(20);
-var indexCeltics=0;
-var magic = new Array(20);
-var indexMagic=0;
-var sixers = new Array(20);
-var indexSixers=0;
-var bucks = new Array(20);
-var indexBucks=0;
-var spurs = new Array(20);
-var indexSpurs=0;
-var thunder = new Array(20);
-var indexThunder=0;
-var clippers = new Array(20);
-var indexClippers=0;
-var lakers = new Array(20);
-var indexLakers=0;
-var rockets = new Array(20);
-var indexRockets=0;
-var blazers = new Array(20);
-var indexBlazers=0;
-var warriors = new Array(20);
-var indexWarriors=0;
-var grizzlies = new Array(20);
-var indexGrizzlies=0;
-var mavericks = new Array(20);
-var indexMavericks=0;
-var suns = new Array(20);
-var indexSuns=0;
-var timberwolves = new Array(20);
-var indexTimberwolves=0;
-var nuggets = new Array(20);
-var indexNuggets=0;
-var pelicans = new Array(20);
-var indexPelicans=0;
-var kings = new Array(20);
-var indexKings=0;
-var jazz = new Array(20);
-var indexJazz=0;
+var pacers = [];
+var heat = [];
+var raptors = [];
+var bulls = [];
+var nets = [];
+var wizards = [];
+var hornets = [];
+var hawks = [];
+var knicks = [];
+var cavaliers = [];
+var pistons = [];
+var celtics = [];
+var magic = [];
+var sixers = [];
+var bucks = [];
+var spurs = [];
+var thunder = [];
+var clippers = [];
+var lakers = [];
+var rockets = [];
+var blazers = [];
+var warriors = [];
+var grizzlies = [];
+var mavericks = [];
+var suns = [];
+var timberwolves = [];
+var nuggets = [];
+var pelicans = [];
+var kings = [];
+var jazz = [];
+
 var arrayJugadores;
 var jsondataready=false;
 var asistenciasdataready=false;
@@ -73,7 +44,9 @@ var rebotesdataplayoffready=false;
 var taponesrobosdataplayoffready=false;
 var datospersonalesready=false;
 var modaldialog=null;
-var playoffsEnabled=false;
+var nameSelect='';
+var playoffsEnabled=true;
+
 
 var restartRequest = function() {
     
@@ -83,71 +56,41 @@ var restartRequest = function() {
 	modaldialog.empty();
 	modaldialog.append('<br><br><br>Loading Data. Please Wait... <br><br><br><br>');
 	modaldialog.popup( "open" );
-	console.log('Restarting request...');
+	//console.log('Restarting request...');
 	callJSON();
 }
 
 var resetData = function () {
-    pacers = new Array(20);
-    indexPacers=0;
-    heat = new Array(20);
-    indexHeat=0;
-    raptors = new Array(20);
-    indexRaptors=0;
-    bulls = new Array(20);
-    indexBulls=0;
-    nets = new Array(20);
-    indexNets=0;
-    wizards = new Array(20);
-    indexWizards=0;
-    bobcats = new Array(20);
-    indexBobcats=0;
-    hawks = new Array(20);
-    indexHawks=0;
-    knicks = new Array(20);
-    indexKnicks=0;
-    cavaliers = new Array(20);
-    indexCavaliers=0;
-    pistons = new Array(20);
-    indexPistons=0;
-    celtics = new Array(20);
-    indexCeltics=0;
-    magic = new Array(20);
-    indexMagic=0;
-    sixers = new Array(20);
-    indexSixers=0;
-    bucks = new Array(20);
-    indexBucks=0;
-    spurs = new Array(20);
-    indexSpurs=0;
-    thunder = new Array(20);
-    indexThunder=0;
-    clippers = new Array(20);
-    indexClippers=0;
-    lakers = new Array(20);
-    indexLakers=0;
-    rockets = new Array(20);
-    indexRockets=0;
-    blazers = new Array(20);
-    indexBlazers=0;
-    warriors = new Array(20);
-    indexWarriors=0;
-    grizzlies = new Array(20);
-    indexGrizzlies=0;
-    mavericks = new Array(20);
-    indexMavericks=0;
-    suns = new Array(20);
-    indexSuns=0;
-    timberwolves = new Array(20);
-    indexTimberwolves=0;
-    nuggets = new Array(20);
-    indexNuggets=0;
-    pelicans = new Array(20);
-    indexPelicans=0;
-    kings = new Array(20);
-    indexKings=0;
-    jazz = new Array(20);
-    indexJazz=0;
+    pacers = [];
+    heat = [];
+    raptors = [];
+    bulls = [];
+    nets = [];
+    wizards = [];
+    hornets = [];
+    hawks = [];
+    knicks = [];
+    cavaliers = [];
+    pistons = [];
+    celtics = [];
+    magic = [];
+    sixers = [];
+    bucks = [];
+    spurs = [];
+    thunder = [];
+    clippers = [];
+    lakers = [];
+    rockets = [];
+    blazers = [];
+    warriors = [];
+    grizzlies = [];
+    mavericks = [];
+    suns = [];
+    timberwolves = [];
+    nuggets = [];
+    pelicans = [];
+    kings = [];
+    jazz = [];
     arrayJugadores = new Array(725);
     jsondataready=false;
     asistenciasdataready=false;
@@ -160,8 +103,7 @@ var resetData = function () {
 }
 
 var callJSON = function() {	
-	//alert('call JSON....');
-	console.log('call JSON....');
+	//console.log('call JSON....');
 	$.ajax({
 	url: 'http://stats.nba.com/js/data/sportvu/2014/shootingData.json?callback=procesaRespuesta',
 	contentType: "application/json",
@@ -187,7 +129,7 @@ var callJSON = function() {
 
 function procesaRespuesta(data) {
 	var shootingData = data;
-	console.log('procesando respuesta callJSON');
+	//console.log('procesando respuesta callJSON');
 	//la variable shootingData viene en la respuesta, no se necesita declarar.
 	var resultSets = shootingData.resultSets[0];
 	var rowSet = resultSets.rowSet;	
@@ -202,36 +144,36 @@ function procesaRespuesta(data) {
 		var minutos = rowSet[i][6];
 		var puntos = rowSet[i][7];
 		
-		if (equipo == 'IND') {pacers[indexPacers]=nombre;indexPacers++;}
-		else if (equipo == 'MIA') {heat[indexHeat]=nombre;indexHeat++;}
-		else if (equipo == 'TOR') {raptors[indexRaptors]=nombre;indexRaptors++;}
-		else if (equipo == 'CHI') {bulls[indexBulls]=nombre;indexBulls++;}
-		else if (equipo == 'BKN') {nets[indexNets]=nombre;indexNets++;}
-		else if (equipo == 'WAS') {wizards[indexWizards]=nombre;indexWizards++;}
-		else if (equipo == 'CHA') {bobcats[indexBobcats]=nombre;indexBobcats++;}
-		else if (equipo == 'ATL') {hawks[indexHawks]=nombre;indexHawks++;}
-		else if (equipo == 'NYK') {knicks[indexKnicks]=nombre;indexKnicks++;}
-		else if (equipo == 'CLE') {cavaliers[indexCavaliers]=nombre;indexCavaliers++;}
-		else if (equipo == 'DET') {pistons[indexPistons]=nombre;indexPistons++;}
-		else if (equipo == 'BOS') {celtics[indexCeltics]=nombre;indexCeltics++;}
-		else if (equipo == 'ORL') {magic[indexMagic]=nombre;indexMagic++;}
-		else if (equipo == 'PHI') {sixers[indexSixers]=nombre;indexSixers++;}
-		else if (equipo == 'MIL') {bucks[indexBucks]=nombre;indexBucks++;}
-		else if (equipo == 'SAS') {spurs[indexSpurs]=nombre;indexSpurs++;}
-		else if (equipo == 'OKC') {thunder[indexThunder]=nombre;indexThunder++;}
-		else if (equipo == 'LAC') {clippers[indexClippers]=nombre;indexClippers++;}
-		else if (equipo == 'LAL') {lakers[indexLakers]=nombre;indexLakers++;}
-		else if (equipo == 'HOU') {rockets[indexRockets]=nombre;indexRockets++;}
-		else if (equipo == 'POR') {blazers[indexBlazers]=nombre;indexBlazers++;}
-		else if (equipo == 'GSW') {warriors[indexWarriors]=nombre;indexWarriors++;}
-		else if (equipo == 'MEM') {grizzlies[indexGrizzlies]=nombre;indexGrizzlies++;}
-		else if (equipo == 'DAL') {mavericks[indexMavericks]=nombre;indexMavericks++;}
-		else if (equipo == 'PHX') {suns[indexSuns]=nombre;indexSuns++;}
-		else if (equipo == 'MIN') {timberwolves[indexTimberwolves]=nombre;indexTimberwolves++;}
-		else if (equipo == 'DEN') {nuggets[indexNuggets]=nombre;indexNuggets++;}
-		else if (equipo == 'NOP') {pelicans[indexPelicans]=nombre;indexPelicans++;}
-		else if (equipo == 'SAC') {kings[indexKings]=nombre;indexKings++;}
-		else if (equipo == 'UTA') {jazz[indexJazz]=nombre;indexJazz++;}
+		if (equipo == 'IND') {pacers.push(nombre);}
+		else if (equipo == 'MIA') {heat.push(nombre);}
+		else if (equipo == 'TOR') {raptors.push(nombre);}
+		else if (equipo == 'CHI') {bulls.push(nombre);}
+		else if (equipo == 'BKN') {nets.push(nombre);}
+		else if (equipo == 'WAS') {wizards.push(nombre);}
+		else if (equipo == 'CHA') {hornets.push(nombre);}
+		else if (equipo == 'ATL') {hawks.push(nombre);}
+		else if (equipo == 'NYK') {knicks.push(nombre);}
+		else if (equipo == 'CLE') {cavaliers.push(nombre);}
+		else if (equipo == 'DET') {pistons.push(nombre);}
+		else if (equipo == 'BOS') {celtics.push(nombre);}
+		else if (equipo == 'ORL') {magic.push(nombre);}
+		else if (equipo == 'PHI') {sixers.push(nombre);}
+		else if (equipo == 'MIL') {bucks.push(nombre);}
+		else if (equipo == 'SAS') {spurs.push(nombre);}
+		else if (equipo == 'OKC') {thunder.push(nombre);}
+		else if (equipo == 'LAC') {clippers.push(nombre);}
+		else if (equipo == 'LAL') {lakers.push(nombre);}
+		else if (equipo == 'HOU') {rockets.push(nombre);}
+		else if (equipo == 'POR') {blazers.push(nombre);}
+		else if (equipo == 'GSW') {warriors.push(nombre);}
+		else if (equipo == 'MEM') {grizzlies.push(nombre);}
+		else if (equipo == 'DAL') {mavericks.push(nombre);}
+		else if (equipo == 'PHX') {suns.push(nombre);}
+		else if (equipo == 'MIN') {timberwolves.push(nombre);}
+		else if (equipo == 'DEN') {nuggets.push(nombre);}
+		else if (equipo == 'NOP') {pelicans.push(nombre);}
+		else if (equipo == 'SAC') {kings.push(nombre);}
+		else if (equipo == 'UTA') {jazz.push(nombre);}
 		var player = new jugador();
 		player.playerid=playerid;
 		player.nombre=nombre;
@@ -240,9 +182,10 @@ function procesaRespuesta(data) {
 		player.minutos=minutos;
 		player.puntos=puntos;
 		arrayJugadores[i]=player;
+
 	}
 	jsondataready=true;
-	console.log('jsondataready');
+	//console.log('jsondataready');
 	//alert('jsondataready');
 	//Una vez tenemos los datos json, cargamos el listview
 	//de busqueda de los jugadores.
@@ -251,7 +194,7 @@ function procesaRespuesta(data) {
 
 
 var callAsistenciasStats = function() {	
-	console.log('callAsistenciasStats...');
+	//console.log('callAsistenciasStats...');
 	$.ajax({
 	url: 'http://stats.nba.com/js/data/sportvu/2014/passingData.json?callback=procesaRespuestaAsistencias',
 	contentType: "application/json",
@@ -294,17 +237,18 @@ function procesaRespuestaAsistencias(data) {
 			
 			var player = arrayJugadores[j];
 			if (player != undefined && player !=null && 
-			player.nombre==nombre && player.equipo==equipo) {				
+                player.nombre==nombre && player.equipo==equipo) {
 				player.asistencias=asistencias;
 				arrayJugadores[j]=player;
 				break;
 			}
+            
 		}
 		
 	}
 	asistenciasdataready=true;
 	//alert('asistenciasdataready');
-	console.log('asistenciasdataready');
+	//console.log('asistenciasdataready');
 	if (!rebotesdataready) {
 		callRebotesStats();	
 	}
@@ -362,7 +306,7 @@ function procesaRespuestaRebotes(data) {
 	}
 	rebotesdataready=true;
 	//alert('rebotesdataready');
-	console.log('rebotesdataready');
+	//console.log('rebotesdataready');
 	if (!taponesrobosdataready) {
 		callTaponesRobosStats();	
 	}
@@ -422,7 +366,7 @@ function procesaRespuestaTaponesRobos(data) {
 	}
 	taponesrobosdataready=true;
 	//alert('taponesrobosdataready');
-	console.log('taponesrobosdataready');
+	//console.log('taponesrobosdataready');
 	modaldialog.popup( "close" );
 	if (!jsondataplayoffready && playoffsEnabled) {
 	    callJSONPlayoff();
@@ -436,7 +380,7 @@ function procesaRespuestaTaponesRobos(data) {
 
 var callJSONPlayoff = function() {	
 	//alert('call JSON Playoff....');
-	console.log('call JSON Playoff....');
+	//console.log('call JSON Playoff....');
 	$.ajax({
 	url: 'http://stats.nba.com/js/data/sportvu/2014/shootingDataPost.json?callback=procesaRespuestaPlayoff',
 	contentType: "application/json",
@@ -466,7 +410,7 @@ function procesaRespuestaPlayoff(data) {
     	}
     var shootingDataPost = data;
 	//alert('procesando respuesta');
-	console.log('procesando respuesta callJSONPlayoff');
+	//console.log('procesando respuesta callJSONPlayoff');
 	//la variable shootingData viene en la respuesta, no se necesita declarar.
 	var resultSets = shootingDataPost.resultSets[0];
 	var rowSet = resultSets.rowSet;	
@@ -490,7 +434,7 @@ function procesaRespuestaPlayoff(data) {
 		}
 	}
 	jsondataplayoffready=true;
-	console.log('jsondataplayoffready');
+	//console.log('jsondataplayoffready');
 	//alert('jsondataready');
 	if (!asistenciasdataplayoffready) {
 	    callAsistenciasStatsPlayoff();
@@ -498,7 +442,7 @@ function procesaRespuestaPlayoff(data) {
 }
 
 var callAsistenciasStatsPlayoff = function() {	
-	console.log('callAsistenciasStatsPlayoff...');
+	//console.log('callAsistenciasStatsPlayoff...');
 	$.ajax({
 	url: 'http://stats.nba.com/js/data/sportvu/2014/passingDataPost.json?callback=procesaRespuestaAsistenciasPlayoff',
 	contentType: "application/json",
@@ -548,7 +492,7 @@ function procesaRespuestaAsistenciasPlayoff(data) {
 	}
 	asistenciasdataplayoffready=true;
 	//alert('asistenciasdataready');
-	console.log('asistenciasdataplayoffready');
+	//console.log('asistenciasdataplayoffready');
 	if (!rebotesdataplayoffready) {
 		callRebotesStatsPlayoff();	
 	}
@@ -605,7 +549,7 @@ function procesaRespuestaRebotesPlayoff(data) {
 	}
 	rebotesdataplayoffready=true;
 	//alert('rebotesdataready');
-	console.log('rebotesdatareadyplayoff');
+	//console.log('rebotesdatareadyplayoff');
 	if (!taponesrobosdataplayoffready) {
 		callTaponesRobosStatsPlayoff();	
 	}
@@ -665,7 +609,7 @@ function procesaRespuestaTaponesRobosPlayoff(data) {
 	}
 	taponesrobosdataplayoffready=true;
 	//alert('taponesrobosdataready');
-	console.log('taponesrobosdataplayoffready');
+	//console.log('taponesrobosdataplayoffready');
 	modaldialog.popup( "close" );
 }
 
@@ -712,19 +656,18 @@ function jugador() {
 	}
 
 function onDeviceReady() {
-	
 	var db = window.openDatabase("NBAPLAYERS", "1.0", "NBAPLAYERS", 1000000);
 	db.transaction(poblarBBDD,errorBBDD,exitoBBDD);
 }
 
 function errorBBDD(error) {
 	//alert ('Error al procesar SQL: ' + error.message + " error: " + error.code);
-	console.log('Error al procesar SQL: ' + error)
+	//console.log('Error al procesar SQL: ' + error)
 }
 
 
 function exitoBBDD(error) {
-	console.log('Ejecucion de sql correcta');
+	//console.log('Ejecucion de sql correcta');
 	var db = window.openDatabase("NBAPLAYERS", "1.0", "NBAPLAYERS", 1000000);
 	db.transaction(cargarListaEquipos,errorBBDD);
 	
@@ -732,9 +675,7 @@ function exitoBBDD(error) {
 
 function poblarBBDD(transaction) {
 	
-	//transaction.executeSql('DROP TABLE IF EXISTS PLAYERS');
 	transaction.executeSql('DROP TABLE IF EXISTS TEAMS');
-	//transaction.executeSql('CREATE TABLE PLAYERS (NOMBRE TEXT, APELLIDO TEXT,ID_EQUIPO REAL);');
 	transaction.executeSql('CREATE TABLE TEAMS (ID_EQUIPO REAL, NOMBRE TEXT, CONFERENCIA TEXT, SIGLAS TEXT);');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("1","Miami Heat","Este","MIA")');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("2","New York Knicks","Este","NYK")');
@@ -757,7 +698,7 @@ function poblarBBDD(transaction) {
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("18","Detroit Pistons","Este","DET")');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("19","Cleveland Cavaliers","Este","CLE")');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("20","Orlando Magic","Este","ORL")');
-	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("21","Charlotte Bobcats","Este","CHA")');
+	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("21","Charlotte Hornets","Este","CHA")');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("22","Golden State Warriors","Oeste","GSW")');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("23","Houston Rockets","Oeste","HOU")');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("24","Utah Jazz","Oeste","UTA")');
@@ -772,53 +713,58 @@ function poblarBBDD(transaction) {
 	 * INVOCACIONES DE DATOS JSON
 	 */
 	
-	
-	if (!taponesrobosdataready) {
-		
-		callJSON();	
-	
-	}
-	
-	
 	//Mostramos una ventana modal para evitar que el usuario seleccione datos
-	//antes de cargarse los datos por la invocación JSON.
+    //antes de cargarse los datos por la invocación JSON.
 	modaldialog = $('#loadingDataPopup');
-	modaldialog.empty();
+    modaldialog.empty();
 	modaldialog.append('<br><br><br>Loading Data. Please Wait... <br><br><br><br>');
-	modaldialog.popup( "open" );		
-	
+    modaldialog.popup( "open" );
+    
+	if (!taponesrobosdataready) {		
+		callJSON();
+	}
+    else {
+        crearListaListView(arrayJugadores);
+    }
+	modaldialog.popup( "close" );
 }
 
 function cargarListaEquipos() {
-	console.log('Entrando en cargarListaEquipos');
+	//console.log('Entrando en cargarListaEquipos con nameSelect: ' + nameSelect);
+    if (nameSelect == 'select-equipo-statsbyteam') {
+        $select = $('#select-equipo-statsbyteam');
+    }
+    else {
+        $select = $('#select-equipo');
+    }
+    nameSelect='';
+    
 	//Cargamos la lista de equipos, y antes cargamos el ListView();
 	var db = window.openDatabase("NBAPLAYERS", "1.0", "NBAPLAYERS", 1000000);
 	db.transaction(function(transaction){
-		transaction.executeSql('SELECT * FROM TEAMS ORDER BY NOMBRE ASC', [], crearTablaListaEquipos, errorBBDD);
+                   transaction.executeSql('SELECT * FROM TEAMS ORDER BY NOMBRE ASC', [],
+                                          function crearTablaListaEquipos(transaction,results) {
+                                            //console.log("Entrando en crearTablaListaEquipos. Num filas devueltas: " + results.rows.length);
+                                            if (results.rows.length==0) {
+                                                //console.log('No hay resultados');
+                                                return false;
+                                            }
+                                          
+                                            $select.empty();
+                                            for (var i=0; i<results.rows.length; i++) {
+                                                var row = results.rows.item(i);
+                                                $select.append('<option value="'+row.SIGLAS+'">'+row.NOMBRE+'</option>');
+                                            }
+                                                $select.selectmenu("refresh", true);
+                                          		
+                                            },errorBBDD);
 	},errorBBDD);
-}
-
-
-function crearTablaListaEquipos(transaction,results) {
-	console.log("Entrando en crearTablaListaEquipos");
-	console.log("Num filas devueltas: " + results.rows.length);
-	if (results.rows.length==0) {
-	    console.log('No hay resultados');
-	    return false;
-	}
-	$select = $('#select-equipo');
-	$select.empty();
-	for (var i=0; i<results.rows.length; i++) {
-		var row = results.rows.item(i);
-		//console.log("Fila = " + i + " NOMBRE = " + row.NOMBRE + " Conferencia  " + row.CONFERENCIA );
-		$select.append('<option value="'+row.SIGLAS+'">'+row.NOMBRE+'</option>');
-	}
-	$select.selectmenu("refresh", true);
 
 }
+
 
 function actualizaJugadores() {
-	console.log('Entrando en actualizaJugadores');
+	//console.log('Entrando en actualizaJugadores');
 	$select = $('#select-equipo');
 	var siglas = $select.val();
 	
@@ -828,7 +774,7 @@ function actualizaJugadores() {
 	else if (siglas == 'CHI') {crearListaJugadores(bulls);}
 	else if (siglas == 'BKN') {crearListaJugadores(nets);}
 	else if (siglas == 'WAS') {crearListaJugadores(wizards);}
-	else if (siglas == 'CHA') {crearListaJugadores(bobcats);}
+	else if (siglas == 'CHA') {crearListaJugadores(hornets);}
 	else if (siglas == 'ATL') {crearListaJugadores(hawks);}
 	else if (siglas == 'NYK') {crearListaJugadores(knicks);}
 	else if (siglas == 'CLE') {crearListaJugadores(cavaliers);}
@@ -858,10 +804,10 @@ function actualizaJugadores() {
 
 
 function crearListaJugadores(results) {
-	console.log('entrando en crear lista jugadores');
-	console.log("Num filas devueltas: " + results.length);
+	//console.log('entrando en crear lista jugadores');
+	//console.log("Num filas devueltas: " + results.length);
 	if (results.length==0) {
-	    console.log('No hay resultados');
+	    //console.log('No hay resultados');
 	    return false;
 	}
 	
@@ -880,7 +826,7 @@ function crearListaJugadores(results) {
 function crearListaListView(results) {
 	//alert('crearListaListView con ' + results.length);
 	if (results.length==0) {
-	    console.log('No hay resultados');
+	    //console.log('No hay resultados');
 	    return false;
 	}
 
@@ -920,7 +866,7 @@ var obtenerDatosPersonalesJugador = function(playerid) {
 	var param = "{PlayerID:'" + playerid + "',callback:'procesaDatosPersonalesJugador'}";
 	//var direccionDatosPersonales = 'http://stats.nba.com/stats/commonplayerinfo/?callback=procesaDatosPersonalesJugador';
 	var direccionDatosPersonales = 'http://stats.nba.com/stats/commonplayerinfo';
-	alert('Entrando en ObtenerDatosPErsonalesJugador con param: ' + param);
+	//alert('Entrando en ObtenerDatosPErsonalesJugador con param: ' + param);
 	$.ajax({
 	url: direccionDatosPersonales,
 	contentType: "application/json",
@@ -928,24 +874,22 @@ var obtenerDatosPersonalesJugador = function(playerid) {
 	dataType: 'json',
 	crossDomain: true,
 	timeout:10000,
-	success: procesaRespuestaDatosPersonales,
 	error: function(xhr, status, errThrown) {
 	    	if (status == 'timeout') {
 	    	    var out = "Can't load personal data from player." + "\n";
 	    	    out += "Please Click Reload Stats Button";
-	    	    console.log('Request Timeout obtenerDatosPersonalesJugador....');
+	    	    //console.log('Request Timeout obtenerDatosPersonalesJugador....');
 	    	}
 		modaldialog.popup( "close" );
 		alert(out);
 	}
 });
-	
-	alert('Invocacion a ' +direccionDatosPersonales+ '  realizada.');
+
 }
 
 function procesaRespuestaDatosPersonales(data) {
 	
-	alert ('ENTRANDO en procesaRespuestaDatosPersonales.');
+	//alert ('ENTRANDO en procesaRespuestaDatosPersonales.');
 	var datosPersonales=data;
 	var resultSets = datosPersonales.resultSets[0];
 	var rowSet = resultSets.rowSet[0];	
@@ -980,8 +924,8 @@ function procesaRespuestaDatosPersonales(data) {
 		
 	}
 	datospersonalesready=true;
-	alert('datospersonalesready');
-	console.log('datospersonalesready');
+	//alert('datospersonalesready');
+	//console.log('datospersonalesready');
 }
 
 function cargarJugador(string) {
@@ -1023,11 +967,7 @@ function cargarJugador(string) {
 			
 			var playerid = player.playerid;
 			//Realizamos una invocacion JSON con el playerid para obtener los datos personales del jugador
-			/*
-			alert ('Llamando a obtenerDatosPersonalesJugador');
-			obtenerDatosPersonalesJugador(playerid);
-			alert ('TrasLLamada a obtenerDatosPErsonales.');
-			*/
+			//obtenerDatosPersonalesJugador(playerid);
 			
 			var minutos=player.minutos.toString();
 			minutos = minutos.substring(0,minutos.indexOf('.')+3);
@@ -1041,6 +981,10 @@ function cargarJugador(string) {
 			robos = robos.substring(0,robos.indexOf('.')+3);
 			var tapones=player.tapones.toString();
 			tapones = tapones.substring(0,robos.indexOf('.')+3);
+			var partidos = player.partidos;
+			if (partidos==undefined) {
+			    partidos = 0;
+			}
 			
 			/* DATOS PLAYOFF */
 			var minutosPlayoff=player.minutosPlayoff.toString();
@@ -1055,14 +999,12 @@ function cargarJugador(string) {
 			robosPlayoff = robosPlayoff.substring(0,robosPlayoff.indexOf('.')+3);
 			var taponesPlayoff=player.taponesPlayoff.toString();
 			taponesPlayoff = taponesPlayoff.substring(0,robosPlayoff.indexOf('.')+3);
-			var partidos = player.partidos;
-			if (partidos==undefined) {
-			    partidos = 0;
-			}
+			
 			var partidosPlayoff = player.partidosPlayoff;
 			if (partidosPlayoff==undefined) {
-			    partidosPlayoff = 0;
+			   	partidosPlayoff = 0;
 			}
+			
 			
 			/*
 			while (!datospersonalesready) {
@@ -1082,7 +1024,6 @@ function cargarJugador(string) {
 			datagridtext += '<div class="ui-block-b"><div id="divTeam" class="ui-bar ui-bar-a" style="height:80px">'+player.equipo+'<br>'+player.posicion+'<br>'+player.college+'</div></div>';
 			datagridtext += '<div class="ui-block-c"><div id="divTeam" class="ui-bar ui-bar-a" style="height:80px">'+player.fechanacimiento+'<br>'+player.pais+'<br>He: '+player.altura+'<br>We: '+player.peso+'</div></div>';
 			*/
-			
 			datagridtext += '<div class="ui-block-a"><div id="divName" class="ui-bar ui-bar-a" style="height:40px">'+player.nombre+'</div></div>';
 			datagridtext += '<div class="ui-block-b"><div id="divTeam" class="ui-bar ui-bar-a" style="height:40px">'+player.equipo+'</div></div>';
 			datagridtext += '<div class="ui-block-c"><div id="divTeam" class="ui-bar ui-bar-a" style="height:40px"></div></div>';
@@ -1125,8 +1066,10 @@ function cargarJugador(string) {
 			
 			datagridtext += '</div>';
 			datagridtext += '<br>';
-		
-			//alert(datagridtext);
+			datagridtext += '<div  align="center">';
+			datagridtext += '<input type="button" value="Close" onclick="$(\'#playerPopup\').popup( \'close\' ); return false;" >';
+			//datagridtext += '<a href="index.html" onclick="$(\'#playerPopup\').popup( \'close\' );" data-role="button" data-mini="true">Close</a>';
+			datagridtext += '</div>';		
 			
 			$('#playerPopup').append(datagridtext);
 			$('#playerPopup').popup( "open" );
@@ -1138,19 +1081,664 @@ function cargarJugador(string) {
 }
 
 
+function showCategoryLeaders() {
+
+	var divTopCategories = $('#topCategories');
+	var divTopCategoriesPlayoff = $('#topCategoriesPlayoff');
+	divTopCategoriesPlayoff.hide();
+	
+	$('input[type=radio][name=radioCategories]').change(function() {
+        if (this.value == 'regularSeason') {
+            divTopCategories.show();
+            divTopCategoriesPlayoff.hide();
+        }
+        else if (this.value == 'playoffs') {
+        	divTopCategoriesPlayoff.show();
+        	divTopCategories.hide();
+            
+        }
+    });
+
+    //SORT FUNCTIONS
+    var compareMinutes = function (player1,player2) {
+        return player2.minutos - player1.minutos;
+    }
+    var comparePoints = function (player1,player2) {
+        return player2.puntos - player1.puntos;
+    }
+    var compareRebounds = function (player1,player2) {
+        return player2.rebotes - player1.rebotes;
+    }
+    var compareAssists = function (player1,player2) {
+        return player2.asistencias - player1.asistencias;
+    }
+    var compareBlocks = function (player1,player2) {
+        return player2.tapones - player1.tapones;
+    }
+    var compareSteals = function (player1,player2) {
+        return player2.robos - player1.robos;
+    }
+    
+    
+    // CATEGORY - POINTS
+    var divPoints = $('#divCategoryPoints');
+    divPoints.empty();
+    arrayJugadores = arrayJugadores.sort(comparePoints);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+            //Si los datos del jugador son únicos, o los datos del jugador son su TOTAL, se ponen en la lista, sino, NO.
+            
+        	var escapedStringJugador;
+        	var displayName;
+        	var searchName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	searchName = escapedStringJugador;
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	searchName = jugador.nombre;
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];     
+        	}
+        	//text +='<tr><td><a href=\'#\' onclick="cargarJugador(\''+searchName+'-'+jugador.equipo+'\'); return false;" >'+ (i+1) + '. ' +displayName+'</a></td><td>'+jugador.puntos+'</td></tr>';
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.puntos + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+
+    }
+    text+='</table>';
+    divPoints.append(text);
+    
+    // CATEGORY - ASSISTS
+    var divAssists = $('#divCategoryAssists');
+    divAssists.empty();
+    arrayJugadores = arrayJugadores.sort(compareAssists);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+            //Si los datos del jugador son únicos, o los datos del jugador son su TOTAL, se ponen en la lista, sino, NO.
+        
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.asistencias + '</td></tr>';
+        	i++;
+       	}
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        //Incrementamos el contador para seguir iterando.
+        j++;
+    }
+    text+='</table>';
+    divAssists.append(text);
+    
+    
+    // CATEGORY - REBOUNDS
+    var divRebounds = $('#divCategoryRebounds');
+    divRebounds.empty();
+    arrayJugadores = arrayJugadores.sort(compareRebounds);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.rebotes + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divRebounds.append(text);
+     
+    
+    // CATEGORY - BLOCKS
+    
+    var divBlocks = $('#divCategoryBlocks');
+    divBlocks.empty();
+    arrayJugadores = arrayJugadores.sort(compareBlocks);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.tapones + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divBlocks.append(text);
+     
+    
+    // CATEGORY - STEALS
+    var divSteals = $('#divCategorySteals');
+    divSteals.empty();
+    arrayJugadores = arrayJugadores.sort(compareSteals);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+            //Si los datos del jugador son únicos, o los datos del jugador son su TOTAL, se ponen en la lista, sino, NO.
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.robos + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divSteals.append(text);
+    
+    
+    // CATEGORY - MINUTES
+    
+    var divMinutes = $('#divCategoryMinutes');
+    divMinutes.empty();
+    arrayJugadores = arrayJugadores.sort(compareMinutes);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.minutos + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divMinutes.append(text);
+    
+    
+    /*
+    * PLAYOFFS
+    */
+    var divTopCategoriesPlayoff = $('#topCategoriesPlayoff');
+    if (!playoffsEnabled) {
+    	divTopCategoriesPlayoff.hide();
+    }
+    
+    //SORT FUNCTIONS
+    var compareMinutesPlayoff = function (player1,player2) {
+        return player2.minutosPlayoff - player1.minutosPlayoff;
+    }
+    var comparePointsPlayoff = function (player1,player2) {
+        return player2.puntosPlayoff - player1.puntosPlayoff;
+    }
+    var compareReboundsPlayoff = function (player1,player2) {
+        return player2.rebotesPlayoff - player1.rebotesPlayoff;
+    }
+    var compareAssistsPlayoff = function (player1,player2) {
+        return player2.asistenciasPlayoff - player1.asistenciasPlayoff;
+    }
+    var compareBlocksPlayoff = function (player1,player2) {
+        return player2.taponesPlayoff - player1.taponesPlayoff;
+    }
+    var compareStealsPlayoff = function (player1,player2) {
+        return player2.robosPlayoff - player1.robosPlayoff;
+    }
+    
+    // CATEGORY - POINTS
+    var divPointsPlayoff = $('#divCategoryPointsPlayoff');
+    divPointsPlayoff.empty();
+    arrayJugadores = arrayJugadores.sort(comparePointsPlayoff);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+            //Si los datos del jugador son únicos, o los datos del jugador son su TOTAL, se ponen en la lista, sino, NO.
+        	var escapedStringJugador;
+        	var displayName;
+        	var searchName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	searchName = escapedStringJugador;
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	searchName = jugador.nombre;
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];     
+        	}
+        	//text +='<tr><td><a href=\'#\' onclick="cargarJugador(\''+searchName+'-'+jugador.equipo+'\'); return false;" >'+ (i+1) + '. ' +displayName+'</a></td><td>'+jugador.puntos+'</td></tr>';
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.puntosPlayoff + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+
+    }
+    text+='</table>';
+    divPointsPlayoff.append(text);
+    
+    // CATEGORY - ASSISTS
+    var divAssistsPlayoff = $('#divCategoryAssistsPlayoff');
+    divAssistsPlayoff.empty();
+    arrayJugadores = arrayJugadores.sort(compareAssistsPlayoff);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+            //Si los datos del jugador son únicos, o los datos del jugador son su TOTAL, se ponen en la lista, sino, NO.
+        
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.asistenciasPlayoff + '</td></tr>';
+        	i++;
+       	}
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        //Incrementamos el contador para seguir iterando.
+        j++;
+    }
+    text+='</table>';
+    divAssistsPlayoff.append(text);
+    
+    
+    // CATEGORY - REBOUNDS
+    var divReboundsPlayoff = $('#divCategoryReboundsPlayoff');
+    divReboundsPlayoff.empty();
+    arrayJugadores = arrayJugadores.sort(compareReboundsPlayoff);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.rebotesPlayoff + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divReboundsPlayoff.append(text);
+     
+    
+    // CATEGORY - BLOCKS
+    
+    var divBlocksPlayoff = $('#divCategoryBlocksPlayoff');
+    divBlocksPlayoff.empty();
+    arrayJugadores = arrayJugadores.sort(compareBlocksPlayoff);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.taponesPlayoff + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divBlocksPlayoff.append(text);
+    
+    
+    // CATEGORY - STEALS
+    var divStealsPlayoff = $('#divCategoryStealsPlayoff');
+    divStealsPlayoff.empty();
+    arrayJugadores = arrayJugadores.sort(compareStealsPlayoff);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+            //Si los datos del jugador son únicos, o los datos del jugador son su TOTAL, se ponen en la lista, sino, NO.
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.robosPlayoff + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divStealsPlayoff.append(text);
+    
+    
+    // CATEGORY - MINUTES
+    
+    var divMinutesPlayoff = $('#divCategoryMinutesPlayoff');
+    divMinutesPlayoff.empty();
+    arrayJugadores = arrayJugadores.sort(compareMinutesPlayoff);
+    var text='<table>';
+	var i = 0;
+	var j = 0;
+    while(i<10) {
+        var jugador = arrayJugadores[j];
+        
+        var arrayFiltrado = arrayJugadores.filter(function(player) {
+                                                  return player.nombre == jugador.nombre;
+                                                  });
+        if (arrayFiltrado.length == 1 || jugador.equipo == 'TOTAL') {
+        	var escapedStringJugador;
+        	var displayName;
+        	if (jugador.nombre.indexOf('\'') != -1) {
+            	var escapedStringJugador = jugador.nombre.replace("\'","\\\'");
+            	displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+        	}
+        	else {
+            	displayName = jugador.nombre.split(' ')[0].charAt(0) + '. ' + jugador.nombre.split(' ')[1];
+        	}
+        	text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador.minutosPlayoff + '</td></tr>';
+        	i++;
+        }
+        else {
+        	//NO SE METE EN LA LISTA
+        }
+        j++;
+    }
+    text+='</table>';
+    divMinutesPlayoff.append(text);
+    
+    
+}
+
+function showTeamStats() {
+    
+    $('input:radio[name="radioTeamStats"][value="regularSeason"]').click();
+    $('input:radio[name="radioTeamStats"][value="regularSeason"]').click();
+    
+    $select = $('#select-equipo-statsbyteam');
+	var siglas = $select.val();
+    arrayJugadores = arrayJugadores.sort(function (player1,player2) {
+                                            return player2.puntos - player1.puntos;
+                                         });
+    
+    var arrayFiltrado = arrayJugadores.filter(function(player) {
+                          return player.equipo == siglas;
+                          });
+    
+    var divTeamStats = $('#divTeamStats');
+    divTeamStats.empty();
+    var text='<div align="center"><span align="center"><b>REGULAR SEASON</b></span></div>';
+    text += '<table id="teamStatsTable">';
+    text+='<tr><th>Name</th><th>Games</th><th>Mins.</th><th>Points</th><th>Rebs.</th><th>Assists</th><th>Blocks</th><th>Steals</th></tr>';
+    for (var i=0; i<arrayFiltrado.length; i++) {
+        text+= '<tr>';
+        text+= '<td id="playername">';
+        text+= arrayFiltrado[i].nombre;
+        text+= '</td>';
+        text+= '<td>';
+        text+= arrayFiltrado[i].partidos;
+        text+= '</td>';
+        text+= '<td>';
+        text+= arrayFiltrado[i].minutos;
+        text+= '</td>';
+        text+= '<td>';
+        text+= arrayFiltrado[i].puntos;
+        text+= '</td>';
+        text+= '<td>';
+        text+= arrayFiltrado[i].rebotes
+        text+= '</td>';
+        text+= '<td>';
+        text+= arrayFiltrado[i].asistencias;
+        text+= '</td>';
+        text+= '<td>';
+        text+= arrayFiltrado[i].tapones;
+        text+= '</td>';
+        text+= '<td>';
+        text+= arrayFiltrado[i].robos;
+        text+= '</td>';
+        text+= '</tr>';
+    }
+    text += '</table>';
+    divTeamStats.append(text);
+    
+    //PLAYOFFS
+    
+    var esEquipoPlayoff=false;
+    var divTeamPlayoffStats = $('#divTeamPlayoffStats');
+    divTeamPlayoffStats.empty();
+    divTeamPlayoffStats.hide();
+    if (!playoffsEnabled) {
+    	divTeamPlayoffStats.hide();
+    } else {
+    	arrayJugadores = arrayJugadores.sort(function (player1,player2) {
+                                            return player2.puntosPlayoff - player1.puntosPlayoff;
+                                         });
+    
+    	var arrayFiltrado = arrayJugadores.filter(function(player) {
+                          return player.equipo == siglas;
+                          });
+    	divTeamPlayoffStats.empty();
+    	var text = '<div align="center"><span align="center"><b>PLAYOFFS</b></span></div>';
+    	text += '<table id="teamPlayoffStatsTable">';
+    	text+='<tr><th>Name</th><th>Games</th><th>Mins.</th><th>Points</th><th>Rebs.</th><th>Assists</th><th>Blocks</th><th>Steals</th></tr>';
+	    for (var i=0; i<arrayFiltrado.length; i++) {
+    	    text+= '<tr>';
+        	text+= '<td id="playername">';
+        	text+= arrayFiltrado[i].nombre;
+        	text+= '</td>';
+        	text+= '<td>';
+        	if (arrayFiltrado[i].partidosPlayoff!=0 && arrayFiltrado[i].partidosPlayoff!=undefined) {
+        		esEquipoPlayoff=true;
+        	}
+        	if (arrayFiltrado[i].partidosPlayoff==undefined) {
+        		arrayFiltrado[i].partidosPlayoff="0";
+        	}
+        	text+= arrayFiltrado[i].partidosPlayoff;
+        	text+= '</td>';
+        	text+= '<td>';
+        	text+= arrayFiltrado[i].minutosPlayoff;
+        	text+= '</td>';
+        	text+= '<td>';
+        	text+= arrayFiltrado[i].puntosPlayoff;
+        	text+= '</td>';
+        	text+= '<td>';
+        	text+= arrayFiltrado[i].rebotesPlayoff;
+        	text+= '</td>';
+        	text+= '<td>';
+        	text+= arrayFiltrado[i].asistenciasPlayoff;
+        	text+= '</td>';
+        	text+= '<td>';
+        	text+= arrayFiltrado[i].taponesPlayoff;
+        	text+= '</td>';
+        	text+= '<td>';
+        	text+= arrayFiltrado[i].robosPlayoff;
+        	text+= '</td>';
+        	text+= '</tr>';
+    	}
+    	text += '</table>';
+    	if (esEquipoPlayoff) {
+    		divTeamPlayoffStats.append(text);
+    	}
+    	else {
+    		divTeamPlayoffStats.append('Team not qualified for playoffs');
+    	}
+    }
+    
+    $('input[type=radio][name=radioTeamStats]').change(function() {
+        if (this.value == 'regularSeason') {
+            divTeamStats.show();
+            divTeamPlayoffStats.hide();
+        }
+        else if (this.value == 'playoffs') {
+        	divTeamStats.hide();
+            divTeamPlayoffStats.show();
+        }
+    });
+}
+
 
 function onBackKeyDown(e) {
+	//alert('backkeydown');
+	$('#playerPopup').popup( "close" );
+	e.preventDefault();
 	navigator.notification.confirm(
-	("Desea salir de la aplicacion?"),
+	'Do you want to exit the app?',
 	saliraplicacion(1),
 	'NBA Player Stats',
-	'YES,NO');
-	 
+	['YES','NO']);
 }
 
 function saliraplicacion(button) {
    //alert('entrando con button: ' + button);
    if(button=="1" || button==1) {
-    navigator.app.exitApp();
+    if(navigator.app){
+        navigator.app.exitApp();
+	}else if(navigator.device){
+        navigator.device.exitApp();
+		}
    }
 }

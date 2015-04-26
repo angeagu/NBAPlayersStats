@@ -655,6 +655,9 @@ function jugador() {
 	this.posicion="";
 	}
 
+
+/* INICIO */
+
 function onDeviceReady() {
 	var db = window.openDatabase("NBAPLAYERS", "1.0", "NBAPLAYERS", 1000000);
 	db.transaction(poblarBBDD,errorBBDD,exitoBBDD);
@@ -709,25 +712,15 @@ function poblarBBDD(transaction) {
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("29","New Orleans Pelicans","Oeste","NOP")');
 	transaction.executeSql('INSERT INTO TEAMS (ID_EQUIPO,NOMBRE,CONFERENCIA,SIGLAS) VALUES ("30","Phoenix Suns","Oeste","PHX")');
 
-	/*
-	 * INVOCACIONES DE DATOS JSON
-	 */
 	
-	//Mostramos una ventana modal para evitar que el usuario seleccione datos
-    //antes de cargarse los datos por la invocación JSON.
-	modaldialog = $('#loadingDataPopup');
-    modaldialog.empty();
-	modaldialog.append('<br><br><br>Loading Data. Please Wait... <br><br><br><br>');
-    modaldialog.popup( "open" );
-    
-	if (!taponesrobosdataready) {		
-		callJSON();
-	}
-    else {
-        crearListaListView(arrayJugadores);
-    }
-	modaldialog.popup( "close" );
 }
+
+function initializenbaplayers(playerArray) {
+    
+    arrayJugadores = playerData.playerArray;
+    crearListaListView(arrayJugadores);
+}
+
 
 function cargarListaEquipos() {
 	//console.log('Entrando en cargarListaEquipos con nameSelect: ' + nameSelect);
@@ -822,9 +815,11 @@ function crearListaJugadores(results) {
 	$select.selectmenu("refresh", true);
 	
 }
-
+          
 function crearListaListView(results) {
-	//alert('crearListaListView con ' + results.length);
+	var text;
+	//console.log('crearListaListView con ' + results.length);
+	console.log('crearListaListView con ' + JSON.stringify(results));
 	if (results.length==0) {
 	    //console.log('No hay resultados');
 	    return false;
@@ -834,8 +829,8 @@ function crearListaListView(results) {
 	$listview.empty();
 	for (var i=0; i<results.length; i++) {
 		if (results[i]!=undefined && results[i]!=null) {
-			var jugador = results[i].nombre;
-			var equipo = results[i].equipo;
+			var jugador = results[i].name;
+			var equipo = results[i].team;
 		}
 
 		if (jugador!=null && jugador!=undefined) {
@@ -850,7 +845,7 @@ function crearListaListView(results) {
 				text = '<li class="ui-screen-hidden" data-filtertext="'+jugador+'"><a href="#" onclick="javascript:cargarJugador(\''+jugador+'-'+equipo+'\');" >'+jugador+'  -  '+equipo+'</a></li>';
 			}
 
-			
+			console.log('text: ' + text);
 			$listview.append(text);
 			
 		}
@@ -859,7 +854,7 @@ function crearListaListView(results) {
 	$listview.listview();
 	$listview.listview('refresh');
 
-	callAsistenciasStats();
+	//callAsistenciasStats();
 }
 
 var obtenerDatosPersonalesJugador = function(playerid) {	
