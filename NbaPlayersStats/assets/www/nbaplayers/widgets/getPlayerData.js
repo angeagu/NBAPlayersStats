@@ -735,11 +735,11 @@ define([
    			if(button=="1" || button==1) {
     			if(navigator.app){
         			navigator.app.exitApp();
-			}else if(navigator.device){
+    			}else if(navigator.device){
         		navigator.device.exitApp();
-			}
-   		}
-}		
+    			}
+   			}
+		}		
 		
 
         });
