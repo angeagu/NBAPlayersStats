@@ -16,6 +16,7 @@ define([
             dataReady: false,
             playoffsEnabled: true,
             playerStore: null,
+            teamsStore: null,
 
             getData: function () {
 
@@ -185,7 +186,9 @@ define([
                 this.teams.push({id_team:27,name:"Sacramento Kings",conf:"West",acronym:"SAC"});
                 this.teams.push({id_team:28,name:"New Orleans Pelicans",conf:"West",acronym:"NOP"});
                 this.teams.push({id_team:29,name:"Phoenix Suns",conf:"West",acronym:"PHX"});
-
+                
+                
+               
             },
             
             _initializenbaplayers: function (playerArray) {
@@ -255,7 +258,18 @@ define([
     			nameSelect='';
     
                 $select.empty();
-                array.forEach(this.teams,function(team,i) {
+                
+                if (this.teamsStore == null) {
+                	this.teamsStore = new Memory({data:this.teams, idProperty: 'acronym'});
+                }
+                console.log(this.teamsStore);
+                this.teamsStore.filter()
+                .sort({
+					property: 'name',
+					descending: false
+				})
+				.forEach(function (team) {
+                //array.forEach(this.teams,function(team,i) {
                     	$select.append('<option value="'+team.acronym+'">'+team.name+'</option>');
                     	$select.selectmenu("refresh", true);
               		
