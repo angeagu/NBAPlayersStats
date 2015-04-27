@@ -48,11 +48,15 @@
 	<div data-role="header" data-id="foo1" data-position="fixed">
     	<h3>NBA Players Stats</h3>
     	<div data-role="navbar">
-        	<ul>
-            	<li><a id="anchortabplayers" onclick="showTab('tabPlayers');">Stats by Player</a></li>
-            	<li><a id="anchortabcategories" onclick="showTab('tabCategories');">Top Categories</a></li>
-            	<li><a id="anchortabteams" onclick="showTab('tabTeams');">Stats By Team</a></li>
-        	</ul>
+    		<ul>
+    			<li><a id="anchortabplayers" onclick="showTab('tabPlayers');">By Player</a></li>
+    			<li><a id="anchortabteams" onclick="showTab('tabTeams');">By Team</a></li>
+    			<li><a id="anchortabcategories" onclick="showTab('tabCategories');">Leaders</a></li>
+    			<!--
+    			<li><a id="anchortabsortable" onclick="showTab('tabSortable');">Rookies</a></li
+    			-->
+    			<li><a id="anchortabsortable" onclick="showTab('tabSortable');">Sortable</a></li>
+    		</ul>
     	</div>
 	</div>
 
@@ -264,6 +268,20 @@
     			
            	</div>  <!-- TAB TEAMS -->
       
+
+      		<div id="tabSortable">
+      			<div id="sortableTabControlGroup" data-role="controlgroup" data-type="horizontal">
+  					<input type="radio" id="sortableTabRegularSeasonButton" name="radioSortable" checked="true" value="regularSeason">
+  					<input type="radio" id="sortableTabPlayoffButton" name="radioSortable" value="playoffs">
+  					<label for="sortableTabRegularSeasonButton">Regular Season</label>
+  					<label for="sortableTabPlayoffButton">Playoff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				</div>
+      			<div id="divSortableGrid"">
+      			</div>
+      			<div id="divSortableGridPlayoff">
+      			</div>
+            
+            </div>  <!-- TAB SORTABLE -->
             
             </div>
 
@@ -273,30 +291,40 @@
 
 		<script>
 			
-			function showTab(tab) {
-				if (tab == 'tabPlayers') {
-					document.getElementById('tabPlayers').style.display = 'block'; 
-					document.getElementById('tabCategories').style.display = 'none';
-					document.getElementById('tabTeams').style.display = 'none';
-					playerData.cargarListaEquipos();
-					
-				}
-				else if (tab == 'tabCategories') {
-					document.getElementById('tabPlayers').style.display = 'none'; 
-					document.getElementById('tabCategories').style.display = 'block';
-					document.getElementById('tabTeams').style.display = 'none';
-					playerData.showCategoryLeaders();
-				}
-				else if (tab == 'tabTeams') {
-					var divTeamStats = $('#divTeamStats');
-    				divTeamStats.empty();
-					nameSelect='select-equipo-statsbyteam';
-        			playerData.cargarListaEquipos();
-					document.getElementById('tabPlayers').style.display = 'none'; 
-					document.getElementById('tabCategories').style.display = 'none';
-					document.getElementById('tabTeams').style.display = 'block';
-				}
+		function showTab(tab) {
+			if (tab == 'tabPlayers') {
+				document.getElementById('tabPlayers').style.display = 'block'; 
+				document.getElementById('tabCategories').style.display = 'none';
+				document.getElementById('tabTeams').style.display = 'none';
+				document.getElementById('tabSortable').style.display = 'none';
+				playerData.cargarListaEquipos();
+				
 			}
+			else if (tab == 'tabCategories') {
+				document.getElementById('tabPlayers').style.display = 'none'; 
+				document.getElementById('tabCategories').style.display = 'block';
+				document.getElementById('tabTeams').style.display = 'none';
+				document.getElementById('tabSortable').style.display = 'none';
+				playerData.showCategoryLeaders();
+			}
+			else if (tab == 'tabTeams') {
+				var divTeamStats = $('#divTeamStats');
+				divTeamStats.empty();
+				nameSelect='select-equipo-statsbyteam';
+    			playerData.cargarListaEquipos();
+				document.getElementById('tabPlayers').style.display = 'none'; 
+				document.getElementById('tabCategories').style.display = 'none';
+				document.getElementById('tabTeams').style.display = 'block';
+				document.getElementById('tabSortable').style.display = 'none';
+			}
+			else if (tab == 'tabSortable') {
+				document.getElementById('tabPlayers').style.display = 'none'; 
+				document.getElementById('tabCategories').style.display = 'none';
+				document.getElementById('tabTeams').style.display = 'none';
+				document.getElementById('tabSortable').style.display = 'block';
+				playerData.createSortableGrid();
+			}
+		}
 			/*
 				$(document).ready(function(){
 				showTab('tabPlayers');
