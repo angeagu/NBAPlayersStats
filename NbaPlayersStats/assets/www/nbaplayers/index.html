@@ -29,9 +29,9 @@
         		], function (GetPlayerData,ready) {
 					playerData = new GetPlayerData();
 					document.addEventListener("backbutton", playerData.onBackKeyDown, false);
-					nameSelect='';
-					showTab('tabPlayers');
+					//nameSelect='';
            			playerData.getData();
+           			//showTab('tabPlayers');
      		});	
         
     	</script>
@@ -52,9 +52,8 @@
     			<li><a id="anchortabplayers" onclick="showTab('tabPlayers');">By Player</a></li>
     			<li><a id="anchortabteams" onclick="showTab('tabTeams');">By Team</a></li>
     			<li><a id="anchortabcategories" onclick="showTab('tabCategories');">Leaders</a></li>
-    			<!--
-    			<li><a id="anchortabsortable" onclick="showTab('tabSortable');">Rookies</a></li
-    			-->
+    			<li><a id="anchortabrookies" onclick="showTab('tabRookies');">Rookies</a></li>
+    			<li><a id="anchortabcompare" onclick="showTab('tabCompare');">Compare</a></li>
     			<li><a id="anchortabsortable" onclick="showTab('tabSortable');">Sortable</a></li>
     		</ul>
     	</div>
@@ -67,7 +66,7 @@
                     <form>
                         <div class="ui-body ui-body-b" data-role="fieldcontain">
                             <label for="select-equipo">Select Team:</label>
-                            <select name="select-equipo" id="select-equipo" onChange="playerData.actualizaJugadores();">
+                            <select name="select-equipo" id="select-equipo" onChange="playerData.actualizaJugadores('select-equipo','select-jugador');">
                                 <option></option>
                             </select>
                         </div>
@@ -103,9 +102,102 @@
                     </div>
 				
 				     <div data-role="popup" id="playerPopup">
+				     	<div id="datagrid" class="ui-grid-b">
+						
+						<div class="ui-block-a"><div id="divPlayerName" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+						<div class="ui-block-b"><div id="divPlayerInfo" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+						<div class="ui-block-c"><div id="divImage" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+		
+		
+						<div class="ui-block-a"><div id="divCategpry" class="ui-bar ui-bar-a" style="height:10px">Category</div></div>
+						<div class="ui-block-b"><div id="divSeason" class="ui-bar ui-bar-a" style="height:10px">Season</div></div>
+						<div class="ui-block-c"><div id="divPlayoff" class="ui-bar ui-bar-a" style="height:10px">Playoff</div></div>
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Games</div></div>
+						<div class="ui-block-b"><div id="divGames" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divGamesPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Minutes</div></div>
+						<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divMinutesPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Points</div></div>
+						<div class="ui-block-b"><div id="divPoints" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divPointsPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Rebounds</div></div>
+						<div class="ui-block-b"><div id="divRebounds" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divReboundsPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Assists</div></div>
+						<div class="ui-block-b"><div id="divAssists" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divAssistsPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Steals</div></div>
+						<div class="ui-block-b"><div id="divSteals" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divStealsPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Turnovers</div></div>
+						<div class="ui-block-b"><div id="divTurnovers" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divTurnoversPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Blocks</div></div>
+						<div class="ui-block-b"><div id="divBlocks" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divBlocksPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">FG %</div></div>
+						<div class="ui-block-b"><div id="divFgPct" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divFgPctPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">3PFG%</div></div>
+						<div class="ui-block-b"><div id="divFg3Pct" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divFg3PctPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">FT %</div></div>
+						<div class="ui-block-b"><div id="divFtPct" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divFtPctPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Off-Reb</div></div>
+						<div class="ui-block-b"><div id="divOReb" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divORebPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Deff-Reb</div></div>
+						<div class="ui-block-b"><div id="divDReb" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divDRebPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Ast/Tov</div></div>
+						<div class="ui-block-b"><div id="divAssistsPerTurnover" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divAssistsPerTurnoverPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Stl/Tov</div></div>
+						<div class="ui-block-b"><div id="divStealsPerTurnover" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divStealsPerTurnoverPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Fouls</div></div>
+						<div class="ui-block-b"><div id="divFouls" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divFoulsPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+					
+						<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Efficiency</div></div>
+						<div class="ui-block-b"><div id="divEfficiency" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+						<div class="ui-block-c"><div id="divEfficiencyPlayoff" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+		
+						</div>
+						<br>
+						<div  align="center">
+						<!--
+						<input type="button" value="Close" onclick="$(\'#playerPopup\').popup( \'close\' ); return false;" >
+						-->
+						<a href="index.html" onclick="$(\'#playerPopup\').popup( \'close\' );" data-role="button" data-mini="true">Close</a>
+						
+						</div>	
            			 </div>
             
             		<div data-role="popup" id="loadingDataPopup" data-theme="b" data-dismissible="false">
+            		</div>
+            		
+            		<div data-role="popup" id="loadingDataPlayerPopup" data-theme="b" data-dismissible="false">
             		</div>
   
             		<div id="framePlayer" class=ui-grid-b>
@@ -146,7 +238,7 @@
                					Assists
            					</th>
            					<th>
-               					Steals
+               					Blocks
            					</th>
        					</tr>
        					<tr>
@@ -155,25 +247,97 @@
                 				</div>
             				</td>
             				<td>
-                				<div id="divCategoryStealsPlayoff">
-                				</div>
-            				</td>
-       					</tr>
-       					<tr>
-           					<th>
-               					Blocks
-           					</th>
-           					<th>
-               					Minutes
-           					</th>
-       					</tr>
-       					<tr>
-            				<td>
                 				<div id="divCategoryBlocksPlayoff">
                 				</div>
             				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Steals
+           					</th>
+           					<th>
+               					Turnovers
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategoryStealsPlayoff">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryTurnoversPlayoff">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Minutes
+           					</th>
+           					<th>
+               					Efficiency
+           					</th>
+       					</tr>
+       					<tr>
             				<td>
                 				<div id="divCategoryMinutesPlayoff">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryEfficiencyPlayoff">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Field Goal %
+           					</th>
+           					<th>
+               					3-Point Field Goal %
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategoryFieldGoalPlayoff">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategory3PointFieldGoalPlayoff">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Free Throw %
+           					</th>
+           					<th>
+               					Personal Fouls
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategoryFreeThrowPlayoff">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryPersonalFoulsPlayoff">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Assists Per Turnover
+           					</th>
+           					<th>
+               					Steals Per Turnover
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategoryAssistsPerTurnoverPlayoff">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryStealsPerTurnoverPlayoff">
                 				</div>
             				</td>
        					</tr>
@@ -205,7 +369,7 @@
                					Assists
            					</th>
            					<th>
-               					Steals
+               					Blocks
            					</th>
        					</tr>
        					<tr>
@@ -214,25 +378,97 @@
                 				</div>
             				</td>
             				<td>
-                				<div id="divCategorySteals">
-                				</div>
-            				</td>
-       					</tr>
-       					<tr>
-           					<th>
-               					Blocks
-           					</th>
-           					<th>
-               					Minutes
-           					</th>
-       					</tr>
-       					<tr>
-            				<td>
                 				<div id="divCategoryBlocks">
                 				</div>
             				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Steals
+           					</th>
+           					<th>
+               					Turnovers
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategorySteals">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryTurnovers">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Minutes
+           					</th>
+           					<th>
+               					Efficiency
+           					</th>
+       					</tr>
+       					<tr>
             				<td>
                 				<div id="divCategoryMinutes">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryEfficiency">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Field Goal %
+           					</th>
+           					<th>
+               					3-Point Field Goal %
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategoryFieldGoal">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategory3PointFieldGoal">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Free Throw %
+           					</th>
+           					<th>
+               					Personal Fouls
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategoryFreeThrow">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryPersonalFouls">
+                				</div>
+            				</td>
+       					</tr>
+       					<tr>
+           					<th>
+               					Assists Per Turnover
+           					</th>
+           					<th>
+               					Steals Per Turnover
+           					</th>
+       					</tr>
+       					<tr>
+            				<td>
+                				<div id="divCategoryAssistsPerTurnover">
+                				</div>
+            				</td>
+            				<td>
+                				<div id="divCategoryStealsPerTurnover">
                 				</div>
             				</td>
        					</tr>
@@ -276,19 +512,89 @@
   					<label for="sortableTabRegularSeasonButton">Regular Season</label>
   					<label for="sortableTabPlayoffButton">Playoff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				</div>
-      			<div id="divSortableGrid"">
+      			<div id="divSortableGrid" align="center">
       			</div>
-      			<div id="divSortableGridPlayoff">
+      			<div id="divSortableGridPlayoff" align="center">
       			</div>
             
             </div>  <!-- TAB SORTABLE -->
             
+            <div id="tabRookies">
+      			<div id="rookiesTabControlGroup" data-role="controlgroup" data-type="horizontal">
+  					<input type="radio" id="rookiesTabRegularSeasonButton" name="radioRookies" checked="true" value="regularSeason">
+  					<input type="radio" id="rookiesTabPlayoffButton" name="radioRookies" value="playoffs">
+  					<label for="rookiesTabRegularSeasonButton">Regular Season</label>
+  					<label for="rookiesTabPlayoffButton">Playoff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				</div>
+      			<div id="divRookiesGrid" align="center">
+      			</div>
+      			<div id="divRookiesGridPlayoff" align="center">
+      			</div>
+            
+            </div>  <!-- TAB ROOKIES -->
+            
+            
+            <div id="tabCompare" align="center">
+            	<table align="center">
+            		<tr>
+            			<th>Player 1</th>
+            			<th>Player 2</th>
+            		</tr>
+            		<tr>
+            			<td>
+            				<div id="divPlayer1">
+            					<form>
+                        			<div class="ui-body ui-body-b" data-role="fieldcontain">
+                            			<label for="select-team-player1">Select Team:</label>
+                            			<select name="select-team-player1" id="select-team-player1" onChange="playerData.actualizaJugadores('select-team-player1','select-player1');">
+                                			<option></option>
+                            			</select>
+                        			</div>
+                    			</form>
+                    
+                    			<form>
+                        			<div class="ui-body ui-body-b" data-role="fieldcontain">
+                            			<label for="select-player1">Select Player:</label>
+                            			<select name="select-player1" id="select-player1" onChange="">
+                                			<option></option>
+                            			</select>
+                        			</div>
+                    			</form>
+            				</div>
+            			</td>
+            			<td>
+            				<div id="divPlayer2">
+            								<form>
+                        			<div class="ui-body ui-body-b" data-role="fieldcontain">
+                            			<label for="select-team-player2">Select Team:</label>
+                            			<select name="select-team-player2" id="select-team-player2" onChange="playerData.actualizaJugadores('select-team-player2','select-player2');">
+                                			<option></option>
+                            			</select>
+                        			</div>
+                    			</form>
+                    
+                    			<form>
+                        			<div class="ui-body ui-body-b" data-role="fieldcontain">
+                            			<label for="select-player2">Select Player:</label>
+                            			<select name="select-player2" id="select-player2" onChange="">
+                                			<option></option>
+                            			</select>
+                        			</div>
+                    			</form>
+            				</div>
+            			</td>
+            		</tr>
+            		<tr>
+            			<td colspan="2"><a href="#" onclick = 'playerData.comparePlayers()' data-role="button" data-mini="true" data-inline="true" data-icon="check" data-theme="e">Compare</a></td>
+            		</tr>
+            	</table>
             </div>
-
+            <!--
+            </div> 
+            -->
 		</div>
 		
 </div>
-
 		<script>
 			
 		function showTab(tab) {
@@ -297,7 +603,9 @@
 				document.getElementById('tabCategories').style.display = 'none';
 				document.getElementById('tabTeams').style.display = 'none';
 				document.getElementById('tabSortable').style.display = 'none';
-				playerData.cargarListaEquipos();
+				document.getElementById('tabRookies').style.display = 'none';
+				document.getElementById('tabCompare').style.display = 'none';
+				playerData.cargarListaEquipos('select-equipo');
 				
 			}
 			else if (tab == 'tabCategories') {
@@ -305,24 +613,51 @@
 				document.getElementById('tabCategories').style.display = 'block';
 				document.getElementById('tabTeams').style.display = 'none';
 				document.getElementById('tabSortable').style.display = 'none';
-				playerData.showCategoryLeaders();
+				document.getElementById('tabRookies').style.display = 'none';
+				document.getElementById('tabCompare').style.display = 'none';
+				//playerData.showCategoryLeaders();
 			}
 			else if (tab == 'tabTeams') {
 				var divTeamStats = $('#divTeamStats');
 				divTeamStats.empty();
-				nameSelect='select-equipo-statsbyteam';
-    			playerData.cargarListaEquipos();
+				//nameSelect='select-equipo-statsbyteam';
+    			playerData.cargarListaEquipos('select-equipo-statsbyteam');
 				document.getElementById('tabPlayers').style.display = 'none'; 
 				document.getElementById('tabCategories').style.display = 'none';
 				document.getElementById('tabTeams').style.display = 'block';
 				document.getElementById('tabSortable').style.display = 'none';
+				document.getElementById('tabRookies').style.display = 'none';
+				document.getElementById('tabCompare').style.display = 'none';
 			}
 			else if (tab == 'tabSortable') {
 				document.getElementById('tabPlayers').style.display = 'none'; 
 				document.getElementById('tabCategories').style.display = 'none';
 				document.getElementById('tabTeams').style.display = 'none';
 				document.getElementById('tabSortable').style.display = 'block';
-				playerData.createSortableGrid();
+				document.getElementById('tabRookies').style.display = 'none';
+				document.getElementById('tabCompare').style.display = 'none';
+				//playerData.createSortableGrid();
+			}
+			else if (tab == 'tabRookies') {
+				document.getElementById('tabPlayers').style.display = 'none'; 
+				document.getElementById('tabCategories').style.display = 'none';
+				document.getElementById('tabTeams').style.display = 'none';
+				document.getElementById('tabSortable').style.display = 'none';
+				document.getElementById('tabRookies').style.display = 'block';
+				document.getElementById('tabCompare').style.display = 'none';
+			}
+			else if (tab == 'tabCompare') {
+				document.getElementById('tabPlayers').style.display = 'none'; 
+				document.getElementById('tabCategories').style.display = 'none';
+				document.getElementById('tabTeams').style.display = 'none';
+				document.getElementById('tabSortable').style.display = 'none';
+				document.getElementById('tabRookies').style.display = 'none';
+				document.getElementById('tabCompare').style.display = 'block';
+				//nameSelect='select-team-player1';
+    			playerData.cargarListaEquipos('select-team-player1');
+    			//nameSelect='select-team-player2';
+    			playerData.cargarListaEquipos('select-team-player2');
+			
 			}
 			
 		}
@@ -331,11 +666,8 @@
 				showTab('tabPlayers');
 			});
 			*/
-
 		</script>
 		
 		
-
-
 </body>
 </html>

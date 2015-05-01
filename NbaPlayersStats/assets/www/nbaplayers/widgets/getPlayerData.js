@@ -20,10 +20,14 @@ define([
 
             getData: function () {
 
+				var modaldialog = $('#loadingDataPopup');
+				modaldialog.empty();
+				modaldialog.append('<br><br><br>Loading Data. Please Wait... <br><br><br><br>');
+				modaldialog.popup( "open" );
+				
                 var _this = this;
                 this.getTeams();
                 //Shooting
-                //var url = 'http://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=PerGame&Scope=S&Season=2014-15&SeasonType=Regular+Season&StatCategory=PTS&callback=onResponse';
                 //var url = 'http://stats.nba.com/js/data/sportvu/2014/shootingData.json';
                 //REGULAR SEASON
                 script.get("http://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=Totals&Scope=S&Season=2014-15&SeasonType=Regular+Season&StatCategory=PTS", {
@@ -39,12 +43,18 @@ define([
                 		}).then(function (response) {
                     		//console.log('Response: ' + JSON.stringify(response));
                     		_this._parseDataPlayoffs(response);
+                    		_this.showCategoryLeaders();
+                    		_this.createSortableGrid();
+                    		_this.createRookiesGrid();
+                    		modaldialog.popup( "close" );
                 		}).then(function (results) {
                     		//console.log('Results: ' + JSON.stringify(results));
+                    		modaldialog.popup( "close" );
                 	});
                 	
                 }).then(function (results) {
                 	//console.log('Results: ' + JSON.stringify(results));
+                	modaldialog.popup( "close" );
                 });
                 
 				showTab('tabPlayers');
@@ -66,13 +76,13 @@ define([
                         minutes: parseFloat((_t.rowSet[i][5]/partidos).toFixed(1)),
                         fgm: parseFloat((_t.rowSet[i][6]/partidos).toFixed(1)),
                         fga: parseFloat((_t.rowSet[i][7]/partidos).toFixed(1)),
-                        fg_pct: _t.rowSet[i][8],
+                        fg_pct: parseFloat((_t.rowSet[i][8]*100).toFixed(1)),
                         fg3m: parseFloat((_t.rowSet[i][9]/partidos).toFixed(1)),
                         fg3a: parseFloat((_t.rowSet[i][10]/partidos).toFixed(1)),
-                        fg3_pct: _t.rowSet[i][11],
+                        fg3_pct: parseFloat((_t.rowSet[i][11]*100).toFixed(1)),
                         ftm: parseFloat((_t.rowSet[i][12]/partidos).toFixed(1)),
                         fta: parseFloat((_t.rowSet[i][13]/partidos).toFixed(1)),
-                        ft_pct: _t.rowSet[i][14],
+                        ft_pct: parseFloat((_t.rowSet[i][14]*100).toFixed(1)),
                         oreb: parseFloat((_t.rowSet[i][15]/partidos).toFixed(1)),
                         dreb: parseFloat((_t.rowSet[i][16]/partidos).toFixed(1)),
                         rebounds: parseFloat((_t.rowSet[i][17]/partidos).toFixed(1)),
@@ -82,6 +92,9 @@ define([
                         turnovers: parseFloat((_t.rowSet[i][21]/partidos).toFixed(1)),
                         points: parseFloat((_t.rowSet[i][23]/partidos).toFixed(1)),
                         efficiency: parseFloat((_t.rowSet[i][24]/partidos).toFixed(1)),
+                        fouls: parseFloat((_t.rowSet[i][22]/partidos).toFixed(1)),
+                        assistsPerTurnover: parseFloat((_t.rowSet[i][25]).toFixed(1)),
+                        stealsPerTurnover: parseFloat((_t.rowSet[i][26]).toFixed(1)),
                         gamesPlayoff: 0,
                 		minutesPlayoff: 0,
                 		fgmPlayoff: 0,
@@ -101,7 +114,10 @@ define([
                 		blocksPlayoff: 0,
                 		turnoversPlayoff: 0,
                 		pointsPlayoff: 0,
-                		efficiencyPlayoff: 0
+                		efficiencyPlayoff: 0,
+                		foulsPlayoff: 0,
+                        assistsPerTurnoverPlayoff: 0,
+                        stealsPerTurnoverPlayoff: 0
                     }
 
                     this.playerArray.push(player);
@@ -109,7 +125,6 @@ define([
 
 				//console.log('jsonData: ' + JSON.stringify(this.playerArray));
 				this.dataReady=true;
-                //this._createPlayerGrid(this.playerArray);
 				this._initializenbaplayers(this.playerArray);
             },
             
@@ -126,25 +141,28 @@ define([
                 				//PLAYOFF DATA
                 				var partidos = row[4];
                         		player.gamesPlayoff= row[4];
-                        		player.minutesPlayoff= parseFloat((row[5]/partidos).toFixed(1)),
-                        		player.fgmPlayoff= parseFloat((row[6]/partidos).toFixed(1)),
-                        		player.fgaPlayoff= parseFloat((row[7]/partidos).toFixed(1)),
-                        		player.fg_pctPlayoff= row[8],
-                        		player.fg3mPlayoff= parseFloat((row[9]/partidos).toFixed(1)),
-                        		player.fg3aPlayoff= parseFloat((row[10]/partidos).toFixed(1)),
-                        		player.fg3_pctPlayoff= row[11],
-                        		player.ftmPlayoff= parseFloat((row[12]/partidos).toFixed(1)),
-                        		player.ftaPlayoff= parseFloat((row[13]/partidos).toFixed(1)),
-                        		player.ft_pctPlayoff= row[14],
-                        		player.orebPlayoff= parseFloat((row[15]/partidos).toFixed(1)),
-                        		player.drebPlayoff= parseFloat((row[16]/partidos).toFixed(1)),
-                        		player.reboundsPlayoff= parseFloat((row[17]/partidos).toFixed(1)),
-                        		player.assistsPlayoff= parseFloat((row[18]/partidos).toFixed(1)),
-                        		player.stealsPlayoff= parseFloat((row[19]/partidos).toFixed(1)),
-                        		player.blocksPlayoff= parseFloat((row[20]/partidos).toFixed(1)),
-                        		player.turnoversPlayoff= parseFloat((row[21]/partidos).toFixed(1)),
-                        		player.pointsPlayoff= parseFloat((row[23]/partidos).toFixed(1)),
-                        		player.efficiencyPlayoff= parseFloat((row[24]/partidos).toFixed(1))
+                        		player.minutesPlayoff= parseFloat((row[5]/partidos).toFixed(1));
+                        		player.fgmPlayoff= parseFloat((row[6]/partidos).toFixed(1));
+                        		player.fgaPlayoff= parseFloat((row[7]/partidos).toFixed(1));
+                        		player.fg_pctPlayoff= parseFloat((_t.rowSet[i][8]*100).toFixed(1));
+                        		player.fg3mPlayoff= parseFloat((row[9]/partidos).toFixed(1));
+                        		player.fg3aPlayoff= parseFloat((row[10]/partidos).toFixed(1));
+                        		player.fg3_pctPlayoff= parseFloat((_t.rowSet[i][11]*100).toFixed(1));
+                        		player.ftmPlayoff= parseFloat((row[12]/partidos).toFixed(1));
+                        		player.ftaPlayoff= parseFloat((row[13]/partidos).toFixed(1));
+                        		player.ft_pctPlayoff= parseFloat((_t.rowSet[i][14]*100).toFixed(1));
+                        		player.orebPlayoff= parseFloat((row[15]/partidos).toFixed(1));
+                        		player.drebPlayoff= parseFloat((row[16]/partidos).toFixed(1));
+                        		player.reboundsPlayoff= parseFloat((row[17]/partidos).toFixed(1));
+                        		player.assistsPlayoff= parseFloat((row[18]/partidos).toFixed(1));
+                        		player.stealsPlayoff= parseFloat((row[19]/partidos).toFixed(1));
+                        		player.blocksPlayoff= parseFloat((row[20]/partidos).toFixed(1));
+                        		player.turnoversPlayoff= parseFloat((row[21]/partidos).toFixed(1));
+                        		player.pointsPlayoff= parseFloat((row[23]/partidos).toFixed(1));
+                        		player.efficiencyPlayoff= parseFloat((row[24]/partidos).toFixed(1));
+                        		player.foulsPlayoff= parseFloat((_t.rowSet[i][22]/partidos).toFixed(1));
+                        		player.assistsPerTurnoverPlayoff= parseFloat((_t.rowSet[i][25]).toFixed(1));
+                        		player.stealsPerTurnoverPlayoff= parseFloat((_t.rowSet[i][26]).toFixed(1));
                         		//console.log('player: ' +  JSON.stringify(_t.playerArray[i]));
                         	}
                         	
@@ -234,35 +252,29 @@ define([
 
 			},
 			
-			actualizaJugadores: function() {
-				//console.log('Entrando en actualizaJugadores');
-				$select = $('#select-equipo');
+			actualizaJugadores: function(nameSelectEquipo,nameSelectJugador) {
+				//console.log('Entrando en actualizaJugadores con nameSelectEquipo: ' + nameSelectEquipo);
+				nameSelectEquipo = '#'+ nameSelectEquipo;
+				$select = $(nameSelectEquipo);
 				var siglas = $select.val();
 				var filteredArray = array.filter(this.playerArray, function(jugador){
       				return jugador.team == siglas;
     			});
     			//console.log('Filtered Array: ' + JSON.stringify(filteredArray));
-    			this.crearListaJugadores(filteredArray);	
+    			this.crearListaJugadores(nameSelectJugador,filteredArray);	
 	
 			},
 			
-			cargarListaEquipos: function() {
+			cargarListaEquipos: function(nameSelect) {
 				var _t = this;
-				//console.log('Entrando en cargarListaEquipos con nameSelect: ' + nameSelect);
-    			if (nameSelect == 'select-equipo-statsbyteam') {
-        			$select = $('#select-equipo-statsbyteam');
-    			}
-    			else {
-        			$select = $('#select-equipo');
-    			}
-    			nameSelect='';
-    
+				nameSelect = '#'+nameSelect
+				$select = $(nameSelect);
                 $select.empty();
                 
                 if (this.teamsStore == null) {
                 	this.teamsStore = new Memory({data:this.teams, idProperty: 'acronym'});
                 }
-                console.log(this.teamsStore);
+                
                 this.teamsStore.filter()
                 .sort({
 					property: 'name',
@@ -277,15 +289,16 @@ define([
 
 			},
 			
-			crearListaJugadores: function(results) {
-				//console.log('entrando en crear lista jugadores');
+			crearListaJugadores: function(nameSelectJugador,results) {
+				//console.log('entrando en crear lista jugadores con nameSelectJugador: ' + nameSelectJugador);
 				//console.log("Num filas devueltas: " + results.length);
 				if (results.length==0) {
 	    			//console.log('No hay resultados');
 	    			return false;
 				}
 	
-				$select = $('#select-jugador');
+				nameSelectJugador = '#'+nameSelectJugador;
+				$select = $(nameSelectJugador);
 				$select.empty();
 				for (var i=0; i<results.length; i++) {
 					var nombre = results[i].name;
@@ -327,112 +340,176 @@ define([
 				} 
 	
 				var datagridtext = "";
-				$('#playerPopup').empty();
-	
-				for (var i=0;i<this.playerArray.length;i++) {
-					var player = this.playerArray[i];
-					if (player!=null && player!=undefined && player.name == jugador && player.team == equipo) {
-			
-						var playerid = player.playerid;
-						//Realizamos una invocacion JSON con el playerid para obtener los datos personales del jugador
-						//obtenerDatosPersonalesJugador(playerid);
-			
-						var minutos=player.minutes;
-						var puntos=player.points;
-						var rebotes=player.rebounds;
-						var asistencias=player.assists;
-						var robos=player.steals;
-						var tapones=player.blocks;
-						var partidos = player.games;
-						if (partidos==undefined) {
-			    			partidos = 0;
-						}
-			
-						/* DATOS PLAYOFF */
-						var minutosPlayoff=(player.minutesPlayoff==undefined) ? "0" : player.minutesPlayoff;
-						var puntosPlayoff=(player.pointsPlayoff==undefined) ? "0" : player.pointsPlayoff;
-						var rebotesPlayoff=(player.reboundsPlayoff==undefined) ? "0" : player.reboundsPlayoff;
-						var asistenciasPlayoff=(player.assistsPlayoff==undefined) ? "0" : player.assistsPlayoff;
-						var robosPlayoff=(player.stealsPlayoff==undefined) ? "0" : player.stealsPlayoff;
-						var taponesPlayoff=(player.blocksPlayoff==undefined) ? "0" : player.blocksPlayoff;
-			
-						var partidosPlayoff = player.gamesPlayoff;
-						if (partidosPlayoff==undefined) {
-			   				partidosPlayoff = 0;
-						}
-			
-			
-						/*
-							while (!datospersonalesready) {
-								//Hasta que no est�n listos los datos personales no generamos la respuesta.
-							}
-						*/
-			
-						//Cabeceras
-						datagridtext += '<div id="datagrid'+i+'" class="ui-grid-b">';
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:30px">Name</div></div>';
-						datagridtext += '<div class="ui-block-b"><div class="ui-bar ui-bar-c" style="height:30px">Team</div></div>';
-						datagridtext += '<div class="ui-block-c"><div class="ui-bar ui-bar-c" style="height:30px"></div></div>';
-			
-						//Informacion Personal
-						/*
-						datagridtext += '<div class="ui-block-a"><div id="divName" class="ui-bar ui-bar-a" style="height:80px">'+player.playerid+'-'+player.nombre+'</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divTeam" class="ui-bar ui-bar-a" style="height:80px">'+player.equipo+'<br>'+player.posicion+'<br>'+player.college+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divTeam" class="ui-bar ui-bar-a" style="height:80px">'+player.fechanacimiento+'<br>'+player.pais+'<br>He: '+player.altura+'<br>We: '+player.peso+'</div></div>';
-						*/
-						datagridtext += '<div class="ui-block-a"><div id="divName" class="ui-bar ui-bar-a" style="height:40px">'+player.name+'</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divTeam" class="ui-bar ui-bar-a" style="height:40px">'+player.team+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divTeam" class="ui-bar ui-bar-a" style="height:40px"></div></div>';
+				//$('#playerPopup').empty();
+					
+				this.playerStore.filter({ name: jugador })
+				.forEach(function (player) {	
+						
+						//Player Personal Info
+						//PLAYOFFS
+                		script.get("http://stats.nba.com/stats/commonplayerinfo?LeagueID=00&PlayerID="+player.playerid+"&SeasonType=Regular+Season", {
+                    		jsonp: "callback"
+                		}).then(function (response) {
+                			//$('#playerPopup').append("Loading Player Data...........................................................");
+                			var resultSets = response.resultSets[0];
+                			var rowSet = resultSets.rowSet[0];
+                    		
+                    		var birthdate = new Date(rowSet[6]);
+                    		player.birthdate= birthdate.getMonth() + 1 + '/' + birthdate.getDate() + '/' + birthdate.getFullYear();
+                    		player.from=rowSet[9];
+                    		player.country=rowSet[8];
+                    		player.height=rowSet[10];
+                    		player.weight=rowSet[11];
+                    		player.number=rowSet[13];
+                    		player.numSeasons=rowSet[12];
+                    		player.position=rowSet[14];
+                    		
+                    		//Headers
+                    		$('#divPlayerName').empty().append(player.name+'<br><span class="playerInfoClass">'+player.team+'<br>'+player.birthdate+'<br>'+player.country+'</span>');
+                    		$('#divPlayerInfo').empty().append('<span class="playerInfoClass2">'+player.weight+' lbs/'+player.height+'<br>Exp:'+player.numSeasons+' years<br>From: '+player.from+'</span>');
+                    		$('#divImage').empty().append('<img src="http://stats.nba.com/media/players/230x185/'+player.playerid+'.png" height="60px", width="75px"></img>');
+                    		//console.log('Player: ' + JSON.stringify(player));
+                    		//Cabeceras
+							/*datagridtext += '<div id="datagrid" class="ui-grid-b">';
+					
+							datagridtext += '<div class="ui-block-a"><div id="divName" class="ui-bar ui-bar-c" style="height:100px">'+</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divTeam" class="ui-bar ui-bar-c" style="height:100px"><span class="playerInfoClass2">'+player.weight+' lbs/'+player.height+'<br>Exp:'+player.numSeasons+' years<br>From: '+player.from+'</span></div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divTeam" class="ui-bar ui-bar-c" style="height:100px"><img src="http://stats.nba.com/media/players/230x185/'+player.playerid+'.png" height="60px", width="75px"></img></div></div>';
 			
 			
-						datagridtext += '<div class="ui-block-a"><div id="divName" class="ui-bar ui-bar-a" style="height:22px">Category</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divTeam" class="ui-bar ui-bar-a" style="height:22px">Season</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divTeam" class="ui-bar ui-bar-a" style="height:22px">Playoff</div></div>';
+							datagridtext += '<div class="ui-block-a"><div id="divName" class="ui-bar ui-bar-a" style="height:10px">Category</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divTeam" class="ui-bar ui-bar-a" style="height:10px">Season</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divTeam" class="ui-bar ui-bar-a" style="height:10px">Playoff</div></div>';
 			
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:22px">Games</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divGames" class="ui-bar ui-bar-b" style="height:22px">'+partidos+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divGames" class="ui-bar ui-bar-b" style="height:22px">'+partidosPlayoff+'</div></div>';
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Games</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divGames" class="ui-bar ui-bar-b" style="height:10px">'+player.games+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divGames" class="ui-bar ui-bar-b" style="height:10px">'+player.gamesPlayoff+'</div></div>';
 			
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:22px">Minutes</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:22px">'+minutos+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:22px">'+minutosPlayoff+'</div></div>';
-			
-			
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:22px">Points</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divPoints" class="ui-bar ui-bar-b" style="height:22px">'+puntos+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divPoints" class="ui-bar ui-bar-b" style="height:22px">'+puntosPlayoff+'</div></div>';
-			
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:22px">Rebounds</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divRebounds" class="ui-bar ui-bar-b" style="height:22px">'+rebotes+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divRebounds" class="ui-bar ui-bar-b" style="height:22px">'+rebotesPlayoff+'</div></div>';
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Minutes</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.minutes+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.minutesPlayoff+'</div></div>';
 			
 			
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:22px">Assists</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divAssists" class="ui-bar ui-bar-b" style="height:22px">'+asistencias+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divAssists" class="ui-bar ui-bar-b" style="height:22px">'+asistenciasPlayoff+'</div></div>';
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Points</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divPoints" class="ui-bar ui-bar-b" style="height:10px">'+player.points+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divPoints" class="ui-bar ui-bar-b" style="height:10px">'+player.pointsPlayoff+'</div></div>';
 			
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:22px">Steals</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divSteals" class="ui-bar ui-bar-b" style="height:22px">'+robos+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divSteals" class="ui-bar ui-bar-b" style="height:22px">'+robosPlayoff+'</div></div>';
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Rebounds</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divRebounds" class="ui-bar ui-bar-b" style="height:10px">'+player.rebounds+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divRebounds" class="ui-bar ui-bar-b" style="height:10px">'+player.reboundsPlayoff+'</div></div>';
 			
 			
-						datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:22px">Blocks</div></div>';
-						datagridtext += '<div class="ui-block-b"><div id="divBlocks" class="ui-bar ui-bar-b" style="height:22px">'+tapones+'</div></div>';
-						datagridtext += '<div class="ui-block-c"><div id="divBlocks" class="ui-bar ui-bar-b" style="height:22px">'+taponesPlayoff+'</div></div>';
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Assists</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divAssists" class="ui-bar ui-bar-b" style="height:10px">'+player.assists+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divAssists" class="ui-bar ui-bar-b" style="height:10px">'+player.assistsPlayoff+'</div></div>';
 			
-						datagridtext += '</div>';
-						datagridtext += '<br>';
-						datagridtext += '<div  align="center">';
-						datagridtext += '<input type="button" value="Close" onclick="$(\'#playerPopup\').popup( \'close\' ); return false;" >';
-						//datagridtext += '<a href="index.html" onclick="$(\'#playerPopup\').popup( \'close\' );" data-role="button" data-mini="true">Close</a>';
-						datagridtext += '</div>';		
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Steals</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divSteals" class="ui-bar ui-bar-b" style="height:10px">'+player.steals+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divSteals" class="ui-bar ui-bar-b" style="height:10px">'+player.stealsPlayoff+'</div></div>';
 			
-						$('#playerPopup').append(datagridtext);
-						$('#playerPopup').popup( "open" );
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Turnovers</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divSteals" class="ui-bar ui-bar-b" style="height:10px">'+player.turnovers+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divSteals" class="ui-bar ui-bar-b" style="height:10px">'+player.turnoversPlayoff+'</div></div>';
+			
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Blocks</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divBlocks" class="ui-bar ui-bar-b" style="height:10px">'+player.blocks+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divBlocks" class="ui-bar ui-bar-b" style="height:10px">'+player.blocksPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">FG %</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.fg_pct+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.fg_pctPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">3PFG%</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.fg3_pct+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.fg3_pctPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">FT %</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.ft_pct+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.ft_pctPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Off-Reb</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.oreb+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.orebPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Deff-Reb</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.dreb+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.drebPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Ast/Tov</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.assistsPerTurnover+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.assistsPerTurnoverPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Stl/Tov</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.stealsPerTurnover+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.stealsPerTurnoverPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Fouls</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.fouls+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.foulsPlayoff+'</div></div>';
+						
+							datagridtext += '<div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:10px">Efficiency</div></div>';
+							datagridtext += '<div class="ui-block-b"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.efficiency+'</div></div>';
+							datagridtext += '<div class="ui-block-c"><div id="divMinutes" class="ui-bar ui-bar-b" style="height:10px">'+player.efficiencyPlayoff+'</div></div>';
+			
+							datagridtext += '</div>';
+							datagridtext += '<br>';
+							datagridtext += '<div  align="center">';
+							datagridtext += '<input type="button" value="Close" onclick="$(\'#playerPopup\').popup( \'close\' ); return false;" >';
+							//datagridtext += '<a href="index.html" onclick="$(\'#playerPopup\').popup( \'close\' );" data-role="button" data-mini="true">Close</a>';
+							datagridtext += '</div>';		
+							
+							$('#playerPopup').empty();
+							$('#playerPopup').append(datagridtext);
+							*/
+							$('#playerPopup').popup( "open" );
+                    		
+                    		
+                    		
+                		}).then(function (results) {
+                    		//console.log('Results: ' + JSON.stringify(results));
+                		});
+						
 
-					}
-		
-				}
+                		//Data
+                		$('#divGames').empty().append(player.games);
+                		$('#divGamesPlayoff').empty().append(player.gamesPlayoff);
+                		$('#divPoints').empty().append(player.points);
+                		$('#divPointsPlayoff').empty().append(player.pointsPlayoff);
+                		$('#divAssists').empty().append(player.assists);
+                		$('#divAssistsPlayoff').empty().append(player.assistsPlayoff);
+                		$('#divRebounds').empty().append(player.rebounds);
+                		$('#divReboundsPlayoff').empty().append(player.reboundsPlayoff);
+                		$('#divSteals').empty().append(player.steals);
+                		$('#divStealsPlayoff').empty().append(player.stealsPlayoff);
+                		$('#divBlocks').empty().append(player.blocks);
+                		$('#divBlocksPlayoff').empty().append(player.blocksPlayoff);
+                		$('#divMinutes').empty().append(player.minutes);
+                		$('#divMinutesPlayoff').empty().append(player.minutesPlayoff);
+                		$('#divTurnovers').empty().append(player.turnovers);
+                		$('#divTurnoversPlayoff').empty().append(player.turnoversPlayoff);
+                		$('#divAssistsPerTurnover').empty().append(player.assistsPerTurnover);
+                		$('#divAssistsPerTurnoverPlayoff').empty().append(player.assistsPerTurnoverPlayoff);
+                		$('#divStealsPerTurnover').empty().append(player.stealsPerTurnover);
+                		$('#divStealsPerTurnoverPlayoff').empty().append(player.stealsPerTurnoverPlayoff);
+                		$('#divFgPct').empty().append(player.fg_pct);
+                		$('#divFgPctPlayoff').empty().append(player.fg_pctPlayoff);
+                		$('#divFg3Pct').empty().append(player.fg3_pct);
+                		$('#divFg3PctPlayoff').empty().append(player.fg3_pctPlayoff);
+                		$('#divFtPct').empty().append(player.ft_pct);
+                		$('#divFtPctPlayoff').empty().append(player.ft_pctPlayoff);
+                		$('#divOReb').empty().append(player.oreb);
+                		$('#divORebPlayoff').empty().append(player.orebPlayoff);
+                		$('#divDReb').empty().append(player.dreb);
+                		$('#divDRebPlayoff').empty().append(player.drebPlayoff);
+                		$('#divFouls').empty().append(player.dreb);
+                		$('#divFoulsPlayoff').empty().append(player.drebPlayoff);
+                		$('#divEfficiency').empty().append(player.efficiency);
+                		$('#divEfficiencyPlayoff').empty().append(player.efficiencyPlayoff);
+						
+					//}
+					
+				});
+				
 			},
 			
 			showTeamStats: function() {
@@ -600,8 +677,8 @@ define([
                 				searchName = jugador.name;
                 				displayName = jugador.name.split(' ')[0].charAt(0) + '. ' + jugador.name.split(' ')[1];     
             				}
-            				//text +='<tr><td><a href=\'#\' onclick="playerData.cargarJugador(\''+searchName+'-'+jugador.team+'\'); return false;" >'+ (i+1) + '. ' +displayName+'</a></td><td>'+jugador.points+'</td></tr>';
-            				text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador[category] + '</td></tr>';
+            				text +='<tr><td><a href=\'#\' onclick="playerData.cargarJugador(\''+searchName+'-'+jugador.team+'\'); return false;" >'+ (i+1) + '. ' +displayName+'</a></td><td>'+jugador[category]+'</td></tr>';
+            				//text += '<tr><td>' + (i+1) + '. ' + displayName+' </td><td>'+jugador[category] + '</td></tr>';
             				i = i+1;
     					}
     				});	
@@ -619,6 +696,14 @@ define([
     			getCategoryLeaders($('#divCategoryBlocks'),'blocks');
     			getCategoryLeaders($('#divCategorySteals'),'steals');
     			getCategoryLeaders($('#divCategoryMinutes'),'minutes');
+    			getCategoryLeaders($('#divCategoryTurnovers'),'turnovers');
+    			getCategoryLeaders($('#divCategoryEfficiency'),'efficiency');
+    			getCategoryLeaders($('#divCategoryFieldGoal'),'fg_pct');
+    			getCategoryLeaders($('#divCategory3PointFieldGoal'),'fg3_pct');
+    			getCategoryLeaders($('#divCategoryFreeThrow'),'ft_pct');
+    			getCategoryLeaders($('#divCategoryPersonalFouls'),'fouls');
+    			getCategoryLeaders($('#divCategoryAssistsPerTurnover'),'assistsPerTurnover');
+    			getCategoryLeaders($('#divCategoryStealsPerTurnover'),'stealsPerTurnover');
     			
     			//Playoffs
     			getCategoryLeaders($('#divCategoryPointsPlayoff'),'pointsPlayoff');
@@ -627,6 +712,14 @@ define([
     			getCategoryLeaders($('#divCategoryBlocksPlayoff'),'blocksPlayoff');
     			getCategoryLeaders($('#divCategoryStealsPlayoff'),'stealsPlayoff');
     			getCategoryLeaders($('#divCategoryMinutesPlayoff'),'minutesPlayoff');
+    			getCategoryLeaders($('#divCategoryTurnoversPlayoff'),'turnoversPlayoff');
+    			getCategoryLeaders($('#divCategoryEfficiencyPlayoff'),'efficiencyPlayoff');
+    			getCategoryLeaders($('#divCategoryFieldGoalPlayoff'),'fg_pctPlayoff');
+    			getCategoryLeaders($('#divCategory3PointFieldGoalPlayoff'),'fg3_pctPlayoff');
+    			getCategoryLeaders($('#divCategoryFreeThrowPlayoff'),'ft_pctPlayoff');
+    			getCategoryLeaders($('#divCategoryPersonalFoulsPlayoff'),'foulsPlayoff');
+    			getCategoryLeaders($('#divCategoryAssistsPerTurnoverPlayoff'),'assistsPerTurnoverPlayoff');
+    			getCategoryLeaders($('#divCategoryStealsPerTurnoverPlayoff'),'stealsPerTurnoverPlayoff');
     			 
    			},
    			
@@ -657,7 +750,23 @@ define([
    			
    				var _t = this;
    				var columns = [
-   	                {id: 'name', field: 'name', label: 'Player', colSpan: 2},
+   	                {id: 'name', field: 'name', label: 'Player', colSpan: 2, formatter: function (value) {
+                    		var escapedStringJugador;
+            				var displayName;
+            				var searchName;
+            				var text;
+            				if (value.indexOf('\'') != -1) {
+                				var escapedStringJugador = value.replace("\'","\\\'");
+                				searchName = escapedStringJugador;
+                				displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+            				}
+            				else {
+                				searchName = value;
+                				displayName = value.split(' ')[0].charAt(0) + '. ' + value.split(' ')[1];     
+            				}
+            				text ='<a href=\'#\' onclick="playerData.cargarJugador(\''+searchName+'-'+'\'); return false;" >'+value+'</a>';
+                    		return text;
+                		}},
    	                //{id: 'team', field: 'team', label: 'Team'},
    	                {id: 'games', field: 'games', label: 'G'},
    	                {id: 'minutes', field: 'minutes', label: 'MPG'},
@@ -677,7 +786,23 @@ define([
    	            ];
    	            
    	            var columnsPlayoff = [
-   	                {id: 'name', field: 'name', label: 'Player', colSpan: 2},
+   	                {id: 'name', field: 'name', label: 'Player', colSpan: 2, formatter: function (value) {
+                    		var escapedStringJugador;
+            				var displayName;
+            				var searchName;
+            				var text;
+            				if (value.indexOf('\'') != -1) {
+                				var escapedStringJugador = value.replace("\'","\\\'");
+                				searchName = escapedStringJugador;
+                				displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+            				}
+            				else {
+                				searchName = value;
+                				displayName = value.split(' ')[0].charAt(0) + '. ' + value.split(' ')[1];     
+            				}
+            				text ='<a href=\'#\' onclick="playerData.cargarJugador(\''+searchName+'-'+'\'); return false;" >'+value+'</a>';
+                    		return text;
+                		}},
    	                //{id: 'team', field: 'team', label: 'Team'},
    	                {id: 'games', field: 'gamesPlayoff', label: 'G'},
    	                {id: 'minutes', field: 'minutesPlayoff', label: 'MPG'},
@@ -712,7 +837,7 @@ define([
    	            
    	            //GRID PLAYOFF
    	            var filter = new _t.playerStore.Filter();
-   	            var playoffFilter = filter.ne('gamesPlayoff',undefined);
+   	            var playoffFilter = filter.gt('gamesPlayoff',0);
    	            var divSortableGridPlayoff = dom.byId("divSortableGridPlayoff");
    	            var sortableGridPlayoff = new (declare([OnDemandGrid]))({
    	                selectionMode: "none",
@@ -733,7 +858,196 @@ define([
    	            //STARTUP of GRIDS
    	            sortableGrid.startup();
    	            sortableGridPlayoff.startup();
-   			},	
+   			},
+   			
+   		createRookiesGrid: function() {
+   		
+   			var _t = this;
+   			var rookiesIds=[];
+   			script.get("http://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=Totals&Scope=Rookies&Season=2014-15&SeasonType=Regular+Season&StatCategory=PTS", {
+                    jsonp: "callback"
+                }).then(function (response) {
+                	var resultSet = response.resultSet;
+                	this.rowSet = resultSet.rowSet;
+                	array.forEach(this.rowSet, function(row,i) {
+                		rookiesIds.push(row[0]);
+                	});
+                	
+                	$('input:radio[name="radioRookies"][value="regularSeason"]').click();
+   	    			$('input:radio[name="radioRookies"][value="regularSeason"]').click();
+   	    			
+   					var divRookiesGrid = $('#divRookiesGrid');
+   					var divRookiesGridPlayoff = $('#divRookiesGridPlayoff');
+   					divRookiesGrid.empty();
+   					divRookiesGridPlayoff.empty();
+   					divRookiesGridPlayoff.hide();
+   		
+   					$('input[type=radio][name=radioRookies]').change(function() {
+   	        			if (this.value == 'regularSeason') {
+   	            			divRookiesGrid.style.display = 'block';
+   							divRookiesGridPlayoff.style.display = 'none';
+   							rookiesGrid.resize();
+   	        			}
+   	        			else if (this.value == 'playoffs') {
+   		       				divRookiesGrid.style.display= 'none';
+   							divRookiesGridPlayoff.style.display = 'block';
+   	            			rookiesGridPlayoff.resize();
+   	        			}
+   	    			});
+   	    
+   			
+   					var columns = [
+   	                	{id: 'name', field: 'name', label: 'Player', colSpan: 2,formatter: function (value) {
+                    		var escapedStringJugador;
+            				var displayName;
+            				var searchName;
+            				var text;
+            				if (value.indexOf('\'') != -1) {
+                				var escapedStringJugador = value.replace("\'","\\\'");
+                				searchName = escapedStringJugador;
+                				displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+            				}
+            				else {
+                				searchName = value;
+                				displayName = value.split(' ')[0].charAt(0) + '. ' + value.split(' ')[1];     
+            				}
+            				text ='<a href=\'#\' onclick="playerData.cargarJugador(\''+searchName+'-'+'\'); return false;" >'+value+'</a>';
+                    		return text;
+                		}},
+   	                	//{id: 'team', field: 'team', label: 'Team'},
+   	                	{id: 'games', field: 'games', label: 'G'},
+   	                	{id: 'minutes', field: 'minutes', label: 'MPG'},
+   	                	{id: 'points', field: 'points', label: 'PPG'},
+   	                	{id: 'rebounds', field: 'rebounds', label: 'RPG'},
+   	                	//{id: 'offrebounds', field: 'oreb', label: 'Off. Rebs/PG'},
+   	                	//{id: 'defrebounds', field: 'dreb', label: 'Def. Rebs/PG'},
+   	                	{id: 'assists', field: 'assists', label: 'APG'},
+   	                	{id: 'fg_pct', field: 'fg3_pct', label: 'FG%'},
+   	                	{id: 'fg3_pct', field: 'fg3_pct', label: '3P%'},
+   	                	{id: 'ft_pct', field: 'ft_pct', label: 'FT%'},
+   	                	{id: 'blocks', field: 'blocks', label: 'BPG'},
+   	                	{id: 'steals', field: 'steals', label: 'SPG'},
+   	                	{id: 'turnovers', field: 'turnovers', label: 'TPG'},
+   	                	{id: 'efficiency', field: 'efficiency', label: 'EFF'}
+
+	   	            ];
+   	            
+   	            	var columnsPlayoff = [
+   	                	{id: 'name', field: 'name', label: 'Player', colSpan: 2,formatter: function (value) {
+                    		var escapedStringJugador;
+            				var displayName;
+            				var searchName;
+            				var text;
+            				if (value.indexOf('\'') != -1) {
+                				var escapedStringJugador = value.replace("\'","\\\'");
+                				searchName = escapedStringJugador;
+                				displayName = escapedStringJugador.split(' ')[0].charAt(0) + '. ' + escapedStringJugador.split(' ')[1];
+            				}
+            				else {
+                				searchName = value;
+                				displayName = value.split(' ')[0].charAt(0) + '. ' + value.split(' ')[1];     
+            				}
+            				text ='<a href=\'#\' onclick="playerData.cargarJugador(\''+searchName+'-'+'\'); return false;" >'+value+'</a>';
+                    		return text;
+                		}},
+   	                	//{id: 'team', field: 'team', label: 'Team'},
+   	                	{id: 'games', field: 'gamesPlayoff', label: 'G'},
+   	                	{id: 'minutes', field: 'minutesPlayoff', label: 'MPG'},
+   	                	{id: 'points', field: 'pointsPlayoff', label: 'PPG'},
+   	                	{id: 'rebounds', field: 'reboundsPlayoff', label: 'RPG'},
+   	                	//{id: 'offrebounds', field: 'orebPlayoff', label: 'ORPG'},
+   	                	//{id: 'defrebounds', field: 'drebPlayoff', label: 'DRPG'},
+   	                	{id: 'assists', field: 'assistsPlayoff', label: 'APG'},
+   	                	{id: 'fg_pct', field: 'fg3_pctPlayoff', label: 'FG%'},
+   	                	{id: 'fg3_pct', field: 'fg3_pctPlayoff', label: '3P%'},
+   	                	{id: 'ft_pct', field: 'ft_pctPlayoff', label: 'FT%'},
+   	                	{id: 'blocks', field: 'blocksPlayoff', label: 'BPG'},
+   	                	{id: 'steals', field: 'stealsPlayoff', label: 'SPG'},
+   	                	{id: 'turnovers', field: 'turnoversPlayoff', label: 'TPG'},
+   	                	{id: 'efficiency', field: 'efficiencyPlayoff', label: 'EFF'}
+	
+   		            ];
+
+					var myFilter = new _t.playerStore.Filter();
+					var gamesFilter = myFilter.gt('gamesPlayoff',0);
+					
+					myFilter = new _t.playerStore.Filter();
+   	        	    var rookieFilter = myFilter.in('playerid',rookiesIds);
+   	               	            
+   					var divRookiesGrid = dom.byId("divRookiesGrid");
+   	            	var rookiesGrid = new (declare([OnDemandGrid]))({
+   	                	selectionMode: "none",
+   	                	collection: _t.playerStore.filter(rookieFilter).sort('points',true),
+   	                	columns: columns
+   	            	}, divRookiesGrid);
+
+   	            	rookiesGrid.on('dgrid-error', function(event) {
+   	                	// Display an error message when an error occurs.
+   	                	var obj = JSON.parse(event.error.response.text);
+   	                	console.log(obj.message);
+
+   	            	});
+   	            
+   	            	//GRID PLAYOFF
+   	            	var filter = new _t.playerStore.Filter();
+   	            	var playoffFilter = filter.ne('gamesPlayoff',undefined);
+   	            	var filter = new _t.playerStore.Filter();
+   	            	var rookieAndPlayoffFilter = filter.and(rookieFilter,playoffFilter);
+   	            	var divRookiesGridPlayoff = dom.byId("divRookiesGridPlayoff");
+   	            	
+   	            	var rookiesGridPlayoff = new (declare([OnDemandGrid]))({
+   	                	selectionMode: "none",
+   	                	collection: _t.playerStore.filter(gamesFilter).filter(rookieAndPlayoffFilter).sort('pointsPlayoff',true),
+   	                	columns: columnsPlayoff
+   	            	}, divRookiesGridPlayoff);
+
+   	            
+
+   	            	rookiesGridPlayoff.on('dgrid-error', function(event) {
+   	                	// Display an error message when an error occurs.
+   	                	var obj = JSON.parse(event.error.response.text);
+   	                	console.log(obj.message);
+
+   	            	});
+   	            
+   	            
+   	            	//STARTUP of GRIDS
+   	            	rookiesGrid.startup();
+   	            	rookiesGridPlayoff.startup();
+                	
+                	
+                }).then(function (results) {
+                		//console.log('Results: ' + JSON.stringify(results));
+                });
+   				
+   				
+   			},
+   			
+   			comparePlayers: function() {
+   				var _t = this;
+   				$selectPlayer1 = $('#select-player1');
+   				$selectPlayer2 = $('#select-player2');
+				
+   				var namePlayer1 = $selectPlayer1.val();
+   				var namePlayer2 = $selectPlayer2.val();
+   				console.log('player1Name: ' + namePlayer1);
+   				console.log('player2Name: ' + namePlayer2);
+   				var player1;
+   				var player2;
+   				
+   				//Find in store player1
+   				_t.playerStore.filter({name:namePlayer1}).forEach(function (jugador) {
+   					player1=jugador;
+   				});
+   				//Find in store player2
+   				_t.playerStore.filter({name:namePlayer2}).forEach(function (jugador) {
+   					player2=jugador;
+   				});
+   				
+   				console.log('player1Data: ' + JSON.stringify(player1));
+   				console.log('player2Data: ' + JSON.stringify(player2));
+   			},
+   				
 			
 		onBackKeyDown: function(e) {
 			var _t = this;
@@ -741,21 +1055,17 @@ define([
 			$('#playerPopup').popup( "close" );
 			e.preventDefault();
 			navigator.notification.confirm('Do you want to exit the app?',
-				_t.saliraplicacion(1), 'NBA Player Stats', ['YES','NO']);
+				_t.saliraplicacion(), 'NBA Player Stats', ['YES','NO']);
 		},
 
-		saliraplicacion: function(button) {
-   			//alert('entrando con button: ' + button);
-   			if(button=="1" || button==1) {
-    			if(navigator.app){
-        			navigator.app.exitApp();
-    			}else if(navigator.device){
+		saliraplicacion: function() {
+    		if(navigator.app){
+        		navigator.app.exitApp();
+    		}else if(navigator.device){
         		navigator.device.exitApp();
-    			}
-   			}
+    		}
 		}		
 		
 
         });
 });
-
