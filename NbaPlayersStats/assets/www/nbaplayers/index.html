@@ -588,10 +588,147 @@
             			<td colspan="2"><a href="#" onclick = 'playerData.comparePlayers()' data-role="button" data-mini="true" data-inline="true" data-icon="check" data-theme="e">Compare</a></td>
             		</tr>
             	</table>
-            </div>
-            <!--
-            </div> 
-            -->
+            	
+            	<div data-role="popup" id="playerComparisonPopup">
+		     	<div id="datagrid" class="ui-grid-b">
+				
+		     	<div class="ui-block-a" style="width:100px"><div id="divHeader" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divPlayer1Name" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+				<div class="ui-block-c" style="width:100px" ><div id="divImagePlayer1" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divPlayer2Name" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divImagePlayer2" class="ui-bar ui-bar-c" style="height:100px"></div></div>
+
+				<div class="ui-block-a" style="width:100px" ><div id="divCategory" class="ui-bar ui-bar-a" style="height:10px">Category</div></div>
+				<div class="ui-block-b" style="width:100px" ><div id="divSeasonPlayer1" class="ui-bar ui-bar-a" style="height:10px">Season</div></div>
+				<div class="ui-block-c" style="width:100px" ><div id="divPlayoffPlayer1" class="ui-bar ui-bar-a" style="height:10px">Playoff</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divSeasonPlayer1" class="ui-bar ui-bar-a" style="height:10px">Season</div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divPlayoffPlayer1" class="ui-bar ui-bar-a" style="height:10px">Playoff</div></div>
+
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Games</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divGamesPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divGamesPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divGamesPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divGamesPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Minutes</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divMinutesPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divMinutesPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divMinutesPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divMinutesPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+
+
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Points</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divPointsPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divPointsPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divPointsPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divPointsPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Rebounds</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divReboundsPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divReboundsPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divReboundsPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divReboundsPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Assists</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divAssistsPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divAssistsPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divAssistsPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divAssistsPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Steals</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divStealsPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divStealsPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divStealsPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divStealsPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Turnovers</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divTurnoversPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divTurnoversPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divTurnoversPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divTurnoversPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+	
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Blocks</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divBlocksPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divBlocksPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divBlocksPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divBlocksPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">FG %</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFgPctPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFgPctPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFgPctPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFgPctPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+				
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">3PFG%</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFg3PctPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFg3PctPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFg3PctPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFg3PctPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+				
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">FT %</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFtPctPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFtPctPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFtPctPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFtPctPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+				
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Off-Reb</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divORebPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divORebPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divORebPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divORebPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+				
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Deff-Reb</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divDRebPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divDRebPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divDRebPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divDRebPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+				
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Ast/Tov</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divAssistsPerTurnoverPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divAssistsPerTurnoverPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divAssistsPerTurnoverPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divAssistsPerTurnoverPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+			
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Stl/Tov</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divStealsPerTurnoverPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divStealsPerTurnoverPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divStealsPerTurnoverPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divStealsPerTurnoverPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+			
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Fouls</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFoulsPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFoulsPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divFoulsPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divFoulsPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+			
+			
+				<div class="ui-block-a" style="width:100px" style="width:100px"><div class="ui-bar ui-bar-b" style="height:10px">Efficiency</div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divEfficiencyPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divEfficiencyPlayoffPlayer1" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-b" style="width:100px"><div id="divEfficiencyPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				<div class="ui-block-c" style="width:100px"><div id="divEfficiencyPlayoffPlayer2" class="ui-bar ui-bar-b" style="height:10px"></div></div>
+				
+				
+				</div>
+				<br>
+				<div  align="center">
+				<!--
+				<input type="button" value="Close" onclick="$(\'#playerPopup\').popup( \'close\' ); return false;" >
+				-->
+				<a href="index.html" onclick="$(\'#playerPopup\').popup( \'close\' );" data-role="button" data-mini="true">Close</a>
+				
+				</div>	
+   			 </div>
+            	
+            </div> <!-- TAB COMPARE -->
+            
 		</div>
 		
 </div>

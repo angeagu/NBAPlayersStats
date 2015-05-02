@@ -22,7 +22,7 @@ define([
 
 				var modaldialog = $('#loadingDataPopup');
 				modaldialog.empty();
-				modaldialog.append('<br><br><br>Loading Data. Please Wait... <br><br><br><br>');
+				modaldialog.append('<br><br><br>Loading NBA.com Player Data. Please Wait... <br><br><br><br>');
 				modaldialog.popup( "open" );
 				
                 var _this = this;
@@ -312,7 +312,7 @@ define([
 			
 			cargarJugador: function(string) {
 				//console.log("entrandoenCargarJugador con string: " + string);
-	
+				$('#playerPopup').popup( "open" );
 				if (string.length == 0) { 
 					var jugador = '';
 					//De momento, si no se carga la URL, no se pone el Lower Case.
@@ -461,7 +461,7 @@ define([
 							$('#playerPopup').empty();
 							$('#playerPopup').append(datagridtext);
 							*/
-							$('#playerPopup').popup( "open" );
+							
                     		
                     		
                     		
@@ -1024,6 +1024,7 @@ define([
    			},
    			
    			comparePlayers: function() {
+   				$('#playerComparisonPopup').popup( "open" );
    				var _t = this;
    				$selectPlayer1 = $('#select-player1');
    				$selectPlayer2 = $('#select-player2');
@@ -1046,6 +1047,93 @@ define([
    				
    				console.log('player1Data: ' + JSON.stringify(player1));
    				console.log('player2Data: ' + JSON.stringify(player2));
+   				
+   				$('#divPlayer1Name').empty().append(player1.name+'<br><span class="playerInfoClass">'+player1.team+'<br></span>');
+        		$('#divImagePlayer1').empty().append('<img src="http://stats.nba.com/media/players/230x185/'+player1.playerid+'.png" height="60px", width="75px"></img>');
+        		$('#divPlayer2Name').empty().append(player2.name+'<br><span class="playerInfoClass">'+player2.team+'<br></span>');
+        		$('#divImagePlayer2').empty().append('<img src="http://stats.nba.com/media/players/230x185/'+player2.playerid+'.png" height="60px", width="75px"></img>');
+        		
+        		$('#divGamesPlayer1').empty().append(player1.games);
+        		$('#divGamesPlayoffPlayer1').empty().append(player1.gamesPlayoff);
+        		$('#divPointsPlayer1').empty().append(player1.points);
+        		$('#divPointsPlayoffPlayer1').empty().append(player1.pointsPlayoff);
+        		$('#divAssistsPlayer1').empty().append(player1.assists);
+        		$('#divAssistsPlayoffPlayer1').empty().append(player1.assistsPlayoff);
+        		$('#divReboundsPlayer1').empty().append(player1.rebounds);
+        		$('#divReboundsPlayoffPlayer1').empty().append(player1.reboundsPlayoff);
+        		$('#divStealsPlayer1').empty().append(player1.steals);
+        		$('#divStealsPlayoffPlayer1').empty().append(player1.stealsPlayoff);
+        		$('#divBlocksPlayer1').empty().append(player1.blocks);
+        		$('#divBlocksPlayoffPlayer1').empty().append(player1.blocksPlayoff);
+        		$('#divMinutesPlayer1').empty().append(player1.minutes);
+        		$('#divMinutesPlayoffPlayer1').empty().append(player1.minutesPlayoff);
+        		$('#divTurnoversPlayer1').empty().append(player1.turnovers);
+        		$('#divTurnoversPlayoffPlayer1').empty().append(player1.turnoversPlayoff);
+        		$('#divAssistsPerTurnoverPlayer1').empty().append(player1.assistsPerTurnover);
+        		$('#divAssistsPerTurnoverPlayoffPlayer1').empty().append(player1.assistsPerTurnoverPlayoff);
+        		$('#divStealsPerTurnoverPlayer1').empty().append(player1.stealsPerTurnover);
+        		$('#divStealsPerTurnoverPlayoffPlayer1').empty().append(player1.stealsPerTurnoverPlayoff);
+        		$('#divFgPctPlayer1').empty().append(player1.fg_pct);
+        		$('#divFgPctPlayoffPlayer1').empty().append(player1.fg_pctPlayoff);
+        		$('#divFg3PctPlayer1').empty().append(player1.fg3_pct);
+        		$('#divFg3PctPlayoffPlayer1').empty().append(player1.fg3_pctPlayoff);
+        		$('#divFtPctPlayer1').empty().append(player1.ft_pct);
+        		$('#divFtPctPlayoffPlayer1').empty().append(player1.ft_pctPlayoff);
+        		$('#divORebPlayer1').empty().append(player1.oreb);
+        		$('#divORebPlayoffPlayer1').empty().append(player1.orebPlayoff);
+        		$('#divDRebPlayer1').empty().append(player1.dreb);
+        		$('#divDRebPlayoffPlayer1').empty().append(player1.drebPlayoff);
+        		$('#divFoulsPlayer1').empty().append(player1.dreb);
+        		$('#divFoulsPlayoffPlayer1').empty().append(player1.drebPlayoff);
+        		$('#divEfficiencyPlayer1').empty().append(player1.efficiency);
+        		$('#divEfficiencyPlayoffPlayer1').empty().append(player1.efficiencyPlayoff);
+        		
+        		$('#divGamesPlayer2').empty().append(player2.games);
+        		$('#divGamesPlayoffPlayer2').empty().append(player2.gamesPlayoff);
+        		$('#divPointsPlayer2').empty().append(player2.points);
+        		$('#divPointsPlayoffPlayer2').empty().append(player2.pointsPlayoff);
+        		$('#divAssistsPlayer2').empty().append(player2.assists);
+        		$('#divAssistsPlayoffPlayer2').empty().append(player2.assistsPlayoff);
+        		$('#divReboundsPlayer2').empty().append(player2.rebounds);
+        		$('#divReboundsPlayoffPlayer2').empty().append(player2.reboundsPlayoff);
+        		$('#divStealsPlayer2').empty().append(player2.steals);
+        		$('#divStealsPlayoffPlayer2').empty().append(player2.stealsPlayoff);
+        		$('#divBlocksPlayer2').empty().append(player2.blocks);
+        		$('#divBlocksPlayoffPlayer2').empty().append(player2.blocksPlayoff);
+        		$('#divMinutesPlayer2').empty().append(player2.minutes);
+        		$('#divMinutesPlayoffPlayer2').empty().append(player2.minutesPlayoff);
+        		$('#divTurnoversPlayer2').empty().append(player2.turnovers);
+        		$('#divTurnoversPlayoffPlayer2').empty().append(player2.turnoversPlayoff);
+        		$('#divAssistsPerTurnoverPlayer2').empty().append(player2.assistsPerTurnover);
+        		$('#divAssistsPerTurnoverPlayoffPlayer2').empty().append(player2.assistsPerTurnoverPlayoff);
+        		$('#divStealsPerTurnoverPlayer2').empty().append(player2.stealsPerTurnover);
+        		$('#divStealsPerTurnoverPlayoffPlayer2').empty().append(player2.stealsPerTurnoverPlayoff);
+        		$('#divFgPctPlayer2').empty().append(player2.fg_pct);
+        		$('#divFgPctPlayoffPlayer2').empty().append(player2.fg_pctPlayoff);
+        		$('#divFg3PctPlayer2').empty().append(player2.fg3_pct);
+        		$('#divFg3PctPlayoffPlayer2').empty().append(player2.fg3_pctPlayoff);
+        		$('#divFtPctPlayer2').empty().append(player2.ft_pct);
+        		$('#divFtPctPlayoffPlayer2').empty().append(player2.ft_pctPlayoff);
+        		$('#divORebPlayer2').empty().append(player2.oreb);
+        		$('#divORebPlayoffPlayer2').empty().append(player2.orebPlayoff);
+        		$('#divDRebPlayer2').empty().append(player2.dreb);
+        		$('#divDRebPlayoffPlayer2').empty().append(player2.drebPlayoff);
+        		$('#divFoulsPlayer2').empty().append(player2.dreb);
+        		$('#divFoulsPlayoffPlayer2').empty().append(player2.drebPlayoff);
+        		$('#divEfficiencyPlayer2').empty().append(player2.efficiency);
+        		$('#divEfficiencyPlayoffPlayer2').empty().append(player2.efficiencyPlayoff);
+        	
+        		(player1.games > player2.games) ? $('#divGamesPlayer1').attr("class","ui-bar ui-bar-e") : $('#divGamesPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.gamesPlayoff > player2.gamesPlayoff) ? $('#divGamesPlayoffPlayer1').attr("class","ui-bar ui-bar-e") : $('#divGamesPlayoffPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.points > player2.points) ? $('#divPointsPlayer1').attr("class","ui-bar ui-bar-e") : $('#divPointsPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.pointsPlayoff > player2.pointsPlayoff) ? $('#divPointsPlayoffPlayer1').attr("class","ui-bar ui-bar-e") : $('#divPointsPlayoffPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.minutes > player2.minutes) ? $('#divMinutesPlayer1').attr("class","ui-bar ui-bar-e") : $('#divMinutesPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.minutesPlayoff > player2.minutesPlayoff) ? $('#divMinutesPlayoffPlayer1').attr("class","ui-bar ui-bar-e") : $('#divMinutesPlayoffPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.rebounds > player2.rebounds) ? $('#divReboundsPlayer1').attr("class","ui-bar ui-bar-e") : $('#divReboundsPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.reboundsPlayoff > player2.reboundsPlayoff) ? $('#divReboundsPlayoffPlayer1').attr("class","ui-bar ui-bar-e") : $('#divReboundsPlayoffPlayer2').attr("class","ui-bar ui-bar-e");	
+        		(player1.assists > player2.assists) ? $('#divAssistsPlayer1').attr("class","ui-bar ui-bar-e") : $('#divAssistsPlayer2').attr("class","ui-bar ui-bar-e");
+        		(player1.assistsPlayoff > player2.assistsPlayoff) ? $('#divAssistsPlayoffPlayer1').attr("class","ui-bar ui-bar-e") : $('#divAssistsPlayoffPlayer2').attr("class","ui-bar ui-bar-e");	
+        		
    			},
    				
 			
