@@ -172,3 +172,7 @@ a {
 	font-size: 9px;
 	font-weight: bold;
 }
+
+.dgrid-column-name {
+   color: blue;
+}
