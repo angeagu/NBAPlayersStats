@@ -1,0 +1,6 @@
+define({
+    root: {
+        playerDetail: "playerDetail"
+    }
+
+});

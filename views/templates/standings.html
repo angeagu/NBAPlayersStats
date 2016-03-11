@@ -1,0 +1,21 @@
+<div data-dojo-type="dojox/mobile/View">
+    <div data-dojo-attach-point="headingStandings" data-dojo-type="dojox/mobile/Heading"  class="headerClass">
+        <div style="float:left">
+            <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none', back:true " class="fa fa-arrow-left fa-lg backBtnClass"></span>
+        </div>
+    </div>
+
+    <div data-dojo-attach-point="divProgress" data-dojo-type="dojox/mobile/Container">
+    </div>
+
+    <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl", fill:"always"'>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonEast" style="width: 25%">EAST</li>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonWest" style="width: 25%">WEST</li>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonComplete" style="width: 25%">ALL</li>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonPlayoffPicture" style="width: 25%">PLAYOFFS</li>
+    </ul>
+
+    <div data-dojo-attach-point="standingsView">
+    </div>
+
+</div>

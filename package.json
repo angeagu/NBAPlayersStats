@@ -1,0 +1,17 @@
+{
+  "name": "nba-player-stats",
+  "version": "1.1.0",
+  "description": "Wiski Web Mobile for static files",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-compress": "^0.13.0",
+    "grunt-contrib-stylus": "^0.21.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-dojo": "^1.0.1"
+  },
+  "directories": {
+    "lib": "./libs"
+  },
+  "dojoBuild": "package.js"
+}

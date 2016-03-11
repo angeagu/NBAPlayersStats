@@ -1,0 +1,16 @@
+<div data-dojo-type="dojox/mobile/View">
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="playerSearchHeading" class="headerClass">
+        <div style="float:left">
+            <span data-dojo-attach-point="back_btn" data-dojo-props="transitionDir:'-1', transition:'none', back:true "
+                  data-dojo-type="dojox/mobile/ToolBarButton" class="fa fa-arrow-left fa-lg backBtnClass"></span>
+        </div>
+    </h1>
+    <div data-dojo-attach-point="container" data-dojo-type="dojox/mobile/View">
+        <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-attach-point="searchScrollableView">
+            <br>
+            <ul data-dojo-attach-point="playerList" class="stationSearchField">
+            </ul>
+        </div>
+    </div>
+    <div data-dojo-attach-point="standby" data-dojo-type="dojox/widget/Standby" data-dojo-props="color:'whitesmoke'"></div>
+</div>

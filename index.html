@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="de">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>NBA PLAYER STATS</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../libs/dojox/mobile/themes/ios7/ios7.css"/>
+    <link rel="stylesheet" href="../libs/font-awesome/css/font-awesome.min.css"/>
+</head>
+<body style="height: 100%; width: 100%; margin: 0px;">
+    <div class="frontClass" id="frontDiv"  style="text-align: center">
+        <br>
+        <div class="frontInfoText">
+            <br><br>
+            <div>NBA PLAYER STATS</div>
+            <br><br>
+            <i class="fa fa-spinner fa-spin fa-2x spinnerBlue"></i>
+
+            <br><br>
+            <div>Loading NBA.com stats...</div>
+        </div>
+    </div>
+
+    <script>
+        var dojoConfig={
+            locale: 'en',
+            packages:[
+                {
+                    name:"nba-player-stats",
+                    location:"../../src"
+                }
+            ]
+        }
+    </script>
+    <script src="../libs/dojo/dojo.js"></script>
+    <script>
+        window.addEventListener("orientationchange", function() {
+            window.location.reload();
+        }, false);
+        require(["dojox-app/main", "nba-player-stats/widgets/helpUtils",'dojo/json', "dojo/text!nba-player-stats/appConfig.json", "dojo/has", "dojo/domReady!"],
+                function(Application, helpUtils, json, config, has){
+                    has.add("html5history", !has("ie") || has("ie") > 9);
+                    // startup the application
+                    helpUtils.getJsonData(helpUtils.getRootIndex()).then(function (response) {
+                        helpUtils.addInCache(helpUtils.getRootIndex(), response);
+                        helpUtils._parseData(response);
+                        helpUtils.getJsonData(helpUtils.getRootIndexPlayoff()).then(function (response) {
+                            helpUtils.addInCache(helpUtils.getRootIndexPlayoff(), response);
+                            helpUtils._parseDataPlayoffs(response);
+                            helpUtils.getJsonData(helpUtils.getRookieIndex()).then(function (response) {
+                                helpUtils.addInCache(helpUtils.getRookieIndex(), response);
+                                helpUtils.getJsonData(helpUtils.getRookieIndexPlayoff()).then(function (response) {
+                                    helpUtils.addInCache(helpUtils.getRookieIndexPlayoff(), response);
+                                    document.getElementById('frontDiv').style.backgroundColor = 'white';
+                                    Application(json.parse(config));
+                                });
+
+                            });
+                        });
+                    });
+                });
+    </script>
+</body>
+</html>

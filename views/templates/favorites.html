@@ -1,0 +1,11 @@
+<div data-dojo-type="dojox/mobile/View" >
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="favoritesHeading" class="headerClass">${nls.favoritesListHeader}
+        <div style="float:left">
+            <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none', back:true " class="fa fa-arrow-left fa-lg backBtnClass"></span>
+        </div>
+    </h1>
+    <div data-dojo-type="dojox/mobile/ScrollableView">
+        <div data-dojo-attach-point="favorites_list"  data-dojo-type="dojox/mobile/EdgeToEdgeList">
+        </div>
+    </div>
+</div>
