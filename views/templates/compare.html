@@ -1,0 +1,34 @@
+<div data-dojo-type="dojox/mobile/View">
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="compareHeading" class="headerClass">
+        <div style="float:left">
+            <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton"
+                  data-dojo-props="transitionDir:'-1', transition:'none', back:true "
+                  class="fa fa-arrow-left fa-lg backBtnClass"></span>
+        </div>
+    </h1>
+    <br>
+
+    <div>
+        <span class="infoClass" style="margin: 5px;">Select Player 1:</span>
+        <br>
+        <br>
+        <div data-dojo-attach-point="spin1" data-dojo-type="dojox/mobile/SpinWheel">
+        </div>
+        <br>
+    </div>
+    <div>
+        <span class="infoClass" style="margin: 5px;">Select Player 2:</span>
+        <br>
+        <br>
+        <div>
+            <div data-dojo-attach-point="spin2" data-dojo-type="dojox/mobile/SpinWheel">
+            </div>
+        </div>
+        <br>
+    </div>
+    <div>
+    <center><button data-dojo-attach-point="compareButton" data-dojo-type="dojox/mobile/Button">Compare</button></center>
+    </div>
+
+
+</div>

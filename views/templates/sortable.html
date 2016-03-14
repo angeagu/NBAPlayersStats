@@ -1,0 +1,16 @@
+<div data-dojo-type="dojox/mobile/View">
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="sortableHeading" class="headerClass">
+        <div style="float:left">
+            <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none', back:true" class="fa fa-arrow-left fa-lg backBtnClass"></span>
+        </div>
+    </h1>
+
+    <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonSeason">Season</li>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonPlayoff">Playoff</li>
+    </ul>
+    <br>
+    <div data-dojo-attach-point="divSortableGrid" align="center" style="font-size: 9pt !important;height: 95%;">
+    </div>
+
+</div>
