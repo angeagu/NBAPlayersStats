@@ -1,0 +1,187 @@
+{
+  "id": "nba-player-stats",
+  "name": "NBA PLAYER STATS",
+  "description": "",
+  "dependencies": [
+    "dojo/has",
+    "dojo/store/Observable",
+    "dojox/mobile/_base",
+    "dojox/mobile/compat",
+    "dojox/mobile/TabBar",
+    "dojox/mobile/RoundRect",
+    "dojox/mobile/TabBarButton",
+    "dojox/mobile/Button",
+    "dojox/mobile/TextBox",
+    "dojox/mobile/RoundRect",
+    "dojox/mobile/Heading",
+    "dojox/mobile/EdgeToEdgeStoreList",
+    "dojox/mobile/DatePicker",
+    "dojox/mobile/Opener",
+    "dojo/store/Memory",
+    "dojo/store/JsonRest",
+    "dojox/mobile/RoundRect",
+    "dojo/dom",
+    "dojox/mobile/ProgressIndicator",
+    "dojox/mobile/ScrollablePane",
+    "dojox/mobile/ToggleButton",
+    "dojox/mobile/Accordion",
+    "dojox/mobile/ContentPane",
+    "dgrid/Grid",
+    "dojox/mobile/TabBar",
+    "dojox/mobile/TabBarButton",
+    "nba-player-stats/widgets/LocalStore",
+    "nba-player-stats/config/appConfig",
+    "dojox/mobile/FilteredListMixin",
+    "dojox/mobile/LongListMixin"
+  ],
+  "has": {
+    "html5history": {
+      "controllers": [
+        "dojox-app/controllers/History"
+      ]
+    },
+    "!html5history": {
+      "controllers": [
+        "dojox-app/controllers/HistoryHash"
+      ]
+    }
+  },
+  "modules": [
+  ],
+  "controllers": [
+    "dojox-app/controllers/Load",
+    "dojox-app/controllers/Transition",
+    "dojox-app/controllers/Layout"
+  ],
+  "views": {
+    "home": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/home.html",
+      "controller": "nba-player-stats/views/home",
+      "nls": "nba-player-stats/nls/home"
+    },
+    "players": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/players.html",
+      "controller": "nba-player-stats/views/players",
+      "nls": "nba-player-stats/nls/players"
+    },
+    "teams": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/teams.html",
+      "controller": "nba-player-stats/views/teams",
+      "nls": "nba-player-stats/nls/teams"
+    },
+    "leaders": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/leaders.html",
+      "controller": "nba-player-stats/views/leaders",
+      "nls": "nba-player-stats/nls/leaders"
+    },
+    "standings": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/standings.html",
+      "controller": "nba-player-stats/views/standings",
+      "nls": "nba-player-stats/nls/standings"
+    },
+    "rookies": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/rookies.html",
+      "controller": "nba-player-stats/views/rookies",
+      "nls": "nba-player-stats/nls/rookies"
+    },
+    "favorites": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/favorites.html",
+      "controller": "nba-player-stats/views/favorites",
+      "nls": "nba-player-stats/nls/favorites"
+    },
+    "compare": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/compare.html",
+      "controller": "nba-player-stats/views/compare",
+      "nls": "nba-player-stats/nls/compare"
+    },
+    "comparison": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/comparison.html",
+      "controller": "nba-player-stats/views/comparison",
+      "nls": "nba-player-stats/nls/comparison"
+    },
+    "sortable": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/sortable.html",
+      "controller": "nba-player-stats/views/sortable",
+      "nls": "nba-player-stats/nls/sortable"
+    },
+    "playerDetail": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/playerDetail.html",
+      "controller": "nba-player-stats/views/playerDetail",
+      "nls": "nba-player-stats/nls/playerDetail"
+    },
+    "teamStats": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/teamStats.html",
+      "controller": "nba-player-stats/views/teamStats",
+      "nls": "nba-player-stats/nls/teamStats"
+    },
+    "categories": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/categories.html",
+      "controller": "nba-player-stats/views/categories",
+      "nls": "nba-player-stats/nls/categories"
+    },
+    "compare": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/compare.html",
+      "controller": "nba-player-stats/views/compare",
+      "nls": "nba-player-stats/nls/compare"
+    },
+    "historical": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/historical.html",
+      "controller": "nba-player-stats/views/historical",
+      "nls": "nba-player-stats/nls/historical"
+    },
+    "historicalPlayerDetail": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/historicalPlayerDetail.html",
+      "controller": "nba-player-stats/views/historicalPlayerDetail",
+      "nls": "nba-player-stats/nls/historicalPlayerDetail"
+    }
+  },
+  "stores": {
+    "playerList": {
+      "type": "nba-player-stats/widgets/LocalStore",
+      "params": {
+        "store_name": "playerList",
+        "idProperty": "name"
+      }
+    },
+    "historicalPlayerList": {
+      "type": "nba-player-stats/widgets/LocalStore",
+      "params": {
+        "store_name": "historicalPlayerList",
+        "idProperty": "name"
+      }
+    },
+    "customizablePlayerList": {
+      "type": "nba-player-stats/widgets/LocalStore",
+      "params": {
+        "store_name": "customizablePlayerList",
+        "idProperty": "name"
+      }
+    },
+    "favorites": {
+      "type": "nba-player-stats/widgets/LocalStore",
+      "params": {
+        "store_name": "favorites",
+        "idProperty": "name"
+      }
+    }
+  },
+  "defaultView": "home",
+  "defaultTransition": "slide",
+  "nls": "nba-player-stats/nls/app"
+}

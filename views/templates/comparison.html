@@ -1,0 +1,184 @@
+<div data-dojo-type="dojox/mobile/ScrollableView" class="stationDetail">
+    <div data-dojo-attach-point="comparisonPlayerDetail" data-dojo-type="dojox/mobile/Heading" class="headerClass">
+        <div style="float:left">
+            <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none', back:true " class="fa fa-arrow-left fa-lg backBtnClass"></span>
+        </div>
+    </div>
+
+    <div data-dojo-attach-point="divProgress" data-dojo-type="dojox/mobile/Container">
+    </div>
+    <div data-dojo-type="dojox/mobile/View" data-dojo-attach-point="stationDetailScrollableView">
+        <div data-dojo-attach-point="detail" data-dojo-type="dojox/mobile/Container" >
+            <div data-dojo-attach-point="comparisonHeader">
+            </div>
+            <br>
+            <div data-dojo-attach-point="comparisonView" data-dojo-type="dojox/mobile/View" >
+                <table style="width: 95%;margin: 5px;">
+                <tr>
+                    <td style="width: 25%;"><div class="infoClass detailStationDataTimestamp" style="text-align: right !important;" data-dojo-attach-point="divPlayer1Name"></div></td>
+                    <td style="width: 25%;">
+                        <div class="infoClass detailStationDataTimestamp" style="text-align: center !important;">
+                            <img data-dojo-attach-point="divImgPlayer1" height="72px" width="90px">
+                            </div>
+                        </td>
+                    <td style="width: 25%;"><div class="infoClass detailStationDataTimestamp" style="text-align: right !important;" data-dojo-attach-point="divPlayer2Name"></div></td>
+                    <td style="width: 25%;">
+                        <div class="infoClass detailStationDataTimestamp" style="text-align: center !important;">
+                            <img data-dojo-attach-point="divImgPlayer2" height="72px" width="90px">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table style="width: 95%;margin: 5px;">
+                <!--Header-->
+                <tr>
+                    <td style=" width: 10%;"><div class="infoClass compareClassificationCell1"></div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2">Season</div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2">Playoff</div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2">Season</div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2">Playoff</div></td>
+                </tr>
+                <!--Games-->
+                <tr>
+                    <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">GM</div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1games"></div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1gamesPlayoff"></div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2games"></div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2gamesPlayoff"></div></td>
+                </tr>
+                <!--Minutes-->
+                <tr>
+                    <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">MIN</div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1minutes"></div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1minutesPlayoff"></div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2minutes"></div></td>
+                    <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2minutesPlayoff"></div></td>
+                </tr>
+                <!--Points-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">PTS</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1points"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1pointsPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2points"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2pointsPlayoff"></div></td>
+                    </tr>
+                <!--Rebounds-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">REB</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1rebounds"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1reboundsPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2rebounds"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2reboundsPlayoff"></div></td>
+                    </tr>
+                <!--Assists-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">AST</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1assists"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1assistsPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2assists"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2assistsPlayoff"></div></td>
+                    </tr>
+                <!--Steals-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">STL</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1steals"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1stealsPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2steals"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2stealsPlayoff"></div></td>
+                    </tr>
+                <!--Turnovers-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">TOV</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1turnovers"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1turnoversPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2turnovers"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2turnoversPlayoff"></div></td>
+                    </tr>
+                <!--Blocks-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">BLK</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1blocks"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1blocksPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2blocks"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2blocksPlayoff"></div></td>
+                    </tr>
+                <!--FG-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">FG%</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1fgpct"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1fgpctPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2fgpct"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2fgpctPlayoff"></div></td>
+                    </tr>
+                <!--F3G-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">F3%</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1f3pct"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1f3pctPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2f3pct"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2f3pctPlayoff"></div></td>
+                    </tr>
+                <!--FT-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">FT%</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1ftpct"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1ftpctPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2ftpct"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2ftpctPlayoff"></div></td>
+                    </tr>
+                <!--EFFICIENCY-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">EFF</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1Eff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1EffPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2Eff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2EffPlayoff"></div></td>
+                    </tr>
+                <!--OREB-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">OREB</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1oreb"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1orebPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2oreb"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2orebPlayoff"></div></td>
+                    </tr>
+                <!--DREB-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">DREB</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1dreb"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1drebPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2dreb"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2drebPlayoff"></div></td>
+                    </tr>
+                <!--AST/TOV-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">A/T</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1assistsPerTurnover"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1assistsPerTurnoverPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2assistsPerTurnover"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2assistsPerTurnoverPlayoff"></div></td>
+                    </tr>
+                <!--STL/TOV-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">S/T</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1stealsPerTurnover"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1stealsPerTurnoverPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2stealsPerTurnover"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2stealsPerTurnoverPlayoff"></div></td>
+                    </tr>
+                <!--FOULS-->
+                    <tr>
+                        <td style=" width: 10%;"><div class="infoClass compareClassificationCell1">FOU</div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1fouls"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer1foulsPlayoff"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2fouls"></div></td>
+                        <td style=" width: 25%;"><div class="infoClass detailClassificationCell2" data-dojo-attach-point="divPlayer2foulsPlayoff"></div></td>
+                    </tr>
+                <tr><td><br></td><td><br></td><td><br></td></tr>
+                </table><br></div>
+            </div>
+        </div>
+        <br>
+
+</div>
