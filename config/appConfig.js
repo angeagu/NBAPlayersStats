@@ -31,6 +31,12 @@ define([
                     icon: 'fa fa-star'
                 },
                 {
+                    title: 'Games',
+                    target: 'boxscores',
+                    url: 'boxscores',
+                    icon: 'fa fa-table'
+                },
+                {
                     title: 'Standings',
                     target: 'standings',
                     url: 'standings',

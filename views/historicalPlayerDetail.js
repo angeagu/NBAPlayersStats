@@ -38,17 +38,15 @@ define(["dojo/_base/declare",
                 })
 
                 if (!playerId) {
-                    this.playerId = decodeURIComponent(decodeURIComponent(this.params.playerId)); //Double decoding to avoid errors on user reloading stationDetail view.
+                    this.playerId = decodeURIComponent(decodeURIComponent(this.params.playerId)); //Double decoding to avoid errors on user reloading playerDetail view.
                 }
                 else {
                     this.playerId = playerId;
                 }
 
-                console.log('Playerid: ' + this.playerId);
-
                 var queryPromise = this.loadedStores.historicalPlayerList.query({playerid: this.playerId}).forEach(function (jugador) {
                     _t.jugador = jugador;
-                    var playerHeaderText = '<div class="stationDetailHeaderClass">' + jugador.name;
+                    var playerHeaderText = '<div class="playerDetailHeaderClass">' + jugador.name;
                     _t.playerHeader.innerHTML = playerHeaderText;
                     _t.playerHeader.style['background-color'] = _t.config.header.mainMenuHeaderColor;
                     _t.getPlayerInfo();
@@ -141,12 +139,16 @@ define(["dojo/_base/declare",
                     _t.jugador.careerFoulsPlayoff = 0;
                     _t.jugador.careerPointsPlayoff = 0;
 
+
+                    resultSetsInfo = response.resultSets[1];
+                    rowSetInfo = resultSetsInfo.rowSet[0];
+                    _t.jugador.numAllStar = rowSetInfo[6];
+
+
                     //["PLAYER_ID", "SEASON_ID", "LEAGUE_ID", "TEAM_ID", "TEAM_ABBREVIATION", "PLAYER_AGE", "GP", "GS", "MIN", "FGM", "FGA", "FG_PCT", "FG3M", "FG3A", "FG3_PCT", "FTM", "FTA", "FT_PCT", "OREB", "DREB", "REB", "AST", "STL", "BLK", "TOV", "PF", "PTS"]
                     helpUtils.getJsonData("http://stats.nba.com/stats/playercareerstats?LeagueID=00&PerMode=PerGame&PlayerID=" + _t.playerId).then(function (response) {
                         var resultSetsCareer = response.resultSets[1];
-                        console.log('ResultSetsCareer: ' + JSON.stringify(resultSetsCareer))
                         var rowSetCareer = resultSetsCareer.rowSet[0];
-                        console.log('RowSetCareer: ' + JSON.stringify(rowSetCareer))
                         if (rowSetCareer) {
                             _t.jugador.careerGames = (rowSetCareer[3] != null && rowSetCareer[3] != undefined) ? rowSetCareer[3] : 0;
                             _t.jugador.careerMinutes = (rowSetCareer[5] != null && rowSetCareer[5] != undefined) ? rowSetCareer[5] : 0;
@@ -207,13 +209,13 @@ define(["dojo/_base/declare",
                 var _t = this;
                 var content = '<table style="width: 95%;margin: 5px;">';
                 content += '<tr>';
-                content += '<td style="width: 33%;"><div class="infoClass detailStationDataTimestamp" style="text-align: right !important;">' + '#' + this.jugador.number + '<br><span>' + this.jugador.birthdate + '<br>' + this.jugador.country + '</span>' + '</div></td>'
+                content += '<td style="width: 33%;"><div class="infoClass playerStationDataTimestamp" style="text-align: right !important;">' + '#' + this.jugador.number + '<br><span>' + this.jugador.birthdate + '<br>' + this.jugador.country + '</span>' + '</div></td>'
                 content += '<td style="width: 33%;">'
-                content += '<div class="infoClass detailStationDataTimestamp" style="text-align: center !important;">'
+                content += '<div class="infoClass playerStationDataTimestamp" style="text-align: center !important;">'
                 content += '<img src="http://stats.nba.com/media/players/230x185/' + this.jugador.playerid + '.png" height="72px", width="90px"></img>';
                 content += '</div>';
                 content += '</td>';
-                content += '<td style="width: 33%;"><div class="infoClass detailStationDataTimestamp" style="text-align: left !important;"><span>' + this.jugador.position + '<br>' + this.jugador.weight + ' lbs/' + this.jugador.height + '<br>Exp:' + this.jugador.numSeasons + ' years<br>From: ' + this.jugador.from + '</span>';
+                content += '<td style="width: 33%;"><div class="infoClass detailPlayerDataTimestamp" style="text-align: left !important;"><span>' + this.jugador.position + '<br>' + this.jugador.weight + ' lbs/' + this.jugador.height + '<br>Exp:' + this.jugador.numSeasons + ' years<br>All Star: ' + this.jugador.numAllStar + ' times<br>From: ' + this.jugador.from + '</span>';
                 content += '</div>';
                 content += '</td>';
                 content += '</tr>';

@@ -37,14 +37,6 @@ html {
   margin-top: 15px;
 }
 
-.classIconLegend {
-  width: 9px;
-  height: 9px;
-  display: inline-block;
-  border: 1px solid black;
-  border-radius: 1px
-}
-
 .classIconBig {
   width: 23px;
   height: 23px;
@@ -61,18 +53,6 @@ html {
   vertical-align: top;
 }
 
-.classification-items {
-  /* margin: 10px; */
-  color: #616671 !important;
-  /*white-space: nowrap;*/
-  text-align: right;
-}
-
-.classification-title {
-  list-style: none;
-  padding: 10px;
-  font-weight: bold;
-}
 
 .ListItemRightText {
   position: relative;
@@ -107,20 +87,21 @@ html {
   text-overflow: ellipsis !important;
 }
 
+.boxscorePlayerStatsMenuItemNoFloatNormalWidth {
+  overflow: hidden !important;
+  display: block !important;
+  color: #616671 !important;
+  white-space nowrap !important;
+  text-overflow: ellipsis !important;
+  margin-top 8px !important;
+}
+
 .nbaPlayerStatsMenuItemNoFloat {
   @extend .nbaPlayerStatsMenuItemNoFloatNormalWidth
   width 50%;
 }
 
-.multicatchmentItemLabel {
-  overflow: hidden;
-  width: 90%;
-  display: inline-block !important;
-  text-overflow: ellipsis;
-  white-space nowrap !important;
-}
-
-.stationListItemLabel {
+.playerListItemLabel {
   overflow: hidden;
   width: 90%;
   display: inline-block !important;
@@ -146,30 +127,14 @@ html {
   margin-top: 8px !important;
 }
 
-.divLegend {
-  height: 45px;
-  width: 90px;
-}
 
-.tableLegend {
-  font-size: 10pt;
-  /*white-space: nowrap;*/
-  margin-right 17px;
-  margin-left 17px;
-}
-
-.stationFilterContainer {
+.playerFilterContainer {
   width: 100%;
 }
 
-.stationFilterButton {
+.playerFilterButton {
   background-color #f7f7f7 !important;
   color: black !important;
-}
-
-.docView, .htmlView {
-  height: 100%;
-  width: 100%;
 }
 
 .menuItemLabel {
@@ -179,15 +144,10 @@ html {
   float: none;
 }
 
-.stationSearchField {
+.playerSearchField {
   height: 40px !important;
   border 1px solid lightgrey !important;
 
-}
-
-.fileNotFoundClass {
-  color: lightgrey;
-  font-size: 10pt;
 }
 
 .simpleSelect {
@@ -215,7 +175,7 @@ html {
   color: #0C68A8 !important;
 }
 
-.stationDetailHeaderClass {
+.playerDetailHeaderClass {
   text-align: center !important;
   color: white;
   background-color: #0C68A8;
@@ -227,26 +187,11 @@ html {
   font-weight: bold;
 }
 
-.detailStationDataTimestamp {
+.detailPlayerDataTimestamp {
   font-size: 10pt;
   display: inline-block;
 }
 
-.observationsLegend {
-  display: inline-table;
-  //margin-right: 15% !important;
-  width 90% !important;
-}
-
-.observationsTableLegend {
-  width 100% !important;
-  font-size: 12pt;
-  //margin-right: 40px !important;
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
-  line-height normal;
-  border-spacing: 7px;
-}
 
 .detailValueCell {
   text-align: left !important;
@@ -312,4 +257,17 @@ html {
 
 .divLogo {
   background-color: #eeeeee
+}
+
+.boxscoreDatePicker {
+  width 95%;
+}
+
+.boxscoreHeader {
+  color: #E41A4C;
+  font-weight bold;
+  width 100%;
+  margin-left auto;
+  margin-right auto;
+  font-size 16pt;
 }

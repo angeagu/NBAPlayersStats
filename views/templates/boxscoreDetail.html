@@ -1,13 +1,12 @@
 <div data-dojo-type="dojox/mobile/View" >
-    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="teamSearchHeading" class="headerClass">
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="boxscoreDetailHeading" class="headerClass">
         <div style="float:left">
             <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none', back:true " class="fa fa-arrow-left fa-lg backBtnClass"></span>
         </div>
     </h1>
 
-    <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-attach-point="searchScrollableView">
-        <ul data-dojo-attach-point="teamList" class="playerSearchField">
-        </ul>
+    <div data-dojo-type="dojox/mobile/View">
+        <div data-dojo-attach-point="divBoxscore"></div>
     </div>
 
 </div>

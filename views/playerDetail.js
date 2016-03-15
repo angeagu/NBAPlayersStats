@@ -34,15 +34,15 @@ define(["dojo/_base/declare",
                 if (this.tabButtonCareerHandler) {
                     this.tabButtonCareerHandler.remove();
                 }
-                this.tabButtonSeasonHandler = on(this.tabButtonSeason,'click',function(evt) {
+                this.tabButtonSeasonHandler = on(this.tabButtonSeason, 'click', function (evt) {
                     _t.createStatsPane();
                 })
-                this.tabButtonCareerHandler = on(this.tabButtonCareer,'click',function(evt) {
+                this.tabButtonCareerHandler = on(this.tabButtonCareer, 'click', function (evt) {
                     _t.getPlayerCareerInfo();
                 })
 
                 if (!playerId) {
-                    this.playerId = decodeURIComponent(decodeURIComponent(this.params.playerId)); //Double decoding to avoid errors on user reloading stationDetail view.
+                    this.playerId = decodeURIComponent(decodeURIComponent(this.params.playerId)); //Double decoding to avoid errors on user reloading playerDetail view.
                 }
                 else {
                     this.playerId = playerId;
@@ -51,7 +51,7 @@ define(["dojo/_base/declare",
                 console.log('Load Player Data')
                 this.loadedStores.playerList.query({playerid: this.playerId}).forEach(function (jugador) {
                     _t.jugador = jugador;
-                    var playerHeaderText = '<div class="stationDetailHeaderClass">' + jugador.name;
+                    var playerHeaderText = '<div class="playerDetailHeaderClass">' + jugador.name;
                     _t.playerHeader.innerHTML = playerHeaderText;
                     _t.playerHeader.style['background-color'] = _t.config.header.mainMenuHeaderColor;
                     _t.getPlayerInfo();
@@ -71,7 +71,7 @@ define(["dojo/_base/declare",
 
                 this.headingPlayerDetail.domNode.style.backgroundColor = this.config.header.headerColor;
                 this.headingPlayerDetail.labelNode.style.display = 'inline';
-                this.headingPlayerDetail.labelNode.innerHTML='<span class="nbaPlayerStatsHeaderIcon"></span>&nbsp; Player Stats';
+                this.headingPlayerDetail.labelNode.innerHTML = '<span class="nbaPlayerStatsHeaderIcon"></span>&nbsp; Player Stats';
             },
 
             loadProgressIndicator: function () {
@@ -109,17 +109,17 @@ define(["dojo/_base/declare",
                 });
             },
 
-            createPlayerViewHeader: function() {
+            createPlayerViewHeader: function () {
                 var _t = this;
                 var content = '<table style="width: 95%;margin: 5px;">';
                 content += '<tr>';
-                content += '<td style="width: 33%;"><div class="infoClass detailStationDataTimestamp" style="text-align: right !important;">' + '#' + this.jugador.number + '<br><span>' + this.jugador.team + '<br>' + this.jugador.birthdate + '<br>' + this.jugador.country + '</span>' + '</div></td>'
+                content += '<td style="width: 33%;"><div class="infoClass playerStationDataTimestamp" style="text-align: right !important;">' + '#' + this.jugador.number + '<br><span>' + this.jugador.team + '<br>' + this.jugador.birthdate + '<br>' + this.jugador.country + '</span>' + '</div></td>'
                 content += '<td style="width: 33%;">'
-                content += '<div class="infoClass detailStationDataTimestamp" style="text-align: center !important;">'
+                content += '<div class="infoClass playerStationDataTimestamp" style="text-align: center !important;">'
                 content += '<img src="http://stats.nba.com/media/players/230x185/' + this.jugador.playerid + '.png" height="72px", width="90px"></img>';
                 content += '</div>';
                 content += '</td>';
-                content += '<td style="width: 33%;"><div class="infoClass detailStationDataTimestamp" style="text-align: left !important;"><span>' + this.jugador.position + '<br>' + this.jugador.weight + ' lbs/' + this.jugador.height + '<br>Exp:' + this.jugador.numSeasons + ' years<br>From: ' + this.jugador.from + '</span>';
+                content += '<td style="width: 33%;"><div class="infoClass detailPlayerDataTimestamp" style="text-align: left !important;"><span>' + this.jugador.position + '<br>' + this.jugador.weight + ' lbs/' + this.jugador.height + '<br>Exp:' + this.jugador.numSeasons + ' years<br>From: ' + this.jugador.from + '</span>';
                 content += '</div>';
                 content += '</td>';
                 content += '</tr>';
@@ -267,9 +267,9 @@ define(["dojo/_base/declare",
                 _t.playerView.innerHTML = content;
             },
 
-            getPlayerCareerInfo: function() {
+            getPlayerCareerInfo: function () {
                 var _t = this;
-                helpUtils.getJsonData("http://stats.nba.com/stats/playercareerstats?LeagueID=00&PerMode=PerGame&PlayerID="+this.playerId).then(function (response) {
+                helpUtils.getJsonData("http://stats.nba.com/stats/playercareerstats?LeagueID=00&PerMode=PerGame&PlayerID=" + this.playerId).then(function (response) {
                     var resultSets = response.resultSets[0];
                     console.log('ResultSets: ' + JSON.stringify(resultSets));
                     var rowSets = resultSets.rowSet;
@@ -279,29 +279,96 @@ define(["dojo/_base/declare",
                     var content = '<table style="width: 100%; margin: 5px; font-size: 8pt;">';
                     content += '<tr><th colspan="13" style="font-size: 12pt">Regular Season</th></tr>';
                     content += '<tr style="font-weight: bold;"><td>Season</td><td>Team</td><td>G</td><td>Min</td><td>Pt</td><td>FG%</td><td>F3%</td><td>FT%</td><td>Reb</td><td>Ast</td><td>Blk</td><td>Stl</td><td>Tov</td>';
-                    content+='</tr>';
-                    array.forEach(rowSets,function(rowSet) {
-                        content += '<tr><td>'+rowSet[1]+'</td><td>'+rowSet[4]+'</td><td>'+rowSet[6]+'</td><td>'+rowSet[8]+'</td><td>'+rowSet[26]+'</td><td>'+rowSet[11]+'</td><td>'+rowSet[14]+'</td><td>'+rowSet[17]+'</td><td>'+rowSet[20]+'</td><td>'+rowSet[21]+'</td><td>'+rowSet[23]+'</td><td>'+rowSet[22]+'</td><td>'+rowSet[24]+'</td></tr>';
+                    content += '</tr>';
+                    array.forEach(rowSets, function (rowSet) {
+                        content += '<tr><td>' + rowSet[1] + '</td><td>' + rowSet[4] + '</td><td>' + rowSet[6] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[26] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td><td>' + rowSet[22] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[24] + '</td></tr>';
                     })
-                    content+='</table><br>'
 
-                    helpUtils.getJsonData("http://stats.nba.com/stats/playercareerstats?LeagueID=00&PerMode=PerGame&PlayerID=" + _t.playerId).then(function (response) {
-                        var resultSets = response.resultSets[2];
+                    //Career Season Totals
+                    resultSets = response.resultSets[1];
+                    var rowSet = resultSets.rowSet[0];
+                    content += '<tr style="font-weight: bold;"><td>Totals</td><td>&nbsp;</td><td>' + rowSet[3] + '</td><td>' + rowSet[5] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[18] + '</td><td>' + rowSet[19] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td></tr>';
+                    content += '</table><br>'
+
+                    var resultSets = response.resultSets[2];
+                    var rowSets = resultSets.rowSet;
+
+                    rowSets = rowSets.reverse();
+                    content += '<table style="width: 100%; margin: 5px; font-size: 8pt;">';
+                    content += '<tr><th colspan="13" style="font-size: 12pt">Playoffs</th></tr>';
+                    content += '<tr style="font-weight: bold;"><td>Season</td><td>Team</td><td>G</td><td>Min</td><td>Pt</td><td>FG%</td><td>F3%</td><td>FT%</td><td>Reb</td><td>Ast</td><td>Blk</td><td>Stl</td><td>Tov</td>';
+                    content += '</tr>';
+                    array.forEach(rowSets, function (rowSet) {
+                        content += '<tr><td>' + rowSet[1] + '</td><td>' + rowSet[4] + '</td><td>' + rowSet[6] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[26] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[22] + '</td><td>' + rowSet[24] + '</td></tr>';
+                    })
+
+                    //Career Playoff Totals
+                    if (response.resultSets[3]) {
+                        resultSets = response.resultSets[3];
+                        var rowSet = resultSets.rowSet[0];
+                        if (rowSet && rowSet.length > 0) {
+                            content += '<tr style="font-weight: bold;"><td>Totals</td><td>&nbsp;</td><td>' + rowSet[3] + '</td><td>' + rowSet[5] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[18] + '</td><td>' + rowSet[19] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td></tr>';
+
+                        }
+                    }
+                    content += '</table><br>'
+
+                    //ALL STAR
+                    if (response.resultSets[4]) {
+                        resultSets = response.resultSets[4];
                         var rowSets = resultSets.rowSet;
-
                         rowSets = rowSets.reverse();
-                        content += '<table style="width: 100%; margin: 5px; font-size: 8pt;">';
-                        content += '<tr><th colspan="13" style="font-size: 12pt">Playoffs</th></tr>';
-                        content += '<tr style="font-weight: bold;"><td>Season</td><td>Team</td><td>G</td><td>Min</td><td>Pt</td><td>FG%</td><td>F3%</td><td>FT%</td><td>Reb</td><td>Ast</td><td>Blk</td><td>Stl</td><td>Tov</td>';
-                        content += '</tr>';
-                        array.forEach(rowSets, function (rowSet) {
-                            content += '<tr><td>' + rowSet[1] + '</td><td>' + rowSet[4] + '</td><td>' + rowSet[6] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[26] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[22] + '</td><td>' + rowSet[24] + '</td></tr>';
-                        })
-                        content += '</table><br>'
+                        if (rowSets && rowSets.length > 0) {
+                            content += '<table style="width: 100%; margin: 5px; font-size: 8pt;">';
+                            content += '<tr><th colspan="13" style="font-size: 12pt">ALL STAR</th></tr>';
+                            content += '<tr style="font-weight: bold;"><td>Season</td><td>Team</td><td>G</td><td>Min</td><td>Pt</td><td>FG%</td><td>F3%</td><td>FT%</td><td>Reb</td><td>Ast</td><td>Blk</td><td>Stl</td><td>Tov</td>';
+                            content += '</tr>';
+                            array.forEach(rowSets, function (rowSet) {
+                                content += '<tr><td>' + rowSet[1] + '</td><td>' + rowSet[4] + '</td><td>' + rowSet[6] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[26] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td><td>' + rowSet[22] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[24] + '</td></tr>';
+                            })
 
-                        _t.playerView.innerHTML = content;
-                    });
+                            //All Star Totals
+                            if (response.resultSets[5]) {
+                                resultSets = response.resultSets[5];
+                                var rowSet = resultSets.rowSet[0];
+                                if (rowSet && rowSet.length > 0)
+                                    content += '<tr style="font-weight: bold;"><td>Totals</td><td>&nbsp;</td><td>' + rowSet[3] + '</td><td>' + rowSet[5] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[18] + '</td><td>' + rowSet[19] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td></tr>';
+                                content += '</table><br>'
+                            }
 
+
+                        }
+                    }
+
+                    //COLLEGE
+                    if (response.resultSets[6]) {
+                        resultSets = response.resultSets[6];
+                        var rowSets = resultSets.rowSet;
+                        rowSets = rowSets.reverse();
+                        if (rowSets && rowSets.length > 0) {
+                            content += '<table style="width: 100%; margin: 5px; font-size: 8pt;">';
+                            content += '<tr><th colspan="13" style="font-size: 12pt">College</th></tr>';
+                            content += '<tr style="font-weight: bold;"><td>Season</td><td>Team</td><td>G</td><td>Min</td><td>Pt</td><td>FG%</td><td>F3%</td><td>FT%</td><td>Reb</td><td>Ast</td><td>Blk</td><td>Stl</td><td>Tov</td>';
+                            content += '</tr>';
+                            array.forEach(rowSets, function (rowSet) {
+                                content += '<tr><td>' + rowSet[1] + '</td><td>' + rowSet[4] + '</td><td>' + rowSet[6] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[26] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td><td>' + rowSet[22] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[24] + '</td></tr>';
+                            })
+
+                            //All Star Totals
+                            if (response.resultSets[7]) {
+                                resultSets = response.resultSets[7];
+                                var rowSet = resultSets.rowSet[0];
+                                if (rowSet && rowSet.length > 0)
+                                    content += '<tr style="font-weight: bold;"><td>Totals</td><td>&nbsp;</td><td>' + rowSet[3] + '</td><td>' + rowSet[5] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[11] + '</td><td>' + rowSet[14] + '</td><td>' + rowSet[17] + '</td><td>' + rowSet[18] + '</td><td>' + rowSet[19] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td></tr>';
+                                content += '</table><br>'
+                            }
+
+
+                        }
+                    }
+
+
+                    _t.playerView.innerHTML = content;
                 });
             },
 

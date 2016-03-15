@@ -88,7 +88,7 @@ define(["dojo/_base/declare",
                 this.storeList.getFilterBox().set("queryExpr", "*${0}*");
                 //Place FilterBox
                 var filterBox = this.storeList.getFilterBox();
-                domClass.add(filterBox.domNode, "stationSearchField")
+                domClass.add(filterBox.domNode, "playerSearchField")
                 this.blankDiv = domConstruct.create("div", {});
                 this.blankDiv.innerHTML = '<br>'
                 domConstruct.place(this.blankDiv, filterBox.domNode, "after");
