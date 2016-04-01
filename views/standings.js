@@ -22,21 +22,24 @@ define(["dojo/_base/declare",
                 this.teams = helpUtils.getTeams();
                 this.getTeamsInfo();
                 this.setHeader();
-                this.closeProgressIndicator();
                 this.tabButtonEastHandler = on(this.tabButtonEast,'click',function(evt) {
+                    _t.loadProgressIndicator();
                     _t.conference = 'East';
                     _t.getTeamsInfo();
                 })
                 this.tabButtonWestHandler = on(this.tabButtonWest,'click',function(evt) {
+                    _t.loadProgressIndicator();
                     _t.conference = 'West';
                     _t.getTeamsInfo();
                 })
 
                 this.tabButtonCompleteHandler =  on(this.tabButtonComplete,'click',function(evt) {
+                    _t.loadProgressIndicator();
                     _t.conference = 'Complete';
                     _t.getTeamsInfo();
                 })
                 this.tabButtonPlayoffPictureHandler = on(this.tabButtonPlayoffPicture,'click',function(evt) {
+                    _t.loadProgressIndicator();
                     _t.showPlayoffPicture();
                 })
 
@@ -55,10 +58,12 @@ define(["dojo/_base/declare",
                 this.prog = ProgressIndicator.getInstance();
                 this.divProgress.addChild(this.prog);
                 this.prog.start();
+                this.standingsView.style.opacity = '0.5';
             },
 
             closeProgressIndicator: function () {
                 this.prog.stop();
+                this.standingsView.style.opacity = '1';
             },
 
             getTeamsInfo: function () {
@@ -139,6 +144,8 @@ define(["dojo/_base/declare",
                         });
                     });
 
+                    _t.closeProgressIndicator();
+
                 });
 
             },
@@ -205,6 +212,7 @@ define(["dojo/_base/declare",
 
                     content += '</table>';
                     _t.standingsView.innerHTML = content;
+                    _t.closeProgressIndicator();
                 });
 
 

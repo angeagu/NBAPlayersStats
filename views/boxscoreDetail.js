@@ -3,23 +3,35 @@ define(["dojo/_base/declare",
         "dojo/query",
         "dojo/on",
         "dojox/mobile/View",
+        "dojox/mobile/ProgressIndicator",
         "nba-player-stats/config/appConfig",
         "nba-player-stats/widgets/helpUtils",
         "dojo/i18n!nba-player-stats/nls/boxscoreDetail"
     ],
-    function (declare, array, query, on, View, appConfig, helpUtils, nls) {
+    function (declare, array, query, on, View, ProgressIndicator, appConfig, helpUtils, nls) {
 
         return {
 
             beforeActivate: function () {
-                console.log('BoxscoreDetailBeforeActivate');
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.gameId = this.params.gameId;
-                console.log('Game ID: ' + this.gameId);
                 this.setHeader();
+                this.loadProgressIndicator();
                 this.createBoxscore();
 
+            },
+
+            loadProgressIndicator: function () {
+                this.prog = ProgressIndicator.getInstance();
+                this.divProgress.addChild(this.prog);
+                this.prog.start();
+                this.divContainer.domNode.style.opacity = '0.5';
+            },
+
+            closeProgressIndicator: function () {
+                this.prog.stop();
+                this.divContainer.domNode.style.opacity = '1';
             },
 
             createBoxscore: function () {
@@ -30,10 +42,6 @@ define(["dojo/_base/declare",
                         var resultSets = response.resultSets;
 
                         //Header
-
-                        //{"name":"LineScore","headers":["GAME_DATE_EST","GAME_SEQUENCE","GAME_ID","TEAM_ID","TEAM_ABBREVIATION","TEAM_CITY_NAME","TEAM_WINS_LOSSES","PTS_QTR1","PTS_QTR2","PTS_QTR3","PTS_QTR4","PTS_OT1","PTS_OT2","PTS_OT3","PTS_OT4","PTS_OT5","PTS_OT6","PTS_OT7","PTS_OT8","PTS_OT9","PTS_OT10","PTS"],
-                        // "rowSet":[["2016-03-14T00:00:00",5,"0021500992",1610612745,"HOU","Houston","34-33",34,31,32,33,0,0,0,0,0,0,0,0,0,0,130],
-                        // ["2016-03-14T00:00:00",5,"0021500992",1610612763,"MEM","Memphis","39-28",22,19,15,25,0,0,0,0,0,0,0,0,0,0,81]]}
                         var lineScore = resultSets.filter(function(resultSet) {
                             return resultSet.name == 'LineScore';
                         });
@@ -121,6 +129,8 @@ define(["dojo/_base/declare",
                                 _t.app.transitionToView(event.target, transOpts, event);
                             });
                         });
+
+                        _t.closeProgressIndicator();
                     });
 
 

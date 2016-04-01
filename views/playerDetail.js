@@ -35,9 +35,11 @@ define(["dojo/_base/declare",
                     this.tabButtonCareerHandler.remove();
                 }
                 this.tabButtonSeasonHandler = on(this.tabButtonSeason, 'click', function (evt) {
+                    _t.loadProgressIndicator();
                     _t.createStatsPane();
                 })
                 this.tabButtonCareerHandler = on(this.tabButtonCareer, 'click', function (evt) {
+                    _t.loadProgressIndicator();
                     _t.getPlayerCareerInfo();
                 })
 
@@ -265,6 +267,8 @@ define(["dojo/_base/declare",
                 content += '</table><br></div>';
 
                 _t.playerView.innerHTML = content;
+
+                _t.closeProgressIndicator();
             },
 
             getPlayerCareerInfo: function () {
@@ -369,6 +373,7 @@ define(["dojo/_base/declare",
 
 
                     _t.playerView.innerHTML = content;
+                    _t.closeProgressIndicator();
                 });
             },
 
@@ -397,9 +402,9 @@ define(["dojo/_base/declare",
                 var _t = this;
                 var item = this.loadedStores.customizablePlayerList.query({playerId: _t.playerId})[0];
                 if (item && item.hasOwnProperty('id')) {
-                    this.next_btn.set('className', "fa fa-caret-up fa-2x");
+                    this.next_btn.set('className', "fa fa-caret-down fa-2x");
                     this.next_btn.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
-                    this.prev_btn.set('className', "fa fa-caret-down fa-2x");
+                    this.prev_btn.set('className', "fa fa-caret-up fa-2x");
                     this.prev_btn.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
 
                     var itemId = item.id;

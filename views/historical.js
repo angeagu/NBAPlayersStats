@@ -9,13 +9,12 @@ define(["dojo/_base/declare",
         "dojox/mobile/LongListMixin",
         'dojox/mobile/ScrollableView',
         'dojox/mobile/ProgressIndicator',
-        'dojox/widget/Standby',
         "dojo/store/Memory",
         "dojo/i18n!nba-player-stats/nls/players",
         "nba-player-stats/widgets/helpUtils",
         "nba-player-stats/config/appConfig"
     ],
-    function (declare, array, domClass, domConstruct, query, ListItem, EdgeToEdgeStoreList, FilteredListMixin, LongListMixin, ScrollableView, ProgressIndicator, Standby, Memory, nls, helpUtils, appConfig) {
+    function (declare, array, domClass, domConstruct, query, ListItem, EdgeToEdgeStoreList, FilteredListMixin, LongListMixin, ScrollableView, ProgressIndicator, Memory, nls, helpUtils, appConfig) {
 
         return {
 
@@ -31,8 +30,7 @@ define(["dojo/_base/declare",
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.setHeader();
-                this.standby.target = this.container.domNode;
-                this.standby.show();
+                this.loadProgressIndicator();
                 helpUtils.getJsonData(helpUtils.getAllPlayersIndex()).then(function (response) {
                     helpUtils.addInCache(helpUtils.getAllPlayersIndex(), response);
                     _t.playerArray = helpUtils.getHistoricalData(response);
@@ -52,6 +50,18 @@ define(["dojo/_base/declare",
                 }
 
                 domConstruct.destroy(_t.blankDiv);
+            },
+
+            loadProgressIndicator: function () {
+                this.prog = ProgressIndicator.getInstance();
+                this.divProgress.addChild(this.prog);
+                this.prog.start();
+                this.container.domNode.style.opacity = '0.5';
+            },
+
+            closeProgressIndicator: function () {
+                this.prog.stop();
+                this.container.domNode.style.opacity = '1';
             },
 
             setHeader: function () {
@@ -85,7 +95,7 @@ define(["dojo/_base/declare",
                                 domClass.add(children.domNode, "nbaPlayerStatsSearchMenuItem");
                             });
                         }
-                        _t.standby.hide();
+                        _t.closeProgressIndicator();
 
                     },500);
                 }
@@ -101,7 +111,7 @@ define(["dojo/_base/declare",
                                 domClass.add(children.domNode, "nbaPlayerStatsSearchMenuItem");
                             });
                         }
-                        _t.standby.hide();
+                        _t.closeProgressIndicator();
                     },500);
                 }
                 this.storeList.startup();
@@ -120,8 +130,7 @@ define(["dojo/_base/declare",
                     idx = idx + 1;
                 });
                 this.loadedStores.customizablePlayerList.setData(customizablePlayerListData);
-
-                console.log('End of Create list')
+                
             }
 
         };

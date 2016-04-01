@@ -191,6 +191,13 @@
         "store_name": "favorites",
         "idProperty": "name"
       }
+    },
+    "teamList": {
+      "type": "nba-player-stats/widgets/LocalStore",
+      "params": {
+        "store_name": "teamList",
+        "idProperty": "acronym"
+      }
     }
   },
   "defaultView": "home",
