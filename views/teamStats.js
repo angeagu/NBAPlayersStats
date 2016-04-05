@@ -3,14 +3,29 @@ define(["dojo/_base/declare",
         "dojo/hash",
         "dojo/query",
         "dojo/i18n!nba-player-stats/nls/teamStats",
-        "nba-player-stats/config/appConfig"
+        "nba-player-stats/config/appConfig",
+        'dojo/domReady!'
     ],
     function (declare, on, hash, query, nls, appConfig) {
 
         return {
 
             beforeActivate: function () {
-                this.showTeamStats();
+                var _t = this;
+                this.loadTeamStats();
+                if (this.prevHandler) {
+                    this.prevHandler.remove();
+                }
+                if (this.nextHandler) {
+                    this.nextHandler.remove();
+                }
+                this.prevHandler = this.prev_team.on('click', function () {
+                    _t.loadTeamStats(_t.previousTeam.acronym, _t.previousTeam.teamName);
+
+                });
+                this.nextHandler = this.next_team.on('click', function () {
+                    _t.loadTeamStats(_t.nextTeam.acronym,_t.nextTeam.teamName);
+                });
 
             },
 
@@ -22,12 +37,13 @@ define(["dojo/_base/declare",
 
             setHeader: function () {
                 var icon;
-                this.teamStatsHeading.set('label', '<span class="' + icon + ' nbaPlayerStatsHeaderIcon"></span>&nbsp;' + this.teamName);
                 this.teamStatsHeading.domNode.style.backgroundColor = this.config.header.headerColor;
+                this.teamStatsHeading.labelNode.style.display = 'inline';
+                this.teamStatsHeading.labelNode.innerHTML = '<span class="nbaPlayerStatsHeaderIcon"></span>&nbsp; ' + this.teamName;
                 this.divLogo.innerHTML = '<div style="text-align: center;"><br><img src="' + require.toUrl("nba-player-stats") + '/img/' + this.acronym + '.gif"></img></div>';
             },
 
-            showTeamStats: function (acronym,teamName) {
+            loadTeamStats: function (acronym,teamName) {
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 if (acronym) {
@@ -43,10 +59,7 @@ define(["dojo/_base/declare",
                     this.teamName = decodeURIComponent(this.params.teamName);
                 }
 
-                console.log('Team Name: ' + this.teamName);
-
                 this.setHeader();
-                this.getPreviousAndNextTeams();
 
                 this.tabButtonSeason.set('selected', true);
                 if (this.tabButtonSeasonHandler) {
@@ -56,12 +69,20 @@ define(["dojo/_base/declare",
                     this.tabButtonPlayoffHandler.remove();
                 }
                 this.tabButtonSeasonHandler = on(this.tabButtonSeason,'click',function(evt) {
-                    _t.showTeamStats();
+                    _t.showTeamStatsSeason();
                 })
                 this.tabButtonPlayoffHandler = on(this.tabButtonPlayoff,'click',function(evt) {
                     _t.showTeamStatsPlayoff();
                 })
 
+
+                this.showTeamStatsSeason();
+                this.getPreviousAndNextTeams();
+
+            },
+
+            showTeamStatsSeason: function() {
+                var _t = this;
                 var text = '<table id="teamStatsTable" style="width: 95%; margin: 5px;">';
                 text += '<tr style="font-weight: bold;"><td>Name</td><td>GM</td><td>Mins.</td><td>Points</td><td>Rebs.</td><td>Assists</td><td>Blocks</td><td>Steals</td></tr>';
                 var playerData = [];
@@ -128,7 +149,6 @@ define(["dojo/_base/declare",
                         _t.app.transitionToView(event.target, transOpts, event);
                     });
                 });
-
             },
 
             showTeamStatsPlayoff: function () {
@@ -203,12 +223,13 @@ define(["dojo/_base/declare",
 
             getPreviousAndNextTeams: function () {
                 var _t = this;
-                var item = this.loadedStores.teamList.query({acronym: _t.acronym})[0];
+                var teams = this.loadedStores.teamList.query();
+                var item = this.loadedStores.teamList.query({acronym: this.acronym})[0];
                 if (item && item.hasOwnProperty('id')) {
-                    this.next_btn.set('className', "fa fa-caret-down fa-2x");
-                    this.next_btn.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
-                    this.prev_btn.set('className', "fa fa-caret-up fa-2x");
-                    this.prev_btn.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
+                    this.next_team.set('className', "fa fa-caret-down fa-2x");
+                    this.next_team.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
+                    this.prev_team.set('className', "fa fa-caret-up fa-2x");
+                    this.prev_team.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
 
                     var itemId = item.id;
                     var nextTeam = this.loadedStores.teamList.query({id: itemId + 1})
@@ -222,27 +243,15 @@ define(["dojo/_base/declare",
                     var previousTeam = this.loadedStores.teamList.query({id: itemId - 1})
                     if (previousTeam.length > 0) {
                         this.previousTeam = previousTeam[0];
-
                     }
                     else {
-                        var lastIndex = this.loadedStores.teamList.query().length;
-                        this.previousTeam = this.loadedStores.teamList.query({id: lastIndex - 1})[0]
+                        var lastIndex = this.loadedStores.teamList.query().length-1;
+                        this.previousTeam = this.loadedStores.teamList.query({id: lastIndex})[0]
                     }
 
-                    this.prev_btn.onClick = function () {
-                        if (_t.previousTeam) {
-                            _t.showTeamStats(_t.previousTeam.acronym,_t.previousTeam.teamName);
-                        }
-                    }
-                    this.next_btn.onClick = function () {
-                        if (_t.nextTeam) {
-                            _t.showTeamStats(_t.nextTeam.acronym,_t.nextTeam.teamName);
-                        }
-
-                    }
                 }
 
-            },
+            }
 
         };
     }

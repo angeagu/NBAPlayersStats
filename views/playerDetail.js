@@ -6,12 +6,13 @@ define(["dojo/_base/declare",
         "dojox/gesture/swipe",
         'dojo/dom-geometry',
         'dojo/on',
+        'dojo/window',
         "nba-player-stats/config/appConfig",
         "nba-player-stats/widgets/helpUtils",
         'dojo/i18n!nba-player-stats/nls/playerDetail',
         'dojo/domReady!'
     ],
-    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, on, appConfig, helpUtils, nls) {
+    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, on, winRef, appConfig, helpUtils, nls) {
 
         return {
             beforeActivate: function () {
@@ -64,8 +65,8 @@ define(["dojo/_base/declare",
                 this.getPreviousAndNextPlayers();
                 this.checkFavorite();
                 this.setEventListeners();
+                winRef.scrollIntoView(this.headingPlayerDetail.domNode);
                 this.closeProgressIndicator();
-
 
             },
 
@@ -267,8 +268,8 @@ define(["dojo/_base/declare",
                 content += '</table><br></div>';
 
                 _t.playerView.innerHTML = content;
-
                 _t.closeProgressIndicator();
+
             },
 
             getPlayerCareerInfo: function () {
@@ -374,6 +375,7 @@ define(["dojo/_base/declare",
 
                     _t.playerView.innerHTML = content;
                     _t.closeProgressIndicator();
+
                 });
             },
 
@@ -450,10 +452,10 @@ define(["dojo/_base/declare",
                     this.swipeEndHandler.remove();
                 }
 
-                this.swipeHandler = on(this.stationDetailScrollableView, swipe, function (e) {
+                this.swipeHandler = on(this.playerDetailScrollableView, swipe, function (e) {
                 });
 
-                this.swipeEndHandler = on(this.stationDetailScrollableView, swipe.end, function (e) {
+                this.swipeEndHandler = on(this.playerDetailScrollableView, swipe.end, function (e) {
                     if (e.time > 250) {
                         //Minimum duration of swipping --> 200msec
                         //if (e.dy < 0) {

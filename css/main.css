@@ -215,7 +215,9 @@ html {
   background-color: #eee;
 }
 .boxscoreDatePicker {
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .boxscoreHeader {
   color: #e41a4c;

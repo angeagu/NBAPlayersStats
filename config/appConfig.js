@@ -108,15 +108,15 @@ define([
                     value: "efficiency"
                 },
                 {
-                    label: "Field Goal %",
+                    label: "Field Goal Pct.",
                     value: "fg_pct"
                 },
                 {
-                    label: "3Point Field Goal %",
+                    label: "3Pt Field Goal Pct.",
                     value: "fg3_pct"
                 },
                 {
-                    label: "Free Throw %",
+                    label: "Free Throw Pct.",
                     value: "ft_pct"
                 },
                 {

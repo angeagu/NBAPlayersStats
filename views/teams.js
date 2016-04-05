@@ -103,6 +103,7 @@ define(["dojo/_base/declare",
 
                 //Add teams to store
                 var idx = 0;
+                this.loadedStores.teamList.setData([]);
                 array.forEach(this.teams,function(team) {
                     _t.loadedStores.teamList.put({
                         id: idx,
