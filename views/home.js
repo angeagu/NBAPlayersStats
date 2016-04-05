@@ -62,7 +62,7 @@ define(["dojo/_base/declare",
                 //Set Header
                 var _t = this;
                 //If no title, set image as whole header
-                this.headerTitle.innerHTML = "NBA PLAYER STATS";//nls.menu[appConfig.selectedCustomer].title;
+                this.headerTitle.innerHTML = '<span>NBA STATS</span>';//nls.menu[appConfig.selectedCustomer].title;
                 var style = {"color": _t.config.header.textColor}
                 domStyle.set(this.headerTitle, style);
 
