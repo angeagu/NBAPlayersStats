@@ -18,7 +18,7 @@ define(["dojo/_base/declare",
 
             beforeActivate: function () {
                 this.category = decodeURIComponent(this.params.category);
-                this.categoryLabel = decodeURIComponent(this.params.categoryLabel);
+                this.categoryLabel = decodeURIComponent(decodeURIComponent(this.params.categoryLabel));
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.tabButtonSeasonHandler = on(this.tabButtonSeason, 'click', function (evt) {

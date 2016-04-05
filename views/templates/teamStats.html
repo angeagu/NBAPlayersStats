@@ -1,9 +1,15 @@
-<div data-dojo-type="dojox/mobile/View" >
-    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="teamStatsHeading" class="headerClass">
+<div data-dojo-type="dojox/mobile/View">
+    <div data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="teamStatsHeading" class="headerClass">
         <div style="float:left">
             <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none', back:true " class="fa fa-arrow-left fa-lg backBtnClass"></span>
         </div>
-    </h1>
+        <div style="float:right">
+            <span>&nbsp;</span>
+            <div data-dojo-attach-point="prev_team" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none'"></div>
+            <div data-dojo-attach-point="next_team" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none'"></div>
+            <span>&nbsp;</span>
+        </div>
+    </div>
 
     <div data-dojo-attach-point="divLogo" class="divLogo"></div>
 
@@ -12,7 +18,9 @@
         <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonPlayoff">Playoff</li>
     </ul>
 
-    <div data-dojo-attach-point="divTeamStats" style="font-family: Helvetica !important; align:center; font-size: 9pt !important;">
+    <div data-dojo-type="dojox/mobile/ScrollableView">
+        <div data-dojo-attach-point="divTeamStats" style="font-family: Helvetica !important; align:center; font-size: 9pt !important;">
+        </div>
     </div>
 
 
