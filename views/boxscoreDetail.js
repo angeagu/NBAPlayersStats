@@ -17,7 +17,7 @@ define(["dojo/_base/declare",
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.gameId = this.params.gameId;
                 this.setHeader();
-                this.loadProgressIndicator();
+                this.setEventHandlers();
                 this.createBoxscore();
 
             },
@@ -34,8 +34,13 @@ define(["dojo/_base/declare",
                 this.divContainer.domNode.style.opacity = '1';
             },
 
-            createBoxscore: function () {
+            createBoxscore: function (gameId) {
                 var _t = this;
+                if (gameId) {
+                    this.gameId = gameId;
+                }
+                this.loadProgressIndicator();
+                this.divBoxscore.innerHTML="";
                 var boxscoreUrl = 'http://stats.nba.com/stats/boxscore?GameID='+this.gameId+'&RangeType=0&StartPeriod=0&EndPeriod=0&StartRange=0&EndRange=0';
                     helpUtils.getJsonData(boxscoreUrl).then(function (response) {
                         var boxscore = response;
@@ -131,6 +136,7 @@ define(["dojo/_base/declare",
                         });
 
                         _t.closeProgressIndicator();
+                        _t.getPreviousAndNextBoxscores();
                     });
 
 
@@ -166,9 +172,61 @@ define(["dojo/_base/declare",
                 return content;
             },
 
+            getPreviousAndNextBoxscores: function () {
+                var _t = this;
+                var boxscores = this.loadedStores.boxscoreList.query();
+                console.log('boxscores: ' + JSON.stringify(boxscores));
+                var item = this.loadedStores.boxscoreList.query({gameId: this.gameId})[0];
+                if (item && item.hasOwnProperty('id')) {
+                    this.next_btn.set('className', "fa fa-caret-down fa-2x");
+                    this.next_btn.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
+                    this.prev_btn.set('className', "fa fa-caret-up fa-2x");
+                    this.prev_btn.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
+
+                    var itemId = item.id;
+                    var nextBoxscore = this.loadedStores.boxscoreList.query({id: itemId + 1})
+                    if (nextBoxscore.length > 0) {
+                        this.nextBoxscore = nextBoxscore[0];
+                    }
+                    else {
+                        this.nextBoxscore = this.loadedStores.boxscoreList.query({id: 0})[0]
+                    }
+
+                    var previousBoxscore = this.loadedStores.boxscoreList.query({id: itemId - 1})
+                    if (previousBoxscore.length > 0) {
+                        this.previousBoxscore = previousBoxscore[0];
+                    }
+                    else {
+                        var lastIndex = this.loadedStores.boxscoreList.query().length-1;
+                        this.previousBoxscore = this.loadedStores.boxscoreList.query({id: lastIndex})[0]
+                    }
+
+                }
+
+            },
+
+            setEventHandlers: function() {
+                var _t = this;
+                this.prev_btn.onClick = function () {
+                    console.log('prev boxscore clicked : ' + JSON.stringify(_t.previousBoxscore))
+                    if (_t.previousBoxscore) {
+                        _t.createBoxscore(_t.previousBoxscore.gameId);
+                    }
+                }
+                this.next_btn.onClick = function () {
+                    console.log('next boxscore clicked : ' + JSON.stringify(_t.nextBoxscore))
+                    if (_t.nextBoxscore) {
+                        _t.createBoxscore(_t.nextBoxscore.gameId);
+                    }
+
+                }
+            },
+
             setHeader: function () {
                 //Set header
-                this.boxscoreDetailHeading.set('label', '<span class="fa fa-table nbaPlayerStatsHeaderIcon"></span>&nbsp;' + nls.boxscoreDetailHeading);
+                //this.boxscoreDetailHeading.set('label', '<span class="fa fa-table nbaPlayerStatsHeaderIcon"></span>&nbsp;' + nls.boxscoreDetailHeading);
+                this.boxscoreDetailHeading.labelNode.style.display = 'inline';
+                this.boxscoreDetailHeading.labelNode.innerHTML = '<span class="fa fa-table nbaPlayerStatsHeaderIcon"></span>&nbsp;' + nls.boxscoreDetailHeading;
                 this.boxscoreDetailHeading.domNode.style.backgroundColor = this.config.header.headerColor;
             },
 

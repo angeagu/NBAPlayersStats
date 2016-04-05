@@ -245,7 +245,6 @@ define(["dojo/_base/declare",
 
             getPreviousAndNextTeams: function () {
                 var _t = this;
-                var teams = this.loadedStores.teamList.query();
                 var item = this.loadedStores.teamList.query({acronym: this.acronym})[0];
                 if (item && item.hasOwnProperty('id')) {
                     this.next_team.set('className', "fa fa-caret-down fa-2x");

@@ -56,6 +56,8 @@ define(["dojo/_base/declare",
                 })
 
                 if (boxscores.length>0) {
+                    var idx=0;
+                    this.loadedStores.boxscoreList.setData([]);
                     array.forEach(boxscores, function (boxscore) {
                         var tokens = boxscore[6].split(' ');
                         var homeTeam = tokens[0];
@@ -94,7 +96,15 @@ define(["dojo/_base/declare",
 
                         _t.boxscoreList.addChild(listItem);
 
+                        //Add to boxscoreStore
+                        _t.loadedStores.boxscoreList.put({
+                            id: idx,
+                            gameId: boxscore[4]
+                        });
+                        idx = idx + 1;
+
                     })
+
                 }
                 else {
                     var listItem = new BoxscoreListItem();
