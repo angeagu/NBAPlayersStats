@@ -78,7 +78,8 @@ define(["dojo/_base/declare",
 
                 this.showTeamStatsSeason();
                 this.getPreviousAndNextTeams();
-
+                this.checkFavorite();
+                
             },
 
             showTeamStatsSeason: function() {
@@ -219,6 +220,27 @@ define(["dojo/_base/declare",
                         _t.app.transitionToView(event.target, transOpts, event);
                     });
                 });
+            },
+
+            checkFavorite: function () {
+                var _t = this;
+                if (_t.loadedStores.favorites.query({acronym: _t.acronym}).length > 0) {
+                    this.fav_btn.set('className', "fa fa-star fa-lg");
+                } else {
+                    this.fav_btn.set('className', "fa fa-star-o fa-lg");
+                }
+                this.fav_btn.set('style', "color: white;outline: none !important; vertical-align: 15%;");
+
+                this.fav_btn.onClick = function () {
+                    if (_t.loadedStores.favorites.query({acronym: _t.acronym}).length > 0) {
+                        _t.loadedStores.favorites.remove(_t.teamName);
+                        _t.fav_btn.set('className', "fa fa-star-o fa-lg");
+                    } else {
+                        _t.loadedStores.favorites.put({acronym: _t.acronym, name: _t.teamName});
+                        _t.fav_btn.set('className', "fa fa-star fa-lg");
+                    }
+                    _t.fav_btn.set('style', "color: white;outline: none !important; vertical-align: 15%;");
+                };
             },
 
             getPreviousAndNextTeams: function () {

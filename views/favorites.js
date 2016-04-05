@@ -10,7 +10,6 @@ define(["dojo/_base/declare",
     ],
     function (declare, array, domConstruct, ListItem, EdgeToEdgeStoreList, FilteredListMixin, ScrollableView, appConfig, nls) {
         var FavoritesListItem = declare(ListItem, {
-            target: "playerDetail",
             clickable: true,
             postMixInProperties: function () {
                 this.inherited(arguments);
@@ -41,10 +40,25 @@ define(["dojo/_base/declare",
                         var player_name = favorite['name'];
                         divLabel.innerHTML = player_name;
 
-                        //Set params
                         var params = {};
-                        params.playerId = encodeURIComponent(favorite['playerid']);
+                        //Set Target
+                        if (favorite.acronym) {
+                            //Target
+                            listItem.target= "teamStats",
+                            params.acronym = encodeURIComponent(favorite.acronym);
+                            params.teamName = encodeURIComponent(favorite.name);
+                            listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.acronym + '.gif';
+                        }
+                        else {
+                            //Target
+                            listItem.target= "playerDetail",
+                            //Set params
+                            params.playerId = encodeURIComponent(favorite['playerid']);
+                            listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.team + '.gif';
+
+                        }
                         listItem.transitionOptions = {params: params};
+
                         _t.favorites_list.addChild(listItem);
 
                         //Add to store
