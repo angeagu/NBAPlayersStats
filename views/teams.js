@@ -71,6 +71,7 @@ define(["dojo/_base/declare",
             },
 
             createList: function() {
+                var _t = this;
                 //Create Store for EdgeToEdgeStoreList
                 var sampleStore = new Memory({data: this.teams, idProperty: "label"});
                 if (!this.storeList) {
@@ -88,7 +89,7 @@ define(["dojo/_base/declare",
                 this.storeList.getFilterBox().set("queryExpr", "*${0}*");
                 //Place FilterBox
                 var filterBox = this.storeList.getFilterBox();
-                domClass.add(filterBox.domNode, "stationSearchField")
+                domClass.add(filterBox.domNode, "playerSearchField")
                 this.blankDiv = domConstruct.create("div", {});
                 this.blankDiv.innerHTML = '<br>'
                 domConstruct.place(this.blankDiv, filterBox.domNode, "after");
@@ -99,6 +100,18 @@ define(["dojo/_base/declare",
                         domClass.add(children.domNode, "nbaPlayerStatsSearchMenuItem");
                     });
                 }
+
+                //Add teams to store
+                var idx = 0;
+                this.loadedStores.teamList.setData([]);
+                array.forEach(this.teams,function(team) {
+                    _t.loadedStores.teamList.put({
+                        id: idx,
+                        acronym: team.acronym,
+                        teamName: team.label
+                    });
+                    idx = idx + 1;
+                })
             }
 
         };

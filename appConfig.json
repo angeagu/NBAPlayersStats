@@ -149,6 +149,18 @@
       "template": "nba-player-stats/views/templates/historicalPlayerDetail.html",
       "controller": "nba-player-stats/views/historicalPlayerDetail",
       "nls": "nba-player-stats/nls/historicalPlayerDetail"
+    },
+    "boxscores": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/boxscores.html",
+      "controller": "nba-player-stats/views/boxscores",
+      "nls": "nba-player-stats/nls/boxscores"
+    },
+    "boxscoreDetail": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/boxscoreDetail.html",
+      "controller": "nba-player-stats/views/boxscoreDetail",
+      "nls": "nba-player-stats/nls/boxscoreDetail"
     }
   },
   "stores": {
@@ -178,6 +190,13 @@
       "params": {
         "store_name": "favorites",
         "idProperty": "name"
+      }
+    },
+    "teamList": {
+      "type": "nba-player-stats/widgets/LocalStore",
+      "params": {
+        "store_name": "teamList",
+        "idProperty": "acronym"
       }
     }
   },

@@ -22,9 +22,6 @@ define(["dojo/_base/declare",
                 this.setHeader();
                 this.icons = [];
 
-                //Get Statistical Minimums;
-                console.log('Statistical Minimums: ' + JSON.stringify(helpUtils.getStatisticalMinimums()))
-
                 this.playerArray = helpUtils.getPlayerArray();
                 _t.loadedStores.playerList.setData(this.playerArray);
 
@@ -55,7 +52,6 @@ define(["dojo/_base/declare",
                     _t.mainMenu.addChild(menuItem);
 
                 })
-                //this.closeProgressIndicator();
             },
 
             closeWelcomeScreen: function () {

@@ -40,7 +40,7 @@ define(["dojo/_base/declare",
                     _t.player2 = player;
                 });
 
-                var playerHeaderText = '<div class="stationDetailHeaderClass">' + "PLAYER COMPARISON";
+                var playerHeaderText = '<div class="playerDetailHeaderClass">' + "PLAYER COMPARISON";
                 _t.comparisonHeader.innerHTML = playerHeaderText;
                 _t.comparisonHeader.style['background-color'] = _t.config.header.mainMenuHeaderColor;
 

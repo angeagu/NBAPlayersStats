@@ -3,7 +3,8 @@ define(["dojo/_base/declare",
         "dojo/hash",
         "dojo/query",
         "dojo/i18n!nba-player-stats/nls/teamStats",
-        "nba-player-stats/config/appConfig"
+        "nba-player-stats/config/appConfig",
+        'dojo/domReady!'
     ],
     function (declare, on, hash, query, nls, appConfig) {
 
@@ -11,17 +12,21 @@ define(["dojo/_base/declare",
 
             beforeActivate: function () {
                 var _t = this;
-                this.config = appConfig[appConfig.selectedCustomer];
-                this.acronym = decodeURIComponent(this.params.acronym);
-                this.teamName = decodeURIComponent(this.params.teamName);
-                this.setHeader();
-                this.showTeamStats();
-                this.tabButtonSeasonHandler = on(this.tabButtonSeason,'click',function(evt) {
-                    _t.showTeamStats();
-                })
-                this.tabButtonPlayoffHandler = on(this.tabButtonPlayoff,'click',function(evt) {
-                    _t.showTeamStatsPlayoff();
-                })
+                this.loadTeamStats();
+                if (this.prevHandler) {
+                    this.prevHandler.remove();
+                }
+                if (this.nextHandler) {
+                    this.nextHandler.remove();
+                }
+                this.prevHandler = this.prev_team.on('click', function () {
+                    _t.loadTeamStats(_t.previousTeam.acronym, _t.previousTeam.teamName);
+
+                });
+                this.nextHandler = this.next_team.on('click', function () {
+                    _t.loadTeamStats(_t.nextTeam.acronym,_t.nextTeam.teamName);
+                });
+
             },
 
             beforeDeactivate: function () {
@@ -32,12 +37,51 @@ define(["dojo/_base/declare",
 
             setHeader: function () {
                 var icon;
-                this.teamStatsHeading.set('label', '<span class="' + icon + ' nbaPlayerStatsHeaderIcon"></span>&nbsp;' + this.teamName);
                 this.teamStatsHeading.domNode.style.backgroundColor = this.config.header.headerColor;
+                this.teamStatsHeading.labelNode.style.display = 'inline';
+                this.teamStatsHeading.labelNode.innerHTML = '<span class="nbaPlayerStatsHeaderIcon"></span>&nbsp; ' + this.teamName;
                 this.divLogo.innerHTML = '<div style="text-align: center;"><br><img src="' + require.toUrl("nba-player-stats") + '/img/' + this.acronym + '.gif"></img></div>';
             },
 
-            showTeamStats: function () {
+            loadTeamStats: function (acronym,teamName) {
+                var _t = this;
+                this.config = appConfig[appConfig.selectedCustomer];
+                if (acronym) {
+                    this.acronym = acronym;
+                }
+                else {
+                    this.acronym = decodeURIComponent(this.params.acronym);
+                }
+                if (teamName) {
+                    this.teamName = teamName;
+                }
+                else {
+                    this.teamName = decodeURIComponent(this.params.teamName);
+                }
+
+                this.setHeader();
+
+                this.tabButtonSeason.set('selected', true);
+                if (this.tabButtonSeasonHandler) {
+                    this.tabButtonSeasonHandler.remove();
+                }
+                if (this.tabButtonPlayoffHandler) {
+                    this.tabButtonPlayoffHandler.remove();
+                }
+                this.tabButtonSeasonHandler = on(this.tabButtonSeason,'click',function(evt) {
+                    _t.showTeamStatsSeason();
+                })
+                this.tabButtonPlayoffHandler = on(this.tabButtonPlayoff,'click',function(evt) {
+                    _t.showTeamStatsPlayoff();
+                })
+
+
+                this.showTeamStatsSeason();
+                this.getPreviousAndNextTeams();
+
+            },
+
+            showTeamStatsSeason: function() {
                 var _t = this;
                 var text = '<table id="teamStatsTable" style="width: 95%; margin: 5px;">';
                 text += '<tr style="font-weight: bold;"><td>Name</td><td>GM</td><td>Mins.</td><td>Points</td><td>Rebs.</td><td>Assists</td><td>Blocks</td><td>Steals</td></tr>';
@@ -105,7 +149,6 @@ define(["dojo/_base/declare",
                         _t.app.transitionToView(event.target, transOpts, event);
                     });
                 });
-
             },
 
             showTeamStatsPlayoff: function () {
@@ -167,7 +210,6 @@ define(["dojo/_base/declare",
                 query(".player").forEach(function (node) {
                     on(node, "click", function (event) {
                         var playerId = node.attributes['value'].nodeValue;
-                        console.log('Node value: ' + playerId);
                         var transOpts = {
                             target: "playerDetail",
                             params: {
@@ -177,6 +219,38 @@ define(["dojo/_base/declare",
                         _t.app.transitionToView(event.target, transOpts, event);
                     });
                 });
+            },
+
+            getPreviousAndNextTeams: function () {
+                var _t = this;
+                var teams = this.loadedStores.teamList.query();
+                var item = this.loadedStores.teamList.query({acronym: this.acronym})[0];
+                if (item && item.hasOwnProperty('id')) {
+                    this.next_team.set('className', "fa fa-caret-down fa-2x");
+                    this.next_team.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
+                    this.prev_team.set('className', "fa fa-caret-up fa-2x");
+                    this.prev_team.set('style', "color: white;outline: none !important; height: 100%; width: 30px; line-height: 44px;");
+
+                    var itemId = item.id;
+                    var nextTeam = this.loadedStores.teamList.query({id: itemId + 1})
+                    if (nextTeam.length > 0) {
+                        this.nextTeam = nextTeam[0];
+                    }
+                    else {
+                        this.nextTeam = this.loadedStores.teamList.query({id: 0})[0]
+                    }
+
+                    var previousTeam = this.loadedStores.teamList.query({id: itemId - 1})
+                    if (previousTeam.length > 0) {
+                        this.previousTeam = previousTeam[0];
+                    }
+                    else {
+                        var lastIndex = this.loadedStores.teamList.query().length-1;
+                        this.previousTeam = this.loadedStores.teamList.query({id: lastIndex})[0]
+                    }
+
+                }
+
             }
 
         };
