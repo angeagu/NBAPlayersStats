@@ -223,7 +223,7 @@ define(["dojo/_base/declare",
                 this.divPlayer2fgpctPlayoff.innerHTML = this.player2.fg_pctPlayoff;
                 if (this.player1.fg_pct > this.player2.fg_pct) {
                     domClass.add(this.divPlayer1fgpct, "comparisonHighlight");
-                } else if (this.player2.fgpct > this.player1.fgpct) {
+                } else if (this.player2.fg_pct > this.player1.fg_pct) {
                     domClass.add(this.divPlayer2fgpct, "comparisonHighlight");
                 }
                 if (this.player1.fg_pctPlayoff > this.player2.fg_pctPlayoff) {
