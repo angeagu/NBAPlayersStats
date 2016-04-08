@@ -65,7 +65,7 @@ define(["dojo/_base/declare",
                 this.getPreviousAndNextPlayers();
                 this.checkFavorite();
                 this.setEventListeners();
-                winRef.scrollIntoView(this.headingPlayerDetail.domNode);
+                //winRef.scrollIntoView(this.headingPlayerDetail.domNode);
                 this.closeProgressIndicator();
 
             },

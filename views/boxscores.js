@@ -4,11 +4,12 @@ define(["dojo/_base/declare",
         "dojox/mobile/ListItem",
         "dojox/mobile/EdgeToEdgeStoreList",
         'dojox/mobile/ScrollableView',
+        "dojox/mobile/ProgressIndicator",
         "nba-player-stats/config/appConfig",
         "nba-player-stats/widgets/helpUtils",
         "dojo/i18n!nba-player-stats/nls/boxscores"
     ],
-    function (declare, array, domConstruct, ListItem, EdgeToEdgeStoreList, ScrollableView, appConfig, helpUtils, nls) {
+    function (declare, array, domConstruct, ListItem, EdgeToEdgeStoreList, ScrollableView, ProgressIndicator, appConfig, helpUtils, nls) {
         var BoxscoreListItem = declare(ListItem, {
             target: "boxscoreDetail",
             clickable: true,
@@ -45,6 +46,7 @@ define(["dojo/_base/declare",
 
             updateBoxscoreList: function () {
                 var _t = this;
+                this.loadProgressIndicator();
                 var date = this.datePicker.get('value');
                 var resultSets = this.gameLog.resultSets[0];
                 var rowSets = resultSets.rowSet;
@@ -104,6 +106,7 @@ define(["dojo/_base/declare",
                         idx = idx + 1;
 
                     })
+                    this.closeProgressIndicator();
 
                 }
                 else {
@@ -118,7 +121,10 @@ define(["dojo/_base/declare",
                     label.innerHTML = content;
                     listItem.clickable = false;
                     this.boxscoreList.addChild(listItem);
+                    this.closeProgressIndicator();
                 }
+
+
 
             },
 
@@ -132,6 +138,18 @@ define(["dojo/_base/declare",
                 })
                 this.boxscoresHeading.set('label', '<span class="' + icon + ' nbaPlayerStatsHeaderIcon"></span>&nbsp;' + nls.boxscoresHeading);
                 this.boxscoresHeading.domNode.style.backgroundColor = this.config.header.headerColor;
+            },
+
+            loadProgressIndicator: function () {
+                this.prog = ProgressIndicator.getInstance();
+                this.divProgress.addChild(this.prog);
+                this.prog.start();
+                this.boxscoreList.domNode.style.opacity = '0.5';
+            },
+
+            closeProgressIndicator: function () {
+                this.prog.stop();
+                this.boxscoreList.domNode.style.opacity = '1';
             },
 
             clearBoxscoreList: function() {
