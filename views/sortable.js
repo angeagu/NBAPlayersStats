@@ -29,6 +29,7 @@ define(["dojo/_base/declare",
                 this.tabButtonPlayoffHandler = on(this.tabButtonPlayoff,'click',function(evt) {
                     _t.loadSortableGrid('playoff');
                 })
+                this.setCustomizablePlayerList();
                 this.loadSortableGrid('season');
 
             },
@@ -61,6 +62,7 @@ define(["dojo/_base/declare",
                             collection: _t.dstore.sort('points', true),
                             columns: columns
                         }, _t.divSortableGrid);
+
                     }
                     else {
                         _t.sortableGrid.set("columns", columns);
@@ -86,7 +88,6 @@ define(["dojo/_base/declare",
                         {id: 'efficiency', field: 'efficiencyPlayoff', label: 'EFF'}
                     ];
 
-                    console.log('Columns: ' + JSON.stringify(columns));
 
                     //GRID PLAYOFF
                     var filter = new _t.dstore.Filter();
@@ -131,6 +132,20 @@ define(["dojo/_base/declare",
                 });
 
                 _t.sortableGrid.startup();
+            },
+
+            setCustomizablePlayerList: function() {
+                var _t = this;
+                this.loadedStores.customizablePlayerList.setData([]);
+                var idx = 0;
+                this.loadedStores.playerList.query({}).forEach(function(player) {
+                    _t.loadedStores.customizablePlayerList.put({
+                        id: idx,
+                        name: player.name,
+                        playerId: player.playerid
+                    });
+                    idx = idx + 1;
+                })
             },
 
             setHeader: function () {

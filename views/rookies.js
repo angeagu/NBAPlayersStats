@@ -25,12 +25,13 @@ define(["dojo/_base/declare",
                 this.tabButtonPlayoffHandler = on(this.tabButtonPlayoff,'click',function(evt) {
                     _t.loadSortableGrid('playoff');
                 })
+                this.loadedStores.customizablePlayerList.setData([]);
                 this.loadSortableGrid('season');
             },
 
             loadSortableGrid: function(type) {
                 var _t = this;
-                _t.dstore = new Memory({data: _t.loadedStores.playerList.query({}), idProperty: 'name'});
+                this.dstore = new Memory({data: _t.loadedStores.playerList.query({}), idProperty: 'name'});
                 var rookiesIds = [];
                 var myFilter = _t.dstore.Filter();
                 var rookieFilter = myFilter.in('playerid', rookiesIds);
@@ -137,6 +138,18 @@ define(["dojo/_base/declare",
 
                     //STARTUP of GRIDS
                     _t.rookiesGrid.startup();
+
+                    //Load customizable rookie list
+                    _t.loadedStores.customizablePlayerList.setData([]);
+                    var idx = 0;
+                    _t.dstore.filter(rookieFilter).sort('name', false).forEach(function(player) {
+                        _t.loadedStores.customizablePlayerList.put({
+                            id: idx,
+                            name: player.name,
+                            playerId: player.playerid
+                        });
+                        idx = idx + 1;
+                    })
 
 
                 }).then(function (results) {

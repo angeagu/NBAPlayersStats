@@ -25,9 +25,11 @@ define(["dojo/_base/declare",
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer]
                 this.setHeader();
-                var idx = 0;
+                var idxPlayer = 0;
+                var idxTeam = 0;
                 var favorites = this.loadedStores.favorites.query({}, {sort: [{attribute: 'name'}]});
                 this.loadedStores.customizablePlayerList.setData([]);
+                this.loadedStores.teamList.setData([]);
 
                 array.forEach(favorites, function (favorite) {
                     if (favorite['name']) {
@@ -48,6 +50,13 @@ define(["dojo/_base/declare",
                             params.acronym = encodeURIComponent(favorite.acronym);
                             params.teamName = encodeURIComponent(favorite.name);
                             listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.acronym + '.gif';
+
+                            _t.loadedStores.teamList.put({
+                                id: idxTeam,
+                                acronym: favorite.acronym,
+                                teamName: favorite.name
+                            })
+                            idxTeam = idxTeam + 1;
                         }
                         else {
                             //Target
@@ -56,18 +65,20 @@ define(["dojo/_base/declare",
                             params.playerId = encodeURIComponent(favorite['playerid']);
                             listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.team + '.gif';
 
+                            //Add to store
+                            _t.loadedStores.customizablePlayerList.put({
+                                id: idxPlayer,
+                                name: player_name,
+                                playerId: params.playerId
+                            });
+                            idxPlayer = idxPlayer + 1;
+
                         }
                         listItem.transitionOptions = {params: params};
 
                         _t.favorites_list.addChild(listItem);
 
-                        //Add to store
-                        _t.loadedStores.customizablePlayerList.put({
-                            id: idx,
-                            name: player_name,
-                            playerId: params.playerId
-                        });
-                        idx = idx + 1;
+
                     }
                 });
 

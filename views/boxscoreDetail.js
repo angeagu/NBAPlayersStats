@@ -17,6 +17,7 @@ define(["dojo/_base/declare",
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.gameId = this.params.gameId;
                 this.setHeader();
+                this.loadedStores.customizablePlayerList.setData([]);
                 this.setEventHandlers();
                 this.createBoxscore();
 
@@ -175,7 +176,8 @@ define(["dojo/_base/declare",
             getPreviousAndNextBoxscores: function () {
                 var _t = this;
                 var boxscores = this.loadedStores.boxscoreList.query();
-                console.log('boxscores: ' + JSON.stringify(boxscores));
+                this.nextBoxscore=null;
+                this.previousBoxscore=null;
                 var item = this.loadedStores.boxscoreList.query({gameId: this.gameId})[0];
                 if (item && item.hasOwnProperty('id')) {
                     this.next_btn.set('className', "fa fa-caret-down fa-2x");

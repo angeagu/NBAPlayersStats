@@ -402,6 +402,9 @@ define(["dojo/_base/declare",
 
             getPreviousAndNextPlayers: function () {
                 var _t = this;
+                this.nextPlayer=null;
+                this.previousPlayer=null;
+                console.log('Customizable PlayerList: ' + JSON.stringify(this.loadedStores.customizablePlayerList.query()));
                 var item = this.loadedStores.customizablePlayerList.query({playerId: _t.playerId})[0];
                 if (item && item.hasOwnProperty('id')) {
                     this.next_btn.set('className', "fa fa-caret-down fa-2x");
