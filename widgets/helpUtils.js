@@ -452,6 +452,7 @@ define([
                 });
 
                 this.setStatisticalMinimums();
+                this.setStatisticalMinimumsPlayoff();
             }
         },
         _parseDataPlayoffs: function (jsondata) {
@@ -550,6 +551,26 @@ define([
                 fg3_pctMinimum: 1,
                 assistsPerTurnoverMinimum: 2.5,
                 stealsPerTurnoverMinimum: 1
+            }
+        },
+        getStatisticalMinimumsPlayoff: function() {
+            return this.statisticalMinimumsPlayoff;
+        },
+        setStatisticalMinimumsPlayoff: function() {
+            var maxNumGamesPlayoff=0;
+            array.forEach(this.playerArray, function(player) {
+                if (player.gamesPlayoff>maxNumGamesPlayoff) {
+                    maxNumGamesPlayoff = player.gamesPlayoff;
+                }
+            })
+
+            this.statisticalMinimumsPlayoff = {
+                generalPlayoffMinimum: Math.floor(maxNumGamesPlayoff * 0.7),
+                fg_pctPlayoffMinimum: 3.5,
+                ft_pctPlayoffMinimum: 1.5,
+                fg3_pctPlayoffMinimum: 1,
+                assistsPerTurnoverPlayoffMinimum: 2.5,
+                stealsPerTurnoverPlayoffMinimum: 1
             }
         },
         getPlayerArray: function () {

@@ -38,13 +38,13 @@ define(["dojo/_base/declare",
                 var playerData = [];
                 this.clearPlayerList();
                 var generalMinimum = helpUtils.getStatisticalMinimums().generalMinimum;
-                var statisticalMinimums = helpUtils.getStatisticalMinimums()
+                var statisticalMinimums = helpUtils.getStatisticalMinimums();
+                var generalMinimumPlayoff = helpUtils.getStatisticalMinimumsPlayoff().generalPlayoffMinimum;
+                var statisticalMinimumsPlayoff = helpUtils.getStatisticalMinimumsPlayoff();
                 this.loadedStores.playerList.query(function (player) {
                         if (category.indexOf('Playoff') == -1) {
                             if (['fg_pct', 'ft_pct', 'fg3_pct', 'assistsPerTurnover', 'stealsPerTurnover'].indexOf(category) != -1) { //Field Goal %, FT %, F3G %
                                 if (category == 'fg_pct') {
-                                    console.log('Games: ' + generalMinimum + ':' + player.games);
-                                    console.log('FG: ' + (statisticalMinimums[category + 'Minimum'] * player.games) + ':' + player.fga);
                                     if ((player.games >= generalMinimum) && ((player.fga * player.games) >= (statisticalMinimums[category + 'Minimum'] * player.games))) {
                                         return player;
                                     }
@@ -78,7 +78,43 @@ define(["dojo/_base/declare",
                             }
                         }
                         else {
-                            return player;
+                            //return player;
+                            if (['fg_pctPlayoff', 'ft_pctPlayoff', 'fg3_pctPlayoff', 'assistsPerTurnoverPlayoff', 'stealsPerTurnoverPlayoff'].indexOf(category) != -1) { //Field Goal %, FT %, F3G %
+                                if (category == 'fg_pctPlayoff') {
+                                    console.log('GamesPlayoff: ' + generalMinimumPlayoff + ':' + player.gamesPlayoff);
+                                    console.log('FG_Playoff: ' + (statisticalMinimumsPlayoff[category + 'Minimum'] * player.gamesPlayoff) + ':' + player.fgaPlayoff);
+                                    if ((player.gamesPlayoff >= generalMinimumPlayoff) && ((player.fgaPlayoff * player.gamesPlayoff) >= (statisticalMinimumsPlayoff[category + 'Minimum'] * player.gamesPlayoff))) {
+                                        return player;
+                                    }
+
+                                }
+                                else if (category == 'ft_pctPlayoff') {
+                                    if ((player.gamesPlayoff >= generalMinimumPlayoff) && ((player.ftaPlayoff * player.gamesPlayoff) >= (statisticalMinimumsPlayoff[category + 'Minimum'] * player.gamesPlayoff))) {
+                                        return player;
+                                    }
+
+                                }
+                                else if (category == 'fg3_pctPlayoff') {
+                                    if ((player.gamesPlayoff >= generalMinimumPlayoff) && ((player.fg3aPlayoff * player.gamesPlayoff) >= (statisticalMinimumsPlayoff[category + 'Minimum'] * player.gamesPlayoff))) {
+                                        return player;
+                                    }
+                                }
+                                else if (category == 'stealsPerTurnoverPlayoff') {
+                                    if ((player.gamesPlayoff >= generalMinimumPlayoff) && (player.stealsPlayoff >= (statisticalMinimumsPlayoff[category + 'Minimum']))) {
+                                        return player;
+                                    }
+                                }
+                                else if (category == 'assistsPerTurnoverPlayoff') {
+                                    if ((player.gamesPlayoff >= generalMinimumPlayoff) && (player.assistsPlayoff >= (statisticalMinimumsPlayoff[category + 'Minimum']))) {
+                                        return player;
+                                    }
+                                }
+                            }
+                            else {
+                                if (player.gamesPlayoff >= generalMinimumPlayoff) {
+                                    return player;
+                                }
+                            }
                         }
                     },
                     {

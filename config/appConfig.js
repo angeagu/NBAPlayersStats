@@ -133,6 +133,7 @@ define([
                 }
             ],
             gameLog: 'http://stats.nba.com/stats/leaguegamelog?Counter=1000&Direction=DESC&LeagueID=00&PlayerOrTeam=T&Season=2015-16&SeasonType=Regular+Season&Sorter=PTS',
+            gameLogPlayoff: 'http://stats.nba.com/stats/leaguegamelog?Counter=1000&Direction=DESC&LeagueID=00&PlayerOrTeam=T&Season=2015-16&SeasonType=Playoffs&Sorter=PTS',
             boxScore: 'http://stats.nba.com/stats/boxscore?GameID=0021500830&RangeType=0&StartPeriod=0&EndPeriod=0&StartRange=0&EndRange=0',
             rootIndex: 'http://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=Totals&Scope=S&Season=2015-16&SeasonType=Regular+Season&StatCategory=PTS',
             rookieIndex: 'http://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=Totals&Scope=Rookies&Season=2015-16&SeasonType=Regular+Season&StatCategory=PTS',

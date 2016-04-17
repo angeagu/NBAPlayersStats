@@ -29,17 +29,26 @@ define(["dojo/_base/declare",
                 this.setHeader();
 
                 helpUtils.getJsonData(this.config.gameLog).then(function (response) {
-                    _t.gameLog = response;
-                    _t.updateBoxscoreList();
-                    _t.datePicker.onDaySet = function () {
-                        _t.updateBoxscoreList();
-                    };
-                    _t.datePicker.onMonthSet = function () {
-                        _t.updateBoxscoreList();
-                    };
-                    _t.datePicker.onYearSet = function () {
-                        _t.updateBoxscoreList();
-                    };
+                    var resultSets = response.resultSets[0];
+                    _t.completeBoxscoreList = resultSets.rowSet;
+                        helpUtils.getJsonData(_t.config.gameLogPlayoff).then(function (response) {
+                            console.log('BoxscorePlayoff response: ' + JSON.stringify(response));
+                            var resultSets2 = response.resultSets[0];
+                            var rowSet2 = resultSets2.rowSet;
+                            console.log('Rowset2: ' + JSON.stringify(rowSet2))
+                            _t.completeBoxscoreList.push.apply(_t.completeBoxscoreList, rowSet2);
+                            _t.updateBoxscoreList();
+                            _t.datePicker.onDaySet = function () {
+                                _t.updateBoxscoreList();
+                            };
+                            _t.datePicker.onMonthSet = function () {
+                                _t.updateBoxscoreList();
+                            };
+                            _t.datePicker.onYearSet = function () {
+                                _t.updateBoxscoreList();
+                            };
+                        });
+
                 });
 
             },
@@ -48,12 +57,11 @@ define(["dojo/_base/declare",
                 var _t = this;
                 this.loadProgressIndicator();
                 var date = this.datePicker.get('value');
-                var resultSets = this.gameLog.resultSets[0];
-                var rowSets = resultSets.rowSet;
+
 
                 this.clearBoxscoreList();
 
-                var boxscores = rowSets.filter(function (game) {
+                var boxscores = this.completeBoxscoreList.filter(function (game) {
                     return (game[6].indexOf('vs.') != -1 && game[5] == date);
                 })
 
