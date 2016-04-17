@@ -49,7 +49,7 @@ define(["dojo/_base/declare",
                             listItem.target= "teamStats",
                             params.acronym = encodeURIComponent(favorite.acronym);
                             params.teamName = encodeURIComponent(favorite.name);
-                            listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.acronym + '.gif';
+                            //listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.acronym + '.gif';
 
                             _t.loadedStores.teamList.put({
                                 id: idxTeam,
@@ -63,7 +63,7 @@ define(["dojo/_base/declare",
                             listItem.target= "playerDetail",
                             //Set params
                             params.playerId = encodeURIComponent(favorite['playerid']);
-                            listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.team + '.gif';
+                            //listItem.icon = require.toUrl("nba-player-stats") + '/icons/' + favorite.team + '.gif';
 
                             //Add to store
                             _t.loadedStores.customizablePlayerList.put({

@@ -116,13 +116,13 @@ define(["dojo/_base/declare",
                 var _t = this;
                 var content = '<table style="width: 95%;margin: 5px;">';
                 content += '<tr>';
-                content += '<td style="width: 33%;"><div class="infoClass playerStationDataTimestamp" style="text-align: right !important;">' + '#' + this.jugador.number + '<br><span>' + this.jugador.team + '<br>' + this.jugador.birthdate + '<br>' + this.jugador.country + '</span>' + '</div></td>'
-                content += '<td style="width: 33%;">'
+                content += '<td style="width: 42%;"><div class="infoClass playerStationDataTimestamp" style="text-align: right !important;">' + '#' + this.jugador.number + '<br><span>' + this.jugador.team + '<br>' + this.jugador.birthdate + '<br>' + this.jugador.country + '</span>' + '</div></td>'
+                content += '<td style="width: 15%;">'
                 content += '<div class="infoClass playerStationDataTimestamp" style="text-align: center !important;">'
-                content += '<img src="http://stats.nba.com/media/players/230x185/' + this.jugador.playerid + '.png" height="72px", width="90px"></img>';
+                //content += '<img src="http://stats.nba.com/media/players/230x185/' + this.jugador.playerid + '.png" height="72px", width="90px"></img>';
                 content += '</div>';
                 content += '</td>';
-                content += '<td style="width: 33%;"><div class="infoClass detailPlayerDataTimestamp" style="text-align: left !important;"><span>' + this.jugador.position + '<br>' + this.jugador.weight + ' lbs/' + this.jugador.height + '<br>Exp:' + this.jugador.numSeasons + ' years<br>From: ' + this.jugador.from + '</span>';
+                content += '<td style="width: 42%;"><div class="infoClass detailPlayerDataTimestamp" style="text-align: left !important;"><span>' + this.jugador.position + '<br>' + this.jugador.weight + ' lbs/' + this.jugador.height + '<br>Exp:' + this.jugador.numSeasons + ' years<br>From: ' + this.jugador.from + '</span>';
                 content += '</div>';
                 content += '</td>';
                 content += '</tr>';

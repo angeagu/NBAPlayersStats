@@ -190,13 +190,13 @@ define(["dojo/_base/declare",
                         var westTeam2=_t._getTeamForLabel(westTeam2Label);
 
                         content += '<tr>';
-                        content += '<td style="text-align: center; width: 20%;"><div><img width="60px" height="48px" src="' + require.toUrl("nba-player-stats") + '/img/' + eastTeam1.acronym + '.gif"></div></td>';
+                        content += '<td style="text-align: center; width: 20%;"><div></div></td>';
                         content += '<td style="text-align: center; width: 3%;"><div>VS</div></td>';
-                        content += '<td style="text-align: center; width: 20%;"><div><img width="60px" height="48px" src="' + require.toUrl("nba-player-stats") + '/img/' + eastTeam2.acronym + '.gif"></div></td>';
+                        content += '<td style="text-align: center; width: 20%;"><div></div></td>';
                         content += '<td style="text-align: center; width: 4%;"><div></div></td>';
-                        content += '<td style="text-align: center; width: 20%;"><div><img width="60px" height="48px" src="' + require.toUrl("nba-player-stats") + '/img/' + westTeam1.acronym + '.gif"></div></td>';
+                        content += '<td style="text-align: center; width: 20%;"><div></div></td>';
                         content += '<td style="text-align: center; width: 3%;"><div>VS</div></td>';
-                        content += '<td style="text-align: center; width: 20%;"><div><img width="60px" height="48px" src="' + require.toUrl("nba-player-stats") + '/img/' + westTeam2.acronym + '.gif"></div></td>';
+                        content += '<td style="text-align: center; width: 20%;"><div></div></td>';
                         content += '</tr>'
                         content += '<tr>';
                         content += '<td style="text-align: center; width: 20%;"><div>'+eastTeam1Label+'<br>'+'('+(i+1)+')'+'</div></td>';

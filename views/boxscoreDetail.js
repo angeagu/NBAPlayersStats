@@ -69,10 +69,10 @@ define(["dojo/_base/declare",
 
                         var content = '<table style="width: 100%; margin: 5px; font-size: 10pt;">';
                         content += '<tr><th>';
-                        content += '<div class="boxscoreHeader"><img src="'+awayTeamIcon+'" </img>&nbsp;'+awayPoints+'&nbsp;';
+                        content += '<div class="boxscoreHeader">&nbsp;'+awayPoints+'&nbsp;';
                         content += awayTeam.acronym + '  at  ';
                         content += homeTeam.acronym + '&nbsp;';
-                        content += content = +homePoints+'&nbsp;<img src="'+homeTeamIcon+'" </img></div>';
+                        content += content = +homePoints+'&nbsp;</div>';
                         content += '</th></tr></table>';
                         _t.divBoxscore.innerHTML += content;
 

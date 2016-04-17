@@ -53,7 +53,7 @@ define(["dojo/_base/declare",
 
                 //Set acronym in params.
                 array.forEach(this.teams,function(team) {
-                    team.icon = require.toUrl("nba-player-stats") + '/icons/' + team.acronym+ '.gif';
+                    //team.icon = require.toUrl("nba-player-stats") + '/icons/' + team.acronym+ '.gif';
                     var params = {
                         acronym: team.acronym,
                         teamName: team.label

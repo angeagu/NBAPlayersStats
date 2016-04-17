@@ -77,8 +77,8 @@ define(["dojo/_base/declare",
                 this.divPlayer1Name.innerHTML = this.player1.name;
                 this.divPlayer2Name.innerHTML = this.player2.name;
                 //Images
-                this.divImgPlayer1.src='http://stats.nba.com/media/players/230x185/' + this.player1.playerid + '.png'
-                this.divImgPlayer2.src='http://stats.nba.com/media/players/230x185/' + this.player2.playerid + '.png'
+                //this.divImgPlayer1.src='http://stats.nba.com/media/players/230x185/' + this.player1.playerid + '.png'
+                //this.divImgPlayer2.src='http://stats.nba.com/media/players/230x185/' + this.player2.playerid + '.png'
 
                 //Games
                 this.divPlayer1games.innerHTML = this.player1.games;

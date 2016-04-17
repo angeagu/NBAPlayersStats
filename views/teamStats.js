@@ -40,7 +40,7 @@ define(["dojo/_base/declare",
                 this.teamStatsHeading.domNode.style.backgroundColor = this.config.header.headerColor;
                 this.teamStatsHeading.labelNode.style.display = 'inline';
                 this.teamStatsHeading.labelNode.innerHTML = '<span class="nbaPlayerStatsHeaderIcon"></span>&nbsp; ' + this.teamName;
-                this.divLogo.innerHTML = '<div style="text-align: center;"><br><img src="' + require.toUrl("nba-player-stats") + '/img/' + this.acronym + '.gif"></img></div>';
+                //this.divLogo.innerHTML = '<div style="text-align: center;"><br><img src="' + require.toUrl("nba-player-stats") + '/img/' + this.acronym + '.gif"></img></div>';
             },
 
             loadTeamStats: function (acronym,teamName) {

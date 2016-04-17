@@ -438,7 +438,7 @@ define([
                         moveTo: 'playerDetail',
                         target: 'playerDetail',
                         clickable: true,
-                        icon: require.toUrl("nba-player-stats") + '/icons/' + _t.rowSet[i][3] + '.gif',
+                        //icon: require.toUrl("nba-player-stats") + '/icons/' + _t.rowSet[i][3] + '.gif',
                     }
 
                     this.playerArray.push(player);

@@ -77,6 +77,7 @@ define(["dojo/_base/declare",
 
                         _t.teams = helpUtils.getTeams();
                         //Set acronym in params.
+                        /*
                         array.forEach(_t.teams, function (team) {
                             if (team.acronym == homeTeam) {
                                 homeTeamIcon = require.toUrl("nba-player-stats") + '/icons/' + team.acronym + '.gif';
@@ -85,7 +86,7 @@ define(["dojo/_base/declare",
                                 awayTeamIcon = require.toUrl("nba-player-stats") + '/icons/' + team.acronym + '.gif';
                             }
                         });
-
+                        */
                         var listItem = new BoxscoreListItem();
                         listItem.labelNode.style.height = '0px';
                         var label = domConstruct.create("div", {
@@ -93,10 +94,10 @@ define(["dojo/_base/declare",
                             layout: "left"
                         }, listItem.domNode);
 
-                        var content = '<img src="' + awayTeamIcon + '" </img>&nbsp;&nbsp;';
+                        var content = /*'<img src="' + awayTeamIcon + '" </img>*/ '&nbsp;&nbsp;';
                         content += awayTeam + '  at  ';
                         content += homeTeam + '&nbsp;&nbsp;';
-                        content += content = '<img src="' + homeTeamIcon + '" </img>&nbsp;&nbsp;';
+                        //content += content = '<img src="' + homeTeamIcon + '" </img>&nbsp;&nbsp;';
                         label.innerHTML = content;
 
                         var params = {

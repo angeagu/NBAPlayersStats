@@ -145,7 +145,7 @@ define(["dojo/_base/declare",
                             var divStat = domConstruct.create("div", {className: "ListItemRightTextCategories"}, menuItem.domNode);
                             divStat.innerHTML = jugador[category]
                             menuItem.target = 'playerDetail';
-                            menuItem.icon = require.toUrl("nba-player-stats") + '/icons/' + jugador.team + '.gif';
+                            //menuItem.icon = require.toUrl("nba-player-stats") + '/icons/' + jugador.team + '.gif';
 
                             var params = {
                                 playerId: jugador.playerid
