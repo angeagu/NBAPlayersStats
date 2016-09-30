@@ -42,8 +42,9 @@ define(["dojo/_base/declare",
                 }
                 this.loadProgressIndicator();
                 this.divBoxscore.innerHTML="";
-                var boxscoreUrl = 'http://stats.nba.com/stats/boxscore?GameID='+this.gameId+'&RangeType=0&StartPeriod=0&EndPeriod=0&StartRange=0&EndRange=0';
-                    helpUtils.getJsonData(boxscoreUrl).then(function (response) {
+                //var boxscoreUrl = 'http://stats.nba.com/stats/boxscoretraditionalv2?GameID='+this.gameId+'&RangeType=0&StartPeriod=0&EndPeriod=0&StartRange=0&EndRange=0';
+                var boxscoreSummary = 'http://stats.nba.com/stats/boxscoresummaryv2?GameID='+this.gameId;
+                    helpUtils.getJsonData(boxscoreSummary).then(function (response) {
                         var boxscore = response;
                         var resultSets = response.resultSets;
 
@@ -57,12 +58,12 @@ define(["dojo/_base/declare",
                         var homeTeam = helpUtils.getTeams().filter(function(team) {
                             return team.acronym == homeRowSet[4]
                         })[0];
-                        homeTeam.winsLosses = homeRowSet[6];
+                        homeTeam.winsLosses = homeRowSet[7];
                         var homeTeamIcon = require.toUrl("nba-player-stats") + '/icons/' + homeTeam.acronym + '.gif';
                         var awayTeam = helpUtils.getTeams().filter(function(team) {
                             return team.acronym == awayRowSet[4]
                         })[0];
-                        awayTeam.winsLosses = awayRowSet[6];
+                        awayTeam.winsLosses = awayRowSet[7];
                         var awayTeamIcon = require.toUrl("nba-player-stats") + '/icons/' + awayTeam.acronym + '.gif';
                         var homePoints = homeRowSet[homeRowSet.length-1]
                         var awayPoints = awayRowSet[awayRowSet.length-1]
@@ -83,16 +84,16 @@ define(["dojo/_base/declare",
                         var trHome='<tr style="font-weight: normal;">';
                         var trAway='<tr style="font-weight: normal;">';
                         var flag = true;
-                        for (var i=7;i<homeRowSet.length && flag;i++) {
+                        for (var i=8;i<homeRowSet.length && flag;i++) {
                             if (homeRowSet[i]==0 && awayRowSet[i]==0) {
                                 flag = false;
                             }
                             else {
-                                if (i>=7 && i <=10) {
-                                    trHeader += '<td>Q'+(i-6)+'</td>'
+                                if (i>=8 && i <=11) {
+                                    trHeader += '<td>Q'+(i-7)+'</td>'
                                 }
                                 else {
-                                    trHeader += '<td>OT'+(i-10)+'</td>'
+                                    trHeader += '<td>OT'+(i-11)+'</td>'
                                 }
                                 trHome+= '<td>'+homeRowSet[i]+'</td>'
                                 trAway+= '<td>'+awayRowSet[i]+'</td>'
@@ -106,39 +107,49 @@ define(["dojo/_base/declare",
                         content += '</th></tr></table>';
                         _t.divBoxscore.innerHTML += content;
 
-                        //Boxscore
-                        var playerStats = resultSets.filter(function(resultSet) {
-                            return resultSet.name == 'PlayerStats';
-                        });
-                        var teamStats = resultSets.filter(function(resultSet) {
-                            return resultSet.name == 'TeamStats';
-                        });
-
-                        //Away Team
-                        var content = _t.getDetailedBoxScoreForTeam(playerStats,teamStats,awayTeam)
-                        _t.divBoxscore.innerHTML += content + '<br>';
-
-                        //HomeTeam
-                        content = _t.getDetailedBoxScoreForTeam(playerStats,teamStats,homeTeam)
-                        _t.divBoxscore.innerHTML += content;
-
-
-                        query(".player").forEach(function (node) {
-                            on(node, "click", function (event) {
-                                var playerId = node.attributes['value'].nodeValue;
-                                var transOpts = {
-                                    target: "playerDetail",
-                                    params: {
-                                        playerId: playerId
-                                    }
-                                };
-                                _t.app.transitionToView(event.target, transOpts, event);
+                        var boxscoreUrl = 'http://stats.nba.com/stats/boxscoretraditionalv2?GameID='+_t.gameId+'&RangeType=0&StartPeriod=0&EndPeriod=0&StartRange=0&EndRange=0';
+                        helpUtils.getJsonData(boxscoreUrl).then(function (response) {
+                            var resultSets = response.resultSets;
+                            //Boxscore
+                            var playerStats = resultSets.filter(function (resultSet) {
+                                return resultSet.name == 'PlayerStats';
                             });
+                            var teamStats = resultSets.filter(function (resultSet) {
+                                return resultSet.name == 'TeamStats';
+                            });
+
+                            console.log('Away Team: ' + JSON.stringify(awayTeam));
+                            console.log('Home Team: ' + JSON.stringify(homeTeam));
+                            console.log('Player Stats: ' + JSON.stringify(playerStats));
+
+                            //Away Team
+                            var content = _t.getDetailedBoxScoreForTeam(playerStats, teamStats, awayTeam)
+                            _t.divBoxscore.innerHTML += content + '<br>';
+
+                            //HomeTeam
+                            content = _t.getDetailedBoxScoreForTeam(playerStats, teamStats, homeTeam)
+                            console.log('HOME content: ' + content);
+                            _t.divBoxscore.innerHTML += content;
+
+
+                            query(".player").forEach(function (node) {
+                                on(node, "click", function (event) {
+                                    var playerId = node.attributes['value'].nodeValue;
+                                    var transOpts = {
+                                        target: "playerDetail",
+                                        params: {
+                                            playerId: playerId
+                                        }
+                                    };
+                                    _t.app.transitionToView(event.target, transOpts, event);
+                                });
+                            });
+
+                            _t.closeProgressIndicator();
+                            _t.getPreviousAndNextBoxscores();
                         });
 
-                        _t.closeProgressIndicator();
-                        _t.getPreviousAndNextBoxscores();
-                    });
+                        });
 
 
             },
@@ -152,9 +163,11 @@ define(["dojo/_base/declare",
                 playerStatsRowset = playerStatsRowset.filter(function(rowSet){
                     return rowSet[2] == team.acronym;
                 });
+
+                //["GAME_ID","TEAM_ID","TEAM_ABBREVIATION","TEAM_CITY","PLAYER_ID","PLAYER_NAME","START_POSITION","COMMENT","MIN","FGM","FGA","FG_PCT","FG3M","FG3A","FG3_PCT","FTM","FTA","FT_PCT","OREB","DREB","REB","AST","STL","BLK","TO","PF","PTS","PLUS_MINUS"]
                 array.forEach(playerStatsRowset,function(rowSet) {
                     if (rowSet[8]!=null) {
-                        content += '<tr><td><span value="'+rowSet[4]+'" class="player">' + rowSet[5] + '</span></td><td>' + rowSet[6] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[26] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td><td>' + rowSet[9]+'/'+rowSet[10] +'</td><td>' + rowSet[12]+'/'+rowSet[13] + '</td><td>' + rowSet[15]+'/'+rowSet[16] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[25] + '</td><td>' + rowSet[24] + '</td><td>' + rowSet[22] + '</td><td>' + rowSet[rowSet.length-1] + '</td></tr>';
+                        content += '<tr><td><span value="'+rowSet[4]+'" class="player">' + rowSet[5] + '</span></td><td>' + rowSet[6] + '</td><td>' + rowSet[8] + '</td><td>' + rowSet[26] + '</td><td>' + rowSet[20] + '</td><td>' + rowSet[21] + '</td><td>' + rowSet[9]+'/'+rowSet[10] +'</td><td>' + rowSet[12]+'/'+rowSet[13] + '</td><td>' + rowSet[15]+'/'+rowSet[16] + '</td><td>' + rowSet[22] + '</td><td>' + rowSet[23] + '</td><td>' + rowSet[24] + '</td><td>' + rowSet[25] + '</td><td>' + rowSet[rowSet.length-1] + '</td></tr>';
                     }
                     else {
                         content += '<tr><td><span value="'+rowSet[4]+'" class="player">' + rowSet[5] + '</span></td><td colspan="12" style="font-weight: bold;">'+rowSet[7]+'</td></tr>';
@@ -162,7 +175,10 @@ define(["dojo/_base/declare",
                 })
 
                 var teamStatsRowset = teamStats[0].rowSet;
+                console.log('TeamstatsRowset: ' + JSON.stringify(teamStatsRowset));
                 var rowSet = teamStatsRowset.filter(function(rowSet){
+                    console.log('rowSet: ' + JSON.stringify(rowSet));
+                    console.log('acronym: ' + team.acronym);
                     return rowSet[3] == team.acronym;
                 })[0];
                 //"GAME_ID","TEAM_ID","TEAM_NAME","TEAM_ABBREVIATION","TEAM_CITY","MIN","FGM","FGA","FG_PCT","FG3M","FG3A","FG3_PCT","FTM","FTA","FT_PCT","OREB","DREB","REB","AST","STL","BLK","TO","PF","23PTS","PLUS_MINUS"]

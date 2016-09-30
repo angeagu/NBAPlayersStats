@@ -5,12 +5,13 @@ define(["dojo/_base/declare",
         "dojox/gesture/swipe",
         'dojo/on',
         'dojo/query',
+        "dojo/request/script",
         "nba-player-stats/config/appConfig",
         "nba-player-stats/widgets/helpUtils",
         'dojo/i18n!nba-player-stats/nls/playerDetail',
         'dojo/domReady!'
     ],
-    function (declare, array, Pane, ProgressIndicator, swipe, on, query, appConfig, helpUtils, nls) {
+    function (declare, array, Pane, ProgressIndicator, swipe, on, query, script, appConfig, helpUtils, nls) {
 
         return {
             beforeActivate: function () {
@@ -211,8 +212,17 @@ define(["dojo/_base/declare",
                     })
 
                     content += '</table>';
-                    _t.standingsView.innerHTML = content;
-                    _t.closeProgressIndicator();
+
+                    //PLAYOFF BRACKET
+                     //helpUtils.getJsonData(_t.config.playoffBracket).then(function (response) {
+                    script(_t.config.playoffBracket, {
+                        checkString:"data"
+                    }).then(function (response) {
+                             console.log('Playoff Bracket: ' + JSON.stringify(response));
+                         _t.standingsView.innerHTML = content;
+                         _t.closeProgressIndicator();
+                     });
+
                 });
 
 
