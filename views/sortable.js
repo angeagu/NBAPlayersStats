@@ -21,17 +21,25 @@ define(["dojo/_base/declare",
 
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
+                this.teams = helpUtils.getTeams();
                 this.setHeader();
 
                 //MAIN TAB
-                this.tabButtonPlayersHandler = on(this.tabButtonPlayers,'click',function(evt) {
+                if (this.tabButtonPlayersHandler) {
+                    this.tabButtonPlayersHandler.remove();
+                }
+                if (this.tabButtonTeamsHandler) {
+                    this.tabButtonTeamsHandler.remove();
+                }
+                this.tabButtonPlayersHandler = on(this.tabButtonPlayers, 'click', function (evt) {
                     _t.teamsSortableStatsBar.style.display = 'none';
                     _t.divSortableTeamsGrid.style.display = 'none';
                     _t.divSortableGrid.style.display = 'block';
                     _t.playersSortableStatsBar.style.display = 'block';
                     _t.tabButtonPlayersSeason.set('selected', true);
                 })
-                this.tabButtonTeamsHandler = on(this.tabButtonTeams,'click',function(evt) {
+
+                this.tabButtonTeamsHandler = on(this.tabButtonTeams, 'click', function (evt) {
                     _t.divSortableGrid.style.display = 'none';
                     _t.divSortableTeamsGrid.style.display = 'block';
                     _t.playersSortableStatsBar.style.display = 'none';
@@ -41,29 +49,49 @@ define(["dojo/_base/declare",
                 })
 
                 //SUBTABS
-                this.tabButtonPlayersSeasonHandler = on(this.tabButtonPlayersSeason,'click',function(evt) {
+                if (this.tabButtonPlayersSeasonHandler) {
+                    this.tabButtonPlayersSeasonHandler.remove();
+                }
+                if (this.tabButtonPlayersPlayoffHandler) {
+                    this.tabButtonPlayersPlayoffHandler.remove();
+                }
+                if (this.tabButtonTeamsSeasonHandler) {
+                    this.tabButtonTeamsSeasonHandler.remove();
+                }
+                if (this.tabButtonTeamsPlayoffHandler) {
+                    this.tabButtonTeamsPlayoffHandler.remove();
+                }
+
+                this.tabButtonPlayersSeasonHandler = on(this.tabButtonPlayersSeason, 'click', function (evt) {
                     _t.loadSortableGrid('season')
                 })
-                this.tabButtonPlayersPlayoffHandler = on(this.tabButtonPlayersPlayoff,'click',function(evt) {
+                this.tabButtonPlayersPlayoffHandler = on(this.tabButtonPlayersPlayoff, 'click', function (evt) {
                     _t.loadSortableGrid('playoff');
                 })
-                this.tabButtonTeamsSeasonHandler = on(this.tabButtonTeamsSeason,'click',function(evt) {
+                this.tabButtonTeamsSeasonHandler = on(this.tabButtonTeamsSeason, 'click', function (evt) {
                     _t.loadSortableTeamsGrid('season')
                 })
-                this.tabButtonTeamsPlayoffHandler = on(this.tabButtonTeamsPlayoff,'click',function(evt) {
+                this.tabButtonTeamsPlayoffHandler = on(this.tabButtonTeamsPlayoff, 'click', function (evt) {
                     _t.loadSortableTeamsGrid('playoff');
                 })
+
+                this.playersSortableStatsBar.style.display = 'block';
                 this.teamsSortableStatsBar.style.display = 'none';
+                this.tabButtonPlayers.set('selected', true);
+                this.tabButtonPlayersSeason.set('selected',true);
+                this.divSortableTeamsGrid.style.display = 'none';
+                this.divSortableGrid.style.display = 'block';
                 this.setCustomizablePlayerList();
                 this.loadSortableGrid('season');
 
+
             },
 
-            loadSortableGrid: function(type) {
+            loadSortableGrid: function (type) {
                 var _t = this;
                 var columns;
                 _t.dstore = new Memory({data: _t.loadedStores.playerList.query({}), idProperty: 'name'});
-                if (type=='season') {
+                if (type == 'season') {
                     columns = [
                         {id: 'name', field: 'name', label: 'Player', colSpan: 2},
                         {id: 'games', field: 'games', label: 'G'},
@@ -96,7 +124,7 @@ define(["dojo/_base/declare",
                         _t.sortableGrid.refresh();
                     }
                 }
-                else if (type=='playoff') {
+                else if (type == 'playoff') {
                     columns = [
                         {id: 'name', field: 'name', label: 'Player', colSpan: 2},
                         {id: 'games', field: 'gamesPlayoff', label: 'G'},
@@ -159,13 +187,13 @@ define(["dojo/_base/declare",
                 _t.sortableGrid.startup();
             },
 
-            loadSortableTeamsGrid: function(type) {
+            loadSortableTeamsGrid: function (type) {
                 var _t = this;
                 var columns;
-                if (type=='season') {
+                if (type == 'season') {
                     var url = helpUtils.getTeamSortableStats();
                 }
-                else if (type=='playoff') {
+                else if (type == 'playoff') {
                     var url = helpUtils.getTeamSortableStatsPlayoff();
                 }
 
@@ -175,7 +203,7 @@ define(["dojo/_base/declare",
                     var data = [];
                     var resultSet = response.resultSets[0];
                     var rowSet = resultSet.rowSet;
-                    array.forEach(rowSet,function(item) {
+                    array.forEach(rowSet, function (item) {
                         var obj = {};
                         obj.name = item[1];
                         obj.games = item[2];
@@ -234,22 +262,26 @@ define(["dojo/_base/declare",
                         _t.sortableTeamsGrid.refresh();
                     }
 
-                    if (this.sortableTeamsGridListener) {
-                        this.sortableTeamsGridListener.remove();
+                    if (_t.sortableTeamsGridListener) {
+                        _t.sortableTeamsGridListener.remove();
                     }
 
-                    _t.sortableGridTeamsListener = _t.sortableTeamsGrid.on("dgrid-select", function (event) {
+                    _t.sortableTeamsGridListener = _t.sortableTeamsGrid.on("dgrid-select", function (event) {
                         // Get the rows that were just selected
-                        var team = event.rows[0].data;
+                        var team = array.filter(_t.teams, function (item) {
+                            return item.label == event.rows[0].data.name;
+                        })
                         var transOpts = {
                             target: "teamStats",
                             params: {
-                                acronym: team.acronym,
-                                name: team.name
+                                acronym: team[0].acronym,
+                                teamName: team[0].label
                             }
                         };
+
                         _t.app.transitionToView(event.target, transOpts, event);
                     });
+                    console.log('Sortable Teams Grid LISTENER SETTED');
 
                     _t.sortableTeamsGrid.on('dgrid-error', function (event) {
                         // Display an error message when an error occurs.
@@ -263,11 +295,11 @@ define(["dojo/_base/declare",
 
             },
 
-            setCustomizablePlayerList: function() {
+            setCustomizablePlayerList: function () {
                 var _t = this;
                 this.loadedStores.customizablePlayerList.setData([]);
                 var idx = 0;
-                this.loadedStores.playerList.query({}).forEach(function(player) {
+                this.loadedStores.playerList.query({}).forEach(function (player) {
                     _t.loadedStores.customizablePlayerList.put({
                         id: idx,
                         name: player.name,
@@ -289,13 +321,17 @@ define(["dojo/_base/declare",
             },
 
             beforeDeactivate: function () {
-                this.tabButtonSeason.set('selected', true);
                 if (this.sortableGridListener) {
                     this.sortableGridListener.remove();
                 }
+                if (this.sortableTeamsGridListener) {
+                    this.sortableTeamsGridListener.remove();
+                }
 
-                this.tabButtonSeasonHandler.remove();
-                this.tabButtonPlayoffHandler.remove();
+                this.tabButtonPlayersSeasonHandler.remove();
+                this.tabButtonPlayersPlayoffHandler.remove();
+                this.tabButtonTeamsSeasonHandler.remove();
+                this.tabButtonTeamsPlayoffHandler.remove();
             }
 
         };

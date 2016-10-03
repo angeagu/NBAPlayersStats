@@ -11,13 +11,14 @@ define(["dojo/_base/declare",
         'dgrid/OnDemandGrid',
         'dgrid/Selection',
         'dgrid/extensions/DijitRegistry',
+        'dgrid/extensions/ColumnHider',
         'dstore/Memory',
         "nba-player-stats/config/appConfig",
         "nba-player-stats/widgets/helpUtils",
         'dojo/i18n!nba-player-stats/nls/playerDetail',
         'dojo/domReady!'
     ],
-    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, domStyle, on, winRef, OnDemandGrid, Selection, DijitRegistry, Memory, appConfig, helpUtils, nls) {
+    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, domStyle, on, winRef, OnDemandGrid, Selection, DijitRegistry, ColumnHider, Memory, appConfig, helpUtils, nls) {
 
         return {
             beforeActivate: function () {
@@ -447,7 +448,7 @@ define(["dojo/_base/declare",
 
                     var columns = [
                         {id: 'gameId', field: 'gameId', hidden: true},
-                        {id: 'matchup', field: 'matchup', label: 'Match Up', colSpan: 2},
+                        {id: 'matchup', field: 'matchup', label: 'Game', colSpan: 2},
                         {id: 'winlose', field: 'winlose', label: 'W/L'},
                         {id: 'minutes', field: 'minutes', label: 'MIN'},
                         {id: 'points', field: 'points', label: 'PTS'},
@@ -465,7 +466,7 @@ define(["dojo/_base/declare",
                     ];
 
                     if (!_t.gameLogGrid) {
-                        _t.gameLogGrid = new (declare([OnDemandGrid, Selection, DijitRegistry]))({
+                        _t.gameLogGrid = new (declare([OnDemandGrid, Selection, ColumnHider, DijitRegistry]))({
                             selectionMode: "single",
                             collection: gameLogStore,
                             columns: columns
