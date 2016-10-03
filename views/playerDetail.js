@@ -35,6 +35,8 @@ define(["dojo/_base/declare",
                 this.loadProgressIndicator();
 
                 this.tabButtonSeason.set('selected', true);
+                domStyle.set(_t.playerView,'display','block');
+                domStyle.set(_t.gridView,'display','none');
                 if (this.tabButtonSeasonHandler) {
                     this.tabButtonSeasonHandler.remove();
                 }
@@ -447,7 +449,7 @@ define(["dojo/_base/declare",
                     var gameLogStore = new Memory({data: data, idProperty: 'gameId'});
 
                     var columns = [
-                        {id: 'gameId', field: 'gameId', hidden: true},
+                        {id: 'gameId', field: 'gameId', hidden: true, unhidable: true},
                         {id: 'matchup', field: 'matchup', label: 'Game', colSpan: 2},
                         {id: 'winlose', field: 'winlose', label: 'W/L'},
                         {id: 'minutes', field: 'minutes', label: 'MIN'},
