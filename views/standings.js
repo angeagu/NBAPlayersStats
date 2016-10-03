@@ -213,8 +213,12 @@ define(["dojo/_base/declare",
 
                     content += '</table>';
 
+                    _t.standingsView.innerHTML = content;
+                    _t.closeProgressIndicator();
+
                     //PLAYOFF BRACKET
                      //helpUtils.getJsonData(_t.config.playoffBracket).then(function (response) {
+                    /*
                     script(_t.config.playoffBracket, {
                         checkString:"data"
                     }).then(function (response) {
@@ -222,6 +226,7 @@ define(["dojo/_base/declare",
                          _t.standingsView.innerHTML = content;
                          _t.closeProgressIndicator();
                      });
+                    */
 
                 });
 

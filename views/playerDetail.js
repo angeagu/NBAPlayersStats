@@ -5,14 +5,19 @@ define(["dojo/_base/declare",
         "dojox/mobile/ProgressIndicator",
         "dojox/gesture/swipe",
         'dojo/dom-geometry',
+        'dojo/dom-style',
         'dojo/on',
         'dojo/window',
+        'dgrid/OnDemandGrid',
+        'dgrid/Selection',
+        'dgrid/extensions/DijitRegistry',
+        'dstore/Memory',
         "nba-player-stats/config/appConfig",
         "nba-player-stats/widgets/helpUtils",
         'dojo/i18n!nba-player-stats/nls/playerDetail',
         'dojo/domReady!'
     ],
-    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, on, winRef, appConfig, helpUtils, nls) {
+    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, domStyle, on, winRef, OnDemandGrid, Selection, DijitRegistry, Memory, appConfig, helpUtils, nls) {
 
         return {
             beforeActivate: function () {
@@ -35,13 +40,26 @@ define(["dojo/_base/declare",
                 if (this.tabButtonCareerHandler) {
                     this.tabButtonCareerHandler.remove();
                 }
+                if (this.tabButtonGameLogHandler) {
+                    this.tabButtonGameLogHandler.remove();
+                }
                 this.tabButtonSeasonHandler = on(this.tabButtonSeason, 'click', function (evt) {
+                    domStyle.set(_t.playerView,'display','block');
+                    domStyle.set(_t.gridView,'display','none');
                     _t.loadProgressIndicator();
                     _t.createStatsPane();
                 })
                 this.tabButtonCareerHandler = on(this.tabButtonCareer, 'click', function (evt) {
+                    domStyle.set(_t.playerView,'display','block');
+                    domStyle.set(_t.gridView,'display','none');
                     _t.loadProgressIndicator();
                     _t.getPlayerCareerInfo();
+                })
+                this.tabButtonGameLogHandler = on(this.tabButtonGameLog, 'click', function (evt) {
+                    domStyle.set(_t.playerView,'display','none');
+                    domStyle.set(_t.gridView,'display','block');
+                    _t.loadProgressIndicator();
+                    _t.getPlayerGameLog();
                 })
 
                 if (!playerId) {
@@ -51,7 +69,6 @@ define(["dojo/_base/declare",
                     this.playerId = playerId;
                 }
 
-                console.log('Load Player Data')
                 this.loadedStores.playerList.query({playerid: this.playerId}).forEach(function (jugador) {
                     _t.jugador = jugador;
                     var playerHeaderText = '<div class="playerDetailHeaderClass">' + jugador.name;
@@ -205,22 +222,22 @@ define(["dojo/_base/declare",
                 content += '<tr>';
                 content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell1">' + 'FG %' + '</div></td>';
                 content += '<td style=" width: 5%;"></td>';
-                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg_pct + '</div></td>';
-                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg_pctPlayoff + '</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg_pct + ' ('+this.jugador.fgm+'-'+this.jugador.fga+')' +'</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg_pctPlayoff + ' ('+this.jugador.fgmPlayoff+'-'+this.jugador.fgaPlayoff+')' + '</div></td>';
                 content += '</tr>';
                 //F3G
                 content += '<tr>';
                 content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell1">' + '3PT FG %' + '</div></td>';
                 content += '<td style=" width: 5%;"></td>';
-                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg3_pct + '</div></td>';
-                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg3_pctPlayoff + '</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg3_pct + ' ('+this.jugador.fg3m+'-'+this.jugador.fg3a+')' +'</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fg3_pctPlayoff + ' ('+this.jugador.fg3mPlayoff+'-'+this.jugador.fg3aPlayoff+')' +'</div></td>';
                 content += '</tr>';
                 //FT
                 content += '<tr>';
                 content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell1">' + 'FT %' + '</div></td>';
                 content += '<td style=" width: 5%;"></td>';
-                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.ft_pct + '</div></td>';
-                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.ft_pctPlayoff + '</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.ft_pct + ' ('+this.jugador.ftm+'-'+this.jugador.fta+')' +'</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.ft_pctPlayoff + ' ('+this.jugador.ftmPlayoff+'-'+this.jugador.ftaPlayoff+')' +'</div></td>';
                 content += '</tr>';
                 //EFFICIENCY
                 content += '<tr>';
@@ -263,6 +280,27 @@ define(["dojo/_base/declare",
                 content += '<td style=" width: 5%;"></td>';
                 content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.fouls + '</div></td>';
                 content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.foulsPlayoff + '</div></td>';
+                content += '</tr>';
+                //DOUBLE DOUBLE
+                content += '<tr>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell1">' + 'Double Doubles' + '</div></td>';
+                content += '<td style=" width: 5%;"></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.dd2 + '</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.dd2Playoff + '</div></td>';
+                content += '</tr>';
+                //TRIPLE DOUBLE
+                content += '<tr>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell1">' + 'Triple Doubles' + '</div></td>';
+                content += '<td style=" width: 5%;"></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.td3 + '</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.td3Playoff + '</div></td>';
+                content += '</tr>';
+                //+/-
+                content += '<tr>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell1">' + '+/-' + '</div></td>';
+                content += '<td style=" width: 5%;"></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.plusMinus + '</div></td>';
+                content += '<td style=" width: 25%;"><div class="infoClass detailClassificationCell2">' + this.jugador.plusMinusPlayoff + '</div></td>';
                 content += '</tr>';
                 content += '<tr><td><br></td><td><br></td><td><br></td></tr>';
                 content += '</table><br></div>';
@@ -378,7 +416,86 @@ define(["dojo/_base/declare",
 
                 });
             },
+            getPlayerGameLog: function() {
+                var _t = this;
+                helpUtils.getJsonData(this.config.playerGameLog + '&PlayerID=' + this.playerId).then(function (response) {
+                    var content = '';
+                    var resultSets = response.resultSets[0];
+                    var rowSets = resultSets.rowSet;
+                    var data = [];
+                    array.forEach(rowSets, function (rowSet) {
+                        var obj = {};
+                        //["SEASON_ID","Player_ID","Game_ID","GAME_DATE","MATCHUP","WL","MIN"6,"FGM","FGA","FG_PCT","FG3M","FG3A","FG3_PCT","FTM","FTA","FT_PCT15","OREB","DREB","REB","AST","STL","BLK","TOV","PF","PTS","PLUS_MINUS","VIDEO_AVAILABLE"]
+                        obj.gameId = rowSet[2];
+                        obj.matchup = rowSet[4];
+                        obj.winlose=rowSet[5];
+                        obj.minutes=rowSet[6];
+                        obj.points=rowSet[24];
+                        obj.rebounds=rowSet[18];
+                        obj.assists=rowSet[19];
+                        obj.fg_pct=rowSet[9];
+                        obj.fg3_pct=rowSet[12];
+                        obj.ft_pct=rowSet[15];
+                        obj.blocks=rowSet[21];
+                        obj.steals=rowSet[20];
+                        obj.turnovers=rowSet[22];
+                        obj.fouls=rowSet[23];
+                        obj.plusMinus=rowSet[25];
+                        data.push(obj);
+                    })
+                    var gameLogStore = new Memory({data: data, idProperty: 'gameId'});
 
+                    var columns = [
+                        {id: 'gameId', field: 'gameId', hidden: true},
+                        {id: 'matchup', field: 'matchup', label: 'Match Up', colSpan: 2},
+                        {id: 'winlose', field: 'winlose', label: 'W/L'},
+                        {id: 'minutes', field: 'minutes', label: 'MIN'},
+                        {id: 'points', field: 'points', label: 'PTS'},
+                        {id: 'rebounds', field: 'rebounds', label: 'REB'},
+                        {id: 'assists', field: 'assists', label: 'AST'},
+                        {id: 'fg_pct', field: 'fg_pct', label: 'FG%'},
+                        {id: 'fg3_pct', field: 'fg3_pct', label: '3P%'},
+                        {id: 'ft_pct', field: 'ft_pct', label: 'FT%'},
+                        {id: 'blocks', field: 'blocks', label: 'BLK'},
+                        {id: 'steals', field: 'steals', label: 'STL'},
+                        {id: 'turnovers', field: 'turnovers', label: 'TOV'},
+                        {id: 'fouls', field: 'turnovers', label: 'FOU'},
+                        {id: 'plusMinus', field: 'plusMinus', label: '+/-'}
+
+                    ];
+
+                    if (!_t.gameLogGrid) {
+                        _t.gameLogGrid = new (declare([OnDemandGrid, Selection, DijitRegistry]))({
+                            selectionMode: "single",
+                            collection: gameLogStore,
+                            columns: columns
+                        }, _t.gridView);
+                    }
+                    else {
+                        _t.gameLogGrid.set("columns", columns);
+                        _t.gameLogGrid.set("collection", gameLogStore);
+                        _t.gameLogGrid.refresh();
+                    }
+
+                    if (_t.gameLogGridListener) {
+                        _t.gameLogGridListener.remove();
+                    }
+                    _t.gameLogGridListener = _t.gameLogGrid.on("dgrid-select", function (event) {
+                        var game = event.rows[0].data;
+                        var transOpts = {
+                            target: "boxscoreDetail",
+                            params: {
+                                gameId: game.gameId
+                            }
+                        };
+                        _t.app.transitionToView(event.target, transOpts, event);
+                    });
+                    _t.gameLogGrid.startup();
+
+                    //_t.playerView.innerHTML = JSON.stringify(resultSets);
+                    _t.closeProgressIndicator();
+                });
+            },
             checkFavorite: function () {
                 var _t = this;
                 if (_t.loadedStores.favorites.query({playerid: _t.playerId}).length > 0) {
@@ -497,6 +614,7 @@ define(["dojo/_base/declare",
                 this.swipeEndHandler.remove();
                 this.swipeHandler.remove();
                 this.tabButtonSeasonHandler.remove();
+                this.tabButtonGameLogHandler.remove();
                 this.tabButtonCareerHandler.remove();
             }
         };

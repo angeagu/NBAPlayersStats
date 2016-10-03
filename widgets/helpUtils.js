@@ -28,8 +28,24 @@ define([
             var target = appConfig[appConfig.selectedCustomer].rookieIndexPlayoff;
             return target;
         },
+        getAdvancedStats: function() {
+            var target = appConfig[appConfig.selectedCustomer].advancedStats;
+            return target;
+        },
+        getAdvancedStatsPlayoff: function() {
+            var target = appConfig[appConfig.selectedCustomer].advancedStatsPlayoff;
+            return target;
+        },
         getAllPlayersIndex: function () {
             var target = appConfig[appConfig.selectedCustomer].allPlayersIndex;
+            return target;
+        },
+        getTeamSortableStats: function() {
+            var target = appConfig[appConfig.selectedCustomer].teamSortableStats;
+            return target;
+        },
+        getTeamSortableStatsPlayoff: function() {
+            var target = appConfig[appConfig.selectedCustomer].teamSortableStatsPlayoff;
             return target;
         },
         getHtmlDocumentDir: function () {
@@ -389,14 +405,14 @@ define([
                         team: _t.rowSet[i][3],
                         games: _t.rowSet[i][4],
                         minutes: parseFloat((_t.rowSet[i][5] / partidos).toFixed(1)),
-                        fgm: parseFloat((_t.rowSet[i][6] / partidos).toFixed(1)),
-                        fga: parseFloat((_t.rowSet[i][7] / partidos).toFixed(1)),
+                        fgm: parseFloat((_t.rowSet[i][6] / partidos).toFixed(2)),
+                        fga: parseFloat((_t.rowSet[i][7] / partidos).toFixed(2)),
                         fg_pct: parseFloat((_t.rowSet[i][8] * 100).toFixed(1)),
-                        fg3m: parseFloat((_t.rowSet[i][9] / partidos).toFixed(1)),
-                        fg3a: parseFloat((_t.rowSet[i][10] / partidos).toFixed(1)),
+                        fg3m: parseFloat((_t.rowSet[i][9] / partidos).toFixed(2)),
+                        fg3a: parseFloat((_t.rowSet[i][10] / partidos).toFixed(2)),
                         fg3_pct: parseFloat((_t.rowSet[i][11] * 100).toFixed(1)),
-                        ftm: parseFloat((_t.rowSet[i][12] / partidos).toFixed(1)),
-                        fta: parseFloat((_t.rowSet[i][13] / partidos).toFixed(1)),
+                        ftm: parseFloat((_t.rowSet[i][12] / partidos).toFixed(2)),
+                        fta: parseFloat((_t.rowSet[i][13] / partidos).toFixed(2)),
                         ft_pct: parseFloat((_t.rowSet[i][14] * 100).toFixed(1)),
                         oreb: parseFloat((_t.rowSet[i][15] / partidos).toFixed(1)),
                         dreb: parseFloat((_t.rowSet[i][16] / partidos).toFixed(1)),
@@ -433,6 +449,12 @@ define([
                         foulsPlayoff: 0,
                         assistsPerTurnoverPlayoff: 0,
                         stealsPerTurnoverPlayoff: 0,
+                        plusMinus: 0,
+                        dd2: 0,
+                        td3: 0,
+                        plusMinusPlayoff: 0,
+                        dd2Playoff: 0,
+                        td3Playoff: 0,
                         label: _t.rowSet[i][2],
                         transitionOptions: {params: params},
                         moveTo: 'playerDetail',
@@ -455,6 +477,26 @@ define([
                 this.setStatisticalMinimumsPlayoff();
             }
         },
+        _parseAdvancedData: function(jsondata) {
+            //console.log('parseAdvancedData jsonData: ' + JSON.stringify(jsondata));
+            //var parsedData = JSON.parse(jsondata);
+            var _t = this;
+            var resultSet = jsondata.resultSets[0];
+            this.rowSet = resultSet.rowSet;
+            array.forEach(this.rowSet, function (row, i) {
+                var playerid = row[0];
+                var partidos = row[4];
+                array.forEach(_t.playerArray, function (player, j) {
+                    if (player.playerid == playerid) {
+                        player.plusMinus = parseFloat((row[30]).toFixed(1));
+                        player.dd2 = parseFloat((row[31]).toFixed(1));
+                        player.td3 = parseFloat((row[32]).toFixed(1));
+
+                    }
+
+                });
+            });
+        },
         _parseDataPlayoffs: function (jsondata) {
             //console.log('parseDataPlayoffs jsonData: ' + JSON.stringify(jsondata));
             //var parsedData = JSON.parse(jsondata);
@@ -469,14 +511,14 @@ define([
                         var partidos = row[4];
                         player.gamesPlayoff = row[4];
                         player.minutesPlayoff = parseFloat((row[5] / partidos).toFixed(1));
-                        player.fgmPlayoff = parseFloat((row[6] / partidos).toFixed(1));
-                        player.fgaPlayoff = parseFloat((row[7] / partidos).toFixed(1));
+                        player.fgmPlayoff = parseFloat((row[6] / partidos).toFixed(2));
+                        player.fgaPlayoff = parseFloat((row[7] / partidos).toFixed(2));
                         player.fg_pctPlayoff = parseFloat((_t.rowSet[i][8] * 100).toFixed(1));
-                        player.fg3mPlayoff = parseFloat((row[9] / partidos).toFixed(1));
-                        player.fg3aPlayoff = parseFloat((row[10] / partidos).toFixed(1));
+                        player.fg3mPlayoff = parseFloat((row[9] / partidos).toFixed(2));
+                        player.fg3aPlayoff = parseFloat((row[10] / partidos).toFixed(2));
                         player.fg3_pctPlayoff = parseFloat((_t.rowSet[i][11] * 100).toFixed(1));
-                        player.ftmPlayoff = parseFloat((row[12] / partidos).toFixed(1));
-                        player.ftaPlayoff = parseFloat((row[13] / partidos).toFixed(1));
+                        player.ftmPlayoff = parseFloat((row[12] / partidos).toFixed(2));
+                        player.ftaPlayoff = parseFloat((row[13] / partidos).toFixed(2));
                         player.ft_pctPlayoff = parseFloat((_t.rowSet[i][14] * 100).toFixed(1));
                         player.orebPlayoff = parseFloat((row[15] / partidos).toFixed(1));
                         player.drebPlayoff = parseFloat((row[16] / partidos).toFixed(1));
@@ -493,6 +535,24 @@ define([
                         //console.log('player: ' +  JSON.stringify(_t.playerArray[i]));
                     }
 
+                });
+            });
+        },
+        _parseAdvancedDataPlayoffs: function(jsondata) {
+            //console.log('parseAdvancedData jsonData: ' + JSON.stringify(jsondata));
+            //var parsedData = JSON.parse(jsondata);
+            var _t = this;
+            var resultSet = jsondata.resultSets[0];
+            this.rowSet = resultSet.rowSet;
+            array.forEach(this.rowSet, function (row, i) {
+                var playerid = row[0];
+                var partidos = row[4];
+                array.forEach(_t.playerArray, function (player, j) {
+                    if (player.playerid == playerid) {
+                        player.plusMinusPlayoff = parseFloat((row[30]).toFixed(1));
+                        player.dd2Playoff = parseFloat((row[31]).toFixed(1));
+                        player.td3Playoff = parseFloat((row[32]).toFixed(1));
+                    }
                 });
             });
         },

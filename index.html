@@ -47,19 +47,28 @@
                     helpUtils.getJsonData(helpUtils.getRootIndex()).then(function (response) {
                         helpUtils.addInCache(helpUtils.getRootIndex(), response);
                         helpUtils._parseData(response);
-                        helpUtils.getJsonData(helpUtils.getRootIndexPlayoff()).then(function (response) {
-                            helpUtils.addInCache(helpUtils.getRootIndexPlayoff(), response);
-                            helpUtils._parseDataPlayoffs(response);
-                            helpUtils.getJsonData(helpUtils.getRookieIndex()).then(function (response) {
-                                helpUtils.addInCache(helpUtils.getRookieIndex(), response);
-                                helpUtils.getJsonData(helpUtils.getRookieIndexPlayoff()).then(function (response) {
-                                    helpUtils.addInCache(helpUtils.getRookieIndexPlayoff(), response);
-                                    document.getElementById('frontDiv').style.backgroundColor = 'white';
-                                    Application(json.parse(config));
-                                });
+                        helpUtils.getJsonData(helpUtils.getAdvancedStats()).then(function (response) {
+                            helpUtils.addInCache(helpUtils.getAdvancedStats(), response);
+                            helpUtils._parseAdvancedData(response);
+                            helpUtils.getJsonData(helpUtils.getRootIndexPlayoff()).then(function (response) {
+                                helpUtils.addInCache(helpUtils.getRootIndexPlayoff(), response);
+                                helpUtils._parseDataPlayoffs(response);
+                                helpUtils.getJsonData(helpUtils.getAdvancedStatsPlayoff()).then(function (response) {
+                                    helpUtils.addInCache(helpUtils.getAdvancedStatsPlayoff(), response);
+                                    helpUtils._parseAdvancedDataPlayoffs(response);
+                                    helpUtils.getJsonData(helpUtils.getRookieIndex()).then(function (response) {
+                                        helpUtils.addInCache(helpUtils.getRookieIndex(), response);
+                                        helpUtils.getJsonData(helpUtils.getRookieIndexPlayoff()).then(function (response) {
+                                            helpUtils.addInCache(helpUtils.getRookieIndexPlayoff(), response);
+                                            document.getElementById('frontDiv').style.backgroundColor = 'white';
+                                            Application(json.parse(config));
+                                        });
 
+                                    });
+                                });
                             });
                         });
+
                     });
                 });
     </script>

@@ -5,12 +5,29 @@
         </div>
     </h1>
 
-    <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
-        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonSeason">Season</li>
-        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonPlayoff">Playoff</li>
-    </ul>
+    <div data-dojo-attach-point="playersSortableStatsBar">
+        <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonPlayers">Players</li>
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonTeams">Teams</li>
+        </ul>
+    </div>
+    <br>
+    <div data-dojo-attach-point="playersSortableStatsBar">
+        <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonPlayersSeason">Season</li>
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonPlayersPlayoff">Playoff</li>
+        </ul>
+    </div>
+    <div data-dojo-attach-point="teamsSortableStatsBar">
+        <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonTeamsSeason">Season</li>
+            <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonTeamsPlayoff">Playoff</li>
+        </ul>
+    </div>
     <br>
     <div data-dojo-attach-point="divSortableGrid" align="center" style="font-size: 9pt !important;height: 95%;">
+    </div>
+    <div data-dojo-attach-point="divSortableTeamsGrid" align="center" style="font-size: 9pt !important;height: 95%;">
     </div>
 
 </div>
