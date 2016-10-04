@@ -8,6 +8,7 @@ define(["dojo/_base/declare",
         'dojo/dom-style',
         'dojo/on',
         'dojo/window',
+        'dojo/query',
         'dgrid/OnDemandGrid',
         'dgrid/Selection',
         'dgrid/extensions/DijitRegistry',
@@ -18,7 +19,7 @@ define(["dojo/_base/declare",
         'dojo/i18n!nba-player-stats/nls/playerDetail',
         'dojo/domReady!'
     ],
-    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, domStyle, on, winRef, OnDemandGrid, Selection, DijitRegistry, ColumnHider, Memory, appConfig, helpUtils, nls) {
+    function (declare, array, all, Pane, ProgressIndicator, swipe, domGeometry, domStyle, on, winRef, query, OnDemandGrid, Selection, DijitRegistry, ColumnHider, Memory, appConfig, helpUtils, nls) {
 
         return {
             beforeActivate: function () {
@@ -446,56 +447,28 @@ define(["dojo/_base/declare",
                         obj.plusMinus=rowSet[25];
                         data.push(obj);
                     })
-                    var gameLogStore = new Memory({data: data, idProperty: 'gameId'});
 
-                    var columns = [
-                        {id: 'gameId', field: 'gameId', hidden: true, unhidable: true},
-                        {id: 'matchup', field: 'matchup', label: 'Game', colSpan: 2},
-                        {id: 'winlose', field: 'winlose', label: 'W/L'},
-                        {id: 'minutes', field: 'minutes', label: 'MIN'},
-                        {id: 'points', field: 'points', label: 'PTS'},
-                        {id: 'rebounds', field: 'rebounds', label: 'REB'},
-                        {id: 'assists', field: 'assists', label: 'AST'},
-                        {id: 'fg_pct', field: 'fg_pct', label: 'FG%'},
-                        {id: 'fg3_pct', field: 'fg3_pct', label: '3P%'},
-                        {id: 'ft_pct', field: 'ft_pct', label: 'FT%'},
-                        {id: 'blocks', field: 'blocks', label: 'BLK'},
-                        {id: 'steals', field: 'steals', label: 'STL'},
-                        {id: 'turnovers', field: 'turnovers', label: 'TOV'},
-                        {id: 'fouls', field: 'turnovers', label: 'FOU'},
-                        {id: 'plusMinus', field: 'plusMinus', label: '+/-'}
+                    content += '<table style="width: 100%; margin: 5px; font-size: 8pt;">';
+                    content += '<tr style="font-weight: bold;"><td>Game</td><td>W/L</td><td>Min</td><td>Pt</td><td>FG%</td><td>F3%</td><td>FT%</td><td>Reb</td><td>Ast</td><td>Blk</td><td>Stl</td><td>Tov</td><td>Fou</td><td>+/-</td>';
+                    content += '</tr>';
+                    array.forEach(data, function (obj) {
+                        content += '<tr><td value="'+obj.gameId+'" class="gameId">' + obj.matchup.substring(4) + '</td><td>' + obj.winlose + '</td><td>' + obj.minutes + '</td><td>' + obj.points + '</td><td>' + obj.fg_pct + '</td><td>' + obj.fg3_pct + '</td><td>' + obj.ft_pct + '</td><td>' + obj.rebounds + '</td><td>' + obj.assists + '</td><td>' + obj.blocks + '</td><td>' + obj.steals + '</td><td>' + obj.turnovers + '</td><td>' + obj.fouls + '</td><td>' + obj.plusMinus + '</td></tr>';
+                    })
+                    _t.gridView.innerHTML = content
 
-                    ];
-
-                    if (!_t.gameLogGrid) {
-                        _t.gameLogGrid = new (declare([OnDemandGrid, Selection, ColumnHider, DijitRegistry]))({
-                            selectionMode: "single",
-                            collection: gameLogStore,
-                            columns: columns
-                        }, _t.gridView);
-                    }
-                    else {
-                        _t.gameLogGrid.set("columns", columns);
-                        _t.gameLogGrid.set("collection", gameLogStore);
-                        _t.gameLogGrid.refresh();
-                    }
-
-                    if (_t.gameLogGridListener) {
-                        _t.gameLogGridListener.remove();
-                    }
-                    _t.gameLogGridListener = _t.gameLogGrid.on("dgrid-select", function (event) {
-                        var game = event.rows[0].data;
-                        var transOpts = {
-                            target: "boxscoreDetail",
-                            params: {
-                                gameId: game.gameId
-                            }
-                        };
-                        _t.app.transitionToView(event.target, transOpts, event);
+                    query(".gameId").forEach(function (node) {
+                        on(node, "click", function (event) {
+                            var gameId = node.attributes['value'].nodeValue;
+                            var transOpts = {
+                                target: "boxscoreDetail",
+                                params: {
+                                    gameId: gameId
+                                }
+                            };
+                            _t.app.transitionToView(event.target, transOpts, event);
+                        });
                     });
-                    _t.gameLogGrid.startup();
 
-                    //_t.playerView.innerHTML = JSON.stringify(resultSets);
                     _t.closeProgressIndicator();
                 });
             },
