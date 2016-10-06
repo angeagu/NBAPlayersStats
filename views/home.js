@@ -22,8 +22,19 @@ define(["dojo/_base/declare",
                 this.setHeader();
                 this.icons = [];
 
+                //Load Historical Players
+                if (this.loadedStores.historicalPlayerList.query().length==0) {
+                    console.log('Loading historical data');
+                    helpUtils.getJsonData(helpUtils.getAllPlayersIndex()).then(function (response) {
+                        helpUtils.addInCache(helpUtils.getAllPlayersIndex(), response);
+                        _t.playerArray = helpUtils.getHistoricalData(response);
+                        _t.loadedStores.historicalPlayerList.setData(_t.playerArray);
+                    });
+                }
+
+                //Load Current 'Active' Players
                 this.playerArray = helpUtils.getPlayerArray();
-                _t.loadedStores.playerList.setData(this.playerArray);
+                this.loadedStores.playerList.setData(this.playerArray);
 
                 array.forEach(this.config.mainMenu, function (configItem, i) {
                     var menuItem = new MenuListItem()

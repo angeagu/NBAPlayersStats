@@ -161,6 +161,12 @@
       "template": "nba-player-stats/views/templates/boxscoreDetail.html",
       "controller": "nba-player-stats/views/boxscoreDetail",
       "nls": "nba-player-stats/nls/boxscoreDetail"
+    },
+    "draft": {
+      "dependencies": [],
+      "template": "nba-player-stats/views/templates/draft.html",
+      "controller": "nba-player-stats/views/draft",
+      "nls": "nba-player-stats/nls/draft"
     }
   },
   "stores": {

@@ -31,12 +31,16 @@ define(["dojo/_base/declare",
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.setHeader();
                 this.loadProgressIndicator();
+
+                /*
                 helpUtils.getJsonData(helpUtils.getAllPlayersIndex()).then(function (response) {
                     helpUtils.addInCache(helpUtils.getAllPlayersIndex(), response);
                     _t.playerArray = helpUtils.getHistoricalData(response);
                     _t.loadedStores.historicalPlayerList.setData(_t.playerArray);
                     _t.createList();
                 });
+                */
+                _t.createList();
 
             },
 

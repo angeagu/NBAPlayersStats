@@ -48,8 +48,8 @@ define([
             var target = appConfig[appConfig.selectedCustomer].teamSortableStatsPlayoff;
             return target;
         },
-        getHtmlDocumentDir: function () {
-            return appConfig[appConfig.selectedCustomer].htmlDocumentDir;
+        getDraft: function () {
+            return appConfig[appConfig.selectedCustomer].draft;
         },
         urlCache: [],
         addInCache: function (url, response) {

@@ -1,0 +1,25 @@
+<div data-dojo-type="dojox/mobile/View" data-dojo-props="keepScrollPos: false">
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-attach-point="draftHeading" class="headerClass">
+        <div style="float:left">
+            <span data-dojo-attach-point="back_btn" data-dojo-props="transitionDir:'-1', transition:'none', back:true "
+                  data-dojo-type="dojox/mobile/ToolBarButton" class="fa fa-arrow-left fa-lg backBtnClass"></span>
+        </div>
+    </h1>
+    <div data-dojo-attach-point="divProgress" data-dojo-type="dojox/mobile/Container">
+    </div>
+
+    <div style="width: 100%; font-weight: bold; color: #E41A4C !important;" class="infoClass">Select Year
+        <br>
+        <br>
+    </div>
+    <div style="margin-left: 40%; width: 100%; align-content: center;">
+        <div data-dojo-attach-point="spinYear" data-dojo-type="dojox/mobile/SpinWheel">
+        </div>
+        <br>
+    </div>
+
+    <div data-dojo-attach-point="container">
+        <div data-dojo-attach-point="divDraftGrid"></div>
+    </div>
+
+</div>
