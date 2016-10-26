@@ -123,7 +123,7 @@ define(["dojo/_base/declare",
                             descending: true
                         }]
                     }).forEach(function (jugador) {
-                        if (i < 50) {
+                        if (i < 50 && jugador[category] != 0) {
                             var text = '';
                             var escapedStringJugador;
                             var displayName;
@@ -155,14 +155,13 @@ define(["dojo/_base/declare",
 
                             //UpdateCustomizablePlayerList array
                             playerData.push({id: i, playerId: jugador.playerid})
-                            i++;
-
-
                         }
+                        i++;
                     });
 
                 this.loadedStores.customizablePlayerList.setData(playerData);
                 console.log('End for category: ' + category);
+                alert('End for category: ' + category);
             },
 
             setHeader: function () {

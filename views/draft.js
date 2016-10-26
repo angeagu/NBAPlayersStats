@@ -60,9 +60,9 @@ define(["dojo/_base/declare",
                     labels: years,
                     style: {fontSize: "8pt", textAlign: "center", width: "25%"}
                 });
-                console.log('Set Value For Slot: ' + this.year);
-                this.slot1.value = this.year;
+                
                 this.spinYear.addChild(this.slot1)
+                this.slot1.set('value',this.year);
                 aspect.after(this.slot1, "stopAnimation", function () {
                     _t.year = _t.slot1.get("value");
                     _t.loadDraft();

@@ -46,7 +46,9 @@ define(["dojo/_base/declare",
                     this.playerId = playerId;
                 }
 
+                var playerFound = false;
                 var queryPromise = this.loadedStores.historicalPlayerList.query({playerid: this.playerId}).forEach(function (jugador) {
+                    playerFound = true;
                     _t.jugador = jugador;
                     var playerHeaderText = '<div class="playerDetailHeaderClass">' + jugador.name;
                     _t.playerHeader.innerHTML = playerHeaderText;
@@ -59,6 +61,12 @@ define(["dojo/_base/declare",
                     _t.closeProgressIndicator();
 
                 });
+                if (!playerFound) {
+                    _t.setHeader();
+                    _t.playerHeader.innerHTML = '<div class="playerDetailHeaderClass">' + 'No Data Available';
+                    _t.playerHeader.style['background-color'] = _t.config.header.mainMenuHeaderColor;
+                    _t.closeProgressIndicator();
+                }
 
             },
 
@@ -497,8 +505,12 @@ define(["dojo/_base/declare",
             beforeDeactivate: function () {
                 this.tabButtonAverage.set('selected', true);
                 this.clearPlayerViewHeader();
-                this.swipeEndHandler.remove();
-                this.swipeHandler.remove();
+                if (this.swipeHandler) {
+                    this.swipeHandler.remove();
+                }
+                if (this.swipeEndHandler) {
+                    this.swipeEndHandler.remove();
+                }
                 this.tabButtonAverageHandler.remove();
                 this.tabButtonCareerHandler.remove();
             }

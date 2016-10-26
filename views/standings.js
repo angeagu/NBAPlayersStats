@@ -79,7 +79,7 @@ define(["dojo/_base/declare",
                     var rowSet = resultSets.rowSet;
                     array.forEach(rowSet, function (row) {
                         var team = {};
-                        team.name = row[1];
+                        team.name = row[row.length-1];
                         team.games = row[2];
                         team.wins = row[3];
                         team.losses = row[4];
