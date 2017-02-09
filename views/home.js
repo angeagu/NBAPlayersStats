@@ -63,6 +63,7 @@ define(["dojo/_base/declare",
                     _t.mainMenu.addChild(menuItem);
 
                 })
+                window.scrollTo(0, 0);
             },
 
             closeWelcomeScreen: function () {

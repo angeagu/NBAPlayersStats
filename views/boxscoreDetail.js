@@ -145,6 +145,7 @@ define(["dojo/_base/declare",
                                 });
                             });
 
+                            window.scrollTo(0, 0);
                             _t.closeProgressIndicator();
                             _t.getPreviousAndNextBoxscores();
                         });

@@ -81,6 +81,7 @@ define(["dojo/_base/declare",
 
                     }
                 });
+                window.scrollTo(0, 0);
 
             },
 

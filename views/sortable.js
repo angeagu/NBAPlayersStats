@@ -18,7 +18,6 @@ define(["dojo/_base/declare",
 
 
             beforeActivate: function () {
-
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.teams = helpUtils.getTeams();
@@ -84,7 +83,7 @@ define(["dojo/_base/declare",
                 this.setCustomizablePlayerList();
                 this.loadSortableGrid('season');
 
-
+                window.scrollTo(0, 0);
             },
 
             loadSortableGrid: function (type) {
@@ -166,9 +165,10 @@ define(["dojo/_base/declare",
                     this.sortableGridListener.remove();
                 }
 
-                _t.sortableGridListener = _t.sortableGrid.on("dgrid-select", function (event) {
+                _t.sortableGridListener = _t.sortableGrid.on(".dgrid-content .dgrid-row:click", function (event) {
                     // Get the rows that were just selected
-                    var jugador = event.rows[0].data;
+                    //var jugador = event.rows[0].data;
+                    var jugador = _t.sortableGrid.row(event).data;
                     var transOpts = {
                         target: "playerDetail",
                         params: {
@@ -266,10 +266,10 @@ define(["dojo/_base/declare",
                         _t.sortableTeamsGridListener.remove();
                     }
 
-                    _t.sortableTeamsGridListener = _t.sortableTeamsGrid.on("dgrid-select", function (event) {
+                    _t.sortableTeamsGridListener = _t.sortableTeamsGrid.on(".dgrid-content .dgrid-row:click", function (event) {
                         // Get the rows that were just selected
                         var team = array.filter(_t.teams, function (item) {
-                            return item.label == event.rows[0].data.name;
+                            return item.label == _t.sortableTeamsGrid.row(event).data.name;
                         })
                         var transOpts = {
                             target: "teamStats",

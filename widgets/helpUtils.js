@@ -160,7 +160,7 @@ define([
             });
             teams.push({
                 id_team: 8,
-                label: "Los Angeles Clippers",
+                label: "LA Clippers",
                 conf: "West",
                 acronym: "LAC",
                 moveTo: 'teamStats',
@@ -603,7 +603,7 @@ define([
                     maxNumGames = player.games;
                 }
             })
-
+            alert(maxNumGames)
             this.statisticalMinimums = {
                 generalMinimum: Math.floor(maxNumGames * 0.7),
                 fg_pctMinimum: 3.5,

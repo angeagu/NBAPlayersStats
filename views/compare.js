@@ -1,6 +1,6 @@
 define(["dojo/_base/declare",
-        "dojox/mobile/SpinWheel",
-        "dojox/mobile/SpinWheelSlot",
+        "dojox/mobile/ValuePicker",
+        "dojox/mobile/ValuePickerSlot",
         "dojo/store/Memory",
         "dojo/_base/array",
         "dojo/aspect",
@@ -10,7 +10,7 @@ define(["dojo/_base/declare",
         "nba-player-stats/config/appConfig",
         "dojo/domReady!",
     ],
-    function (declare, SpinWheel, SpinWheelSlot, Memory, array, aspect, on, helpUtils, nls, appConfig) {
+    function (declare, ValuePicker, ValuePickerSlot, Memory, array, aspect, on, helpUtils, nls, appConfig) {
 
         return {
 
@@ -27,34 +27,33 @@ define(["dojo/_base/declare",
                 })
 
                 if (!this.slot1) {
-                    this.slot1 = new SpinWheelSlot({
+                    this.slot1 = new ValuePickerSlot({
                         labels: teamLabels,
                         style: {fontSize: "8pt", textAlign: "center", width: "25%"}
                     });
-                    this.slot2 = new SpinWheelSlot({
-                        labels: [],
-                        style: {fontSize: "8pt", textAlign: "center", width: "75%"}
+                    this.slot2 = new ValuePickerSlot({
+                        labels: this.getPlayers(teamLabels[0]),
+                        style: {fontSize: "8pt", textAlign: "center", width: "60%"}
                     });
                     this.spin1.addChild(this.slot1)
                     this.spin1.addChild(this.slot2)
-                    this.slot1.value = teamLabels[0];
                 }
 
                 if (!this.slot3) {
-                    this.slot3 = new SpinWheelSlot({
+                    this.slot3 = new ValuePickerSlot({
                         labels: teamLabels,
                         style: {fontSize: "8pt", textAlign: "center", width: "25%"}
                     });
-                    this.slot4 = new SpinWheelSlot({
-                        labels: [],
-                        style: {fontSize: "8pt", textAlign: "center", width: "75%"}
+                    this.slot4 = new ValuePickerSlot({
+                        labels: this.getPlayers(teamLabels[0]),
+                        style: {fontSize: "8pt", textAlign: "center", width: "60%"}
                     });
                     this.spin2.addChild(this.slot3)
                     this.spin2.addChild(this.slot4);
-                    this.slot3.value = teamLabels[0];
                 }
 
                 this.setSpinHandlers()
+                window.scrollTo(0, 0);
 
                 this.compareHandler = on(this.compareButton, "click", function () {
                     _t.comparePlayers();
@@ -76,32 +75,38 @@ define(["dojo/_base/declare",
 
             setSpinHandlers: function () {
                 var _t = this;
+                /*
                 aspect.before(this.slot1, "slideTo", function () {
                     _t.slot2.disableValues(0);
+                });*/
+                aspect.after(this.slot1,'onClick',function (evt) {
+                    setTimeout(function() {
+                        var team = _t.slot1.get("value");
+                        var playerLabels = _t.getPlayers(team);
+                        _t.spin1.removeChild(_t.slot2)
+                        _t.slot2 = new ValuePickerSlot({
+                            labels: playerLabels,
+                            style: {fontSize: "8pt", textAlign: "center", width: "60%"}
+                        });
+                        _t.spin1.addChild(_t.slot2);
+                    },500)
                 });
-                aspect.after(this.slot1, "stopAnimation", function () {
-                    var team = _t.slot1.get("value");
-                    var playerLabels = _t.getPlayers(team);
-                    _t.spin1.removeChild(_t.slot2)
-                    _t.slot2 = new SpinWheelSlot({
-                        labels: playerLabels,
-                        style: {fontSize: "8pt", textAlign: "center", width: "75%"}
-                    });
-                    _t.spin1.addChild(_t.slot2);
-                });
-                aspect.before(this.slot3, "slideTo", function () {
+                /*aspect.before(this.slot3, "slideTo", function () {
                     _t.slot4.disableValues(0);
 
                 });
-                aspect.after(this.slot3, "stopAnimation", function () {
-                    var team = _t.slot3.get("value");
-                    var playerLabels = _t.getPlayers(team);
-                    _t.spin2.removeChild(_t.slot4)
-                    _t.slot4 = new SpinWheelSlot({
-                        labels: playerLabels,
-                        style: {fontSize: "8pt", textAlign: "center", width: "75%"}
-                    });
-                    _t.spin2.addChild(_t.slot4);
+                */
+                aspect.after(this.slot3,'onClick',function (evt) {
+                    setTimeout(function() {
+                        var team = _t.slot3.get("value");
+                        var playerLabels = _t.getPlayers(team);
+                        _t.spin2.removeChild(_t.slot4)
+                        _t.slot4 = new ValuePickerSlot({
+                            labels: playerLabels,
+                            style: {fontSize: "8pt", textAlign: "center", width: "60%"}
+                        });
+                        _t.spin2.addChild(_t.slot4);
+                    },500)
                 });
 
             },

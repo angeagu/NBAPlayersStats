@@ -15,7 +15,7 @@ define(["dojo/_base/declare",
 
         return {
             beforeActivate: function () {
-
+                
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.loadProgressIndicator();
@@ -44,15 +44,20 @@ define(["dojo/_base/declare",
                     _t.showPlayoffPicture();
                 })
 
+                window.scrollTo(0, 0);
 
             },
 
             setHeader: function () {
 
+                var icon;
+                array.forEach(this.config.mainMenu, function (item) {
+                    if (item.target == 'standings') {
+                        icon = item.icon;
+                    }
+                })
                 this.headingStandings.domNode.style.backgroundColor = this.config.header.headerColor;
-                this.headingStandings.labelNode.style.display = 'inline';
-                this.headingStandings.labelNode.innerHTML = 'Standings'
-                this.headingStandings.set('label', '<span class="nbaPlayerStatsHeaderIcon">Standings</span>&nbsp;');
+                this.headingStandings.set('label', '<span class="' + icon + ' nbaPlayerStatsHeaderIcon"></span>&nbsp;' + 'Standings');
             },
 
             loadProgressIndicator: function () {
@@ -77,6 +82,8 @@ define(["dojo/_base/declare",
                 helpUtils.getJsonData(this.config.teamsIndex).then(function (response) {
                     var resultSets = response.resultSets[0];
                     var rowSet = resultSets.rowSet;
+                    console.log('Set: ' + JSON.stringify(rowSet));
+
                     array.forEach(rowSet, function (row) {
                         var team = {};
                         team.name = row[row.length-1];

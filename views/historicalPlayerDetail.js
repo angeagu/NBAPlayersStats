@@ -12,7 +12,6 @@ define(["dojo/_base/declare",
 
         return {
             beforeActivate: function () {
-
                 this.loadPlayerData();
 
             },
@@ -57,8 +56,8 @@ define(["dojo/_base/declare",
 
                     _t.setHeader();
                     _t.getPreviousAndNextPlayers();
-                    _t.setEventListeners();
                     _t.closeProgressIndicator();
+                    window.scrollTo(0, 0);
 
                 });
                 if (!playerFound) {
@@ -66,6 +65,7 @@ define(["dojo/_base/declare",
                     _t.playerHeader.innerHTML = '<div class="playerDetailHeaderClass">' + 'No Data Available';
                     _t.playerHeader.style['background-color'] = _t.config.header.mainMenuHeaderColor;
                     _t.closeProgressIndicator();
+                    window.scrollTo(0, 0);
                 }
 
             },
@@ -81,12 +81,12 @@ define(["dojo/_base/declare",
                 this.prog = ProgressIndicator.getInstance();
                 this.divProgress.addChild(this.prog);
                 this.prog.start();
-                this.detail.domNode.style.opacity = '0.5';
+                this.historicalPlayerDetailView.domNode.style.opacity = '0.5';
             },
 
             closeProgressIndicator: function () {
                 this.prog.stop();
-                this.detail.domNode.style.opacity = '1';
+                this.historicalPlayerDetailView.domNode.style.opacity = '1';
             },
 
             getPlayerInfo: function () {
@@ -230,11 +230,7 @@ define(["dojo/_base/declare",
                 content += '</td>';
                 content += '</tr>';
                 content += '</table>';
-                var pane = new Pane({
-                    innerHTML: content
-                });
-
-                _t.playerViewHeader.addChild(pane);
+                _t.playerViewHeader.innerHTML = content;
             },
 
             createStatsPane: function () {
@@ -457,60 +453,13 @@ define(["dojo/_base/declare",
 
             },
 
-            setEventListeners: function () {
-                var _t = this;
-                if (this.swipeHandler) {
-                    this.swipeHandler.remove();
-                }
-                if (this.swipeEndHandler) {
-                    this.swipeEndHandler.remove();
-                }
-
-                this.swipeHandler = on(this.stationDetailScrollableView, swipe, function (e) {
-                });
-
-                this.swipeEndHandler = on(this.stationDetailScrollableView, swipe.end, function (e) {
-                    if (e.time > 250) {
-                        //Minimum duration of swipping --> 200msec
-                        //if (e.dy < 0) {
-                        if (e.dx > 0) {
-                            //Swipe left
-                            if (_t.previousStation) {
-                                _t.loadStationData(_t.previousStation);
-                            }
-                        }
-                        else {
-                            //Swipe right
-                            if (_t.nextStation) {
-                                _t.loadStationData(_t.nextStation);
-                            }
-                        }
-                    }
-
-                });
-
-            },
-
             clearPlayerViewHeader: function () {
-                var _t = this;
-                if (this.playerViewHeader.getChildren().length != 0) {
-                    var children = this.playerViewHeader.getChildren();
-                    array.forEach(children, function (child) {
-                        _t.playerViewHeader.removeChild(child);
-                    })
-                }
-
+                this.playerViewHeader.innerHTML = '';
             },
 
             beforeDeactivate: function () {
                 this.tabButtonAverage.set('selected', true);
                 this.clearPlayerViewHeader();
-                if (this.swipeHandler) {
-                    this.swipeHandler.remove();
-                }
-                if (this.swipeEndHandler) {
-                    this.swipeEndHandler.remove();
-                }
                 this.tabButtonAverageHandler.remove();
                 this.tabButtonCareerHandler.remove();
             }

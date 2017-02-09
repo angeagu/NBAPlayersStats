@@ -23,6 +23,7 @@ define(["dojo/_base/declare",
                 this.setHeader();
                 this.getTeams();
                 this.createList();
+                window.scrollTo(0, 0);
             },
 
             beforeDeactivate: function () {
@@ -75,7 +76,7 @@ define(["dojo/_base/declare",
                 //Create Store for EdgeToEdgeStoreList
                 var sampleStore = new Memory({data: this.teams, idProperty: "label"});
                 if (!this.storeList) {
-                    this.storeList = new declare([EdgeToEdgeStoreList, FilteredListMixin])({
+                    this.storeList = new declare([EdgeToEdgeStoreList])({
                         placeHolder: nls.search,
                         store: sampleStore
                     }, this.teamList);
@@ -86,6 +87,7 @@ define(["dojo/_base/declare",
 
                 }
                 this.storeList.startup();
+                /*
                 this.storeList.getFilterBox().set("queryExpr", "*${0}*");
                 //Place FilterBox
                 var filterBox = this.storeList.getFilterBox();
@@ -93,6 +95,7 @@ define(["dojo/_base/declare",
                 this.blankDiv = domConstruct.create("div", {});
                 this.blankDiv.innerHTML = '<br>'
                 domConstruct.place(this.blankDiv, filterBox.domNode, "after");
+                */
 
                 //Styling Search Menu Items
                 if (this.storeList.getChildren().length != 0) {

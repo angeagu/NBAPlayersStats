@@ -23,9 +23,9 @@ define(["dojo/_base/declare",
 
         return {
             beforeActivate: function () {
-
+                
                 this.loadPlayerData();
-
+                
             },
 
             loadPlayerData: function (playerId) {
@@ -60,8 +60,8 @@ define(["dojo/_base/declare",
                     _t.getPlayerCareerInfo();
                 })
                 this.tabButtonGameLogHandler = on(this.tabButtonGameLog, 'click', function (evt) {
-                    domStyle.set(_t.playerView,'display','none');
                     domStyle.set(_t.gridView,'display','block');
+                    domStyle.set(_t.playerView,'display','none');
                     _t.loadProgressIndicator();
                     _t.getPlayerGameLog();
                 })
@@ -85,9 +85,8 @@ define(["dojo/_base/declare",
                 this.setHeader();
                 this.getPreviousAndNextPlayers();
                 this.checkFavorite();
-                this.setEventListeners();
-                //winRef.scrollIntoView(this.headingPlayerDetail.domNode);
                 this.closeProgressIndicator();
+                window.scrollTo(0, 0);
 
             },
 
@@ -102,12 +101,14 @@ define(["dojo/_base/declare",
                 this.prog = ProgressIndicator.getInstance();
                 this.divProgress.addChild(this.prog);
                 this.prog.start();
-                this.detail.domNode.style.opacity = '0.5';
+                //this.detail.domNode.style.opacity = '0.5';
+                this.playerDetailScrollableView.domNode.style.opacity = '0.5'; 
             },
 
             closeProgressIndicator: function () {
                 this.prog.stop();
-                this.detail.domNode.style.opacity = '1';
+                //this.detail.domNode.style.opacity = '1';
+                this.playerDetailScrollableView.domNode.style.opacity = '1';
             },
 
             getPlayerInfo: function () {
@@ -148,11 +149,14 @@ define(["dojo/_base/declare",
                 content += '</td>';
                 content += '</tr>';
                 content += '</table>';
+                _t.playerViewHeader.innerHTML = content;
+                /*
                 var pane = new Pane({
                     innerHTML: content
                 });
 
                 _t.playerViewHeader.addChild(pane);
+                */
             },
 
             createStatsPane: function () {
@@ -539,41 +543,9 @@ define(["dojo/_base/declare",
 
             },
 
-            setEventListeners: function () {
-                var _t = this;
-                if (this.swipeHandler) {
-                    this.swipeHandler.remove();
-                }
-                if (this.swipeEndHandler) {
-                    this.swipeEndHandler.remove();
-                }
-
-                this.swipeHandler = on(this.playerDetailScrollableView, swipe, function (e) {
-                });
-
-                this.swipeEndHandler = on(this.playerDetailScrollableView, swipe.end, function (e) {
-                    if (e.time > 250) {
-                        //Minimum duration of swipping --> 200msec
-                        //if (e.dy < 0) {
-                        if (e.dx > 0) {
-                            //Swipe left
-                            if (_t.previousStation) {
-                                _t.loadStationData(_t.previousStation);
-                            }
-                        }
-                        else {
-                            //Swipe right
-                            if (_t.nextStation) {
-                                _t.loadStationData(_t.nextStation);
-                            }
-                        }
-                    }
-
-                });
-
-            },
 
             clearPlayerViewHeader: function () {
+                /*
                 var _t = this;
                 if (this.playerViewHeader.getChildren().length != 0) {
                     var children = this.playerViewHeader.getChildren();
@@ -581,14 +553,14 @@ define(["dojo/_base/declare",
                         _t.playerViewHeader.removeChild(child);
                     })
                 }
+                */
+                this.playerViewHeader.innerHTML = '';
 
             },
 
             beforeDeactivate: function () {
                 this.tabButtonSeason.set('selected', true);
                 this.clearPlayerViewHeader();
-                this.swipeEndHandler.remove();
-                this.swipeHandler.remove();
                 this.tabButtonSeasonHandler.remove();
                 this.tabButtonGameLogHandler.remove();
                 this.tabButtonCareerHandler.remove();

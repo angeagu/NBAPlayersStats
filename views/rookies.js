@@ -15,7 +15,6 @@ define(["dojo/_base/declare",
 
 
             beforeActivate: function () {
-
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.setHeader();
@@ -116,9 +115,10 @@ define(["dojo/_base/declare",
                     if (_t.rookiesGridListener) {
                         _t.rookiesGridListener.remove();
                     }
-                    _t.rookiesGridListener = _t.rookiesGrid.on("dgrid-select", function (event) {
+                    _t.rookiesGridListener = _t.rookiesGrid.on(".dgrid-content .dgrid-row:click", function (event) {
                         // Get the rows that were just selected
-                        var jugador = event.rows[0].data;
+                        //var jugador = event.rows[0].data;
+                        var jugador = _t.rookiesGrid.row(event).data;
                         var transOpts = {
                             target: "playerDetail",
                             params: {

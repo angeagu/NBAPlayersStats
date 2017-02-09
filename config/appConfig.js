@@ -159,7 +159,7 @@ define([
             rookieIndexPlayoff: 'http://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=Totals&Scope=Rookies&Season=2016-17&SeasonType=Playoffs&StatCategory=PTS',
             allPlayersIndex: 'http://stats.nba.com/stats/commonallplayers?IsOnlyCurrentSeason=0&LeagueID=00&Season=2016-17',
             teamsIndex: 'http://stats.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2016-17&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&VsConference=&VsDivision=',
-            playoffPicture: 'http://stats.nba.com/stats/playoffpicture?LeagueID=00&SeasonID=22015',
+            playoffPicture: 'http://stats.nba.com/stats/playoffpicture?LeagueID=00&SeasonID=22016',
             playoffBracket: 'http://data.nba.com/data/json/cms/2015/playoffs_series/series_summary.json',
             playerSplits: 'http://stats.nba.com/stats/playerdashboardbygeneralsplits?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerID=201935&PlusMinus=N&Rank=N&Season=2016-17&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision=',
             playerGameLog: 'http://stats.nba.com/stats/playergamelog?DateFrom=&DateTo=&LeagueID=00&Season=2016-17&SeasonType=Regular+Season',

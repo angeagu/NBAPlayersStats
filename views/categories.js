@@ -160,8 +160,7 @@ define(["dojo/_base/declare",
                     });
 
                 this.loadedStores.customizablePlayerList.setData(playerData);
-                console.log('End for category: ' + category);
-                alert('End for category: ' + category);
+                window.scrollTo(0, 0);
             },
 
             setHeader: function () {

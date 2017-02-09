@@ -39,6 +39,7 @@ define(["dojo/_base/declare",
                     _t.categories.addChild(menuItem);
 
                 });
+                window.scrollTo(0, 0);
 
             },
 

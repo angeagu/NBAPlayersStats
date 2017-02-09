@@ -1,4 +1,4 @@
-<div data-dojo-type="dojox/mobile/View" class="playerDetail" data-dojo-props="keepScrollPos: false">
+<div data-dojo-type="dojox/mobile/View" data-dojo-props="keepScrollPos: false">
     <div data-dojo-attach-point="headingPlayerDetail" data-dojo-type="dojox/mobile/Heading"  class="headerClass">
         <div style="float:left">
             <span data-dojo-attach-point="back_btn" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="transitionDir:'-1', transition:'none', back:true " class="fa fa-arrow-left fa-lg backBtnClass"></span>
@@ -12,26 +12,24 @@
         </div>
     </div>
 
+
+    <div data-dojo-attach-point="playerHeader">
+    </div>
+    <div data-dojo-attach-point="playerViewHeader">
+    </div>
+    <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonSeason">Season</li>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonGameLog">GameLog</li>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonCareer">Career</li>
+    </ul>
+    <br>
     <div data-dojo-attach-point="divProgress" data-dojo-type="dojox/mobile/Container">
     </div>
-
-    <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-attach-point="playerDetailScrollableView" style="height: 95% !important;">
-        <div data-dojo-attach-point="detail" data-dojo-type="dojox/mobile/Container" >
-            <div data-dojo-attach-point="playerHeader">
+    <div data-dojo-type="dojox/mobile/View" data-dojo-attach-point="playerDetailScrollableView">
+            <div data-dojo-attach-point="playerView" style="display: block;">
             </div>
-            <div data-dojo-attach-point="playerViewHeader" data-dojo-type="dojox/mobile/View">
+            <div data-dojo-attach-point="gridView" style="display: none; font-size: 10pt !important;">
             </div>
-            <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
-                <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonSeason">Season</li>
-                <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonGameLog">GameLog</li>
-                <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonCareer">Career</li>
-            </ul>
-            <br>
-            <div data-dojo-attach-point="playerView" style="display: block !important;">
-            </div>
-            <div data-dojo-attach-point="gridView" style="display: none !important; font-size: 10pt !important;">
-            </div>
-        </div>
         <br>
     </div>
 </div>

@@ -27,6 +27,7 @@ define(["dojo/_base/declare",
                     _t.loadTeamStats(_t.nextTeam.acronym,_t.nextTeam.teamName);
                 });
 
+                window.scrollTo(0, 0);
             },
 
             beforeDeactivate: function () {

@@ -47,6 +47,7 @@ define(["dojo/_base/declare",
                 this.setHeader();
                 this.createStatsPane();
                 this.closeProgressIndicator();
+                window.scrollTo(0, 0);
 
             },
 

@@ -3,6 +3,7 @@ define(["dojo/_base/declare",
         "dojo/dom-class",
         "dojo/dom-construct",
         "dojo/query",
+        "dojo/on",
         "dojox/mobile/ListItem",
         "dojox/mobile/EdgeToEdgeStoreList",
         "dojox/mobile/FilteredListMixin",
@@ -12,9 +13,11 @@ define(["dojo/_base/declare",
         "dojo/store/Memory",
         "dojo/i18n!nba-player-stats/nls/players",
         "nba-player-stats/widgets/helpUtils",
+        "nba-player-stats/widgets/LocalStore",
         "nba-player-stats/config/appConfig"
     ],
-    function (declare, array, domClass, domConstruct, query, ListItem, EdgeToEdgeStoreList, FilteredListMixin, LongListMixin, ScrollableView, ProgressIndicator, Memory, nls, helpUtils, appConfig) {
+    function (declare, array, domClass, domConstruct, query, on,ListItem, EdgeToEdgeStoreList, FilteredListMixin, LongListMixin, ScrollableView, ProgressIndicator,
+              Memory, nls, helpUtils, LocalStore,appConfig) {
 
         return {
 
@@ -29,33 +32,63 @@ define(["dojo/_base/declare",
             beforeActivate: function () {
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
+                /*
+                this.searchTextBox.set('value','');
+                this.searchTextBox.set('placeHolder','Search');
+                this.configureSearchBox();
+                */
                 this.setHeader();
                 this.loadProgressIndicator();
-
-                /*
-                helpUtils.getJsonData(helpUtils.getAllPlayersIndex()).then(function (response) {
-                    helpUtils.addInCache(helpUtils.getAllPlayersIndex(), response);
-                    _t.playerArray = helpUtils.getHistoricalData(response);
-                    _t.loadedStores.historicalPlayerList.setData(_t.playerArray);
-                    _t.createList();
-                });
-                */
                 _t.createList();
+                window.scrollTo(0, 0);
 
             },
 
             beforeDeactivate: function () {
                 var _t = this;
+                /*
                 if (this.storeList && this.storeList.getChildren().length != 0) {
                     var children = this.storeList.getChildren();
                     array.forEach(children, function (child) {
                         _t.storeList.removeChild(child);
                     });
                 }
-
-                domConstruct.destroy(_t.blankDiv);
+                */
+                var emptyStore = new Memory({data: [], idProperty: "label"});
+                this.storeList.set("store", emptyStore);
+                this.storeList.refresh();
+                this.filterBox.set('value','');
             },
-
+            configureSearchBox: function() {
+                var _t = this;
+                this.searchTextBox.set('placeHolder','Search');
+                if (!this.keyUpHandler) {
+                    this.keyUpHandler = on(this.searchTextBox,'keyup',function(evt) {
+                        var value = _t.searchTextBox.get('value').toUpperCase();
+                        if (value.length > 0) {
+                            var localStore = new LocalStore({store_name: 'aux'});
+                            localStore.setData([]);
+                            /*_t.loadedStores.historicalPlayerList.query().forEach(function(player) {
+                                if (player.name.toUpperCase().indexOf(value)!=-1) {
+                                    localStore.add(player)
+                                    console.log('player added')
+                                }
+                            });
+                            */
+                            var filteredData = _t.loadedStores.historicalPlayerList.query().filter(function(player) {
+                                return (player.name.toUpperCase().indexOf(value)!=-1)
+                            });
+                            localStore.setData(filteredData);
+                            console.log('End filtering players')
+                            _t.storeList.set("store", localStore);
+                        }
+                        else {
+                            _t.storeList.set("store", _t.loadedStores.historicalPlayerList);
+                        }
+                        _t.storeList.refresh();
+                    });
+                }
+            },
             loadProgressIndicator: function () {
                 this.prog = ProgressIndicator.getInstance();
                 this.divProgress.addChild(this.prog);
@@ -83,9 +116,25 @@ define(["dojo/_base/declare",
                 var _t = this;
                 //Set up initially empty store to improve list creation speed
                 var emptyStore = new Memory({data: [{label: "Loading players..."}], idProperty: "label"});
+                this.storeList = new declare([EdgeToEdgeStoreList, LongListMixin,FilteredListMixin])(
+                    {filterBoxRef: this.filterBox, placeHolder: 'Search', store: emptyStore});
+                this.storeList.placeAt(this.historicalPlayerListView);
+                this.storeList.startup();
+                setTimeout(function(){
+                    _t.storeList.set("store", _t.loadedStores.historicalPlayerList);
+                    _t.storeList.refresh();
+                    //Styling Search Menu Items
+                    if (_t.storeList.getChildren().length != 0) {
+                        array.forEach(_t.storeList.getChildren(), function (children) {
+                            domClass.add(children.domNode, "nbaPlayerStatsSearchMenuItem");
+                        });
+                    }
+                    _t.closeProgressIndicator();
+                },500);
                 //Create playerList.
+                /*
                 if (!this.storeList) {
-                    this.storeList = new declare([EdgeToEdgeStoreList, FilteredListMixin, LongListMixin])({
+                    this.storeList = new declare([EdgeToEdgeStoreList, LongListMixin])({
                         placeHolder: nls.search,
                         store: emptyStore,
                         pageSize: 50
@@ -119,14 +168,17 @@ define(["dojo/_base/declare",
                     },500);
                 }
                 this.storeList.startup();
+                */
+
                 this.storeList.getFilterBox().set("queryExpr", "*${0}*");
                 //Place FilterBox
                 var filterBox = this.storeList.getFilterBox();
                 domClass.add(filterBox.domNode, "playerSearchField")
+                /*
                 this.blankDiv = domConstruct.create("div", {});
                 this.blankDiv.innerHTML = '<br>'
                 domConstruct.place(this.blankDiv, filterBox.domNode, "after");
-
+                */
                 var customizablePlayerListData = [];
                 var idx = 0;
                 this.loadedStores.historicalPlayerList.query().forEach(function(player) {

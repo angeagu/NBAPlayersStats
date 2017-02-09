@@ -9,10 +9,19 @@
     </div>
 
     <div data-dojo-attach-point="container" data-dojo-type="dojox/mobile/View">
-        <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-attach-point="searchScrollableView">
-            <br>
-            <ul data-dojo-attach-point="playerList" class="playerSearchField">
-            </ul>
+        <div data-dojo-type="dojox/mobile/View" data-dojo-attach-point="searchScrollableView">
+            <!--
+            <input data-dojo-type="dojox/mobile/TextBox" data-dojo-attach-point="searchTextBox" style="width: 100%;border: 0px; height: 40px;">
+            -->
+            <!--
+            <div data-dojo-attach-point="playerList" class="playerSearchField">
+
+            </div>
+            -->
+            <input data-dojo-type="dojox/mobile/SearchBox" type="search" data-dojo-attach-point="filterBox"
+                   class="mblFilteredEdgeToEdgeListSearchBox">
+            <div data-dojo-type="dojox/mobile/View" data-dojo-attach-point="playerListView">
+            </div>
         </div>
     </div>
 

@@ -115,6 +115,7 @@ define(["dojo/_base/declare",
                         idx = idx + 1;
 
                     })
+                    window.scrollTo(0, 0);
                     this.closeProgressIndicator();
 
                 }
@@ -130,9 +131,10 @@ define(["dojo/_base/declare",
                     label.innerHTML = content;
                     listItem.clickable = false;
                     this.boxscoreList.addChild(listItem);
+                    window.scrollTo(0, 0);
                     this.closeProgressIndicator();
                 }
-
+                
 
 
             },

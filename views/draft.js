@@ -5,26 +5,26 @@ define(["dojo/_base/declare",
         'dgrid/OnDemandGrid',
         'dgrid/Selection',
         'dgrid/extensions/DijitRegistry',
-        "dojox/mobile/SpinWheel",
-        "dojox/mobile/SpinWheelSlot",
+        "dojox/mobile/ValuePicker",
+        "dojox/mobile/ValuePickerSlot",
         'dstore/Memory',
         "nba-player-stats/widgets/helpUtils",
         "dojo/i18n!nba-player-stats/nls/draft",
         "nba-player-stats/config/appConfig"
     ],
-    function (declare, array, on, aspect, OnDemandGrid, Selection, DijitRegistry, SpinWheel, SpinWheelSlot, Memory, helpUtils, nls, appConfig) {
+    function (declare, array, on, aspect, OnDemandGrid, Selection, DijitRegistry, ValuePicker, ValuePickerSlot, Memory, helpUtils, nls, appConfig) {
 
         return {
 
 
             beforeActivate: function () {
-
                 var _t = this;
                 this.config = appConfig[appConfig.selectedCustomer];
                 this.setHeader();
                 this.year = new Date().getFullYear();
                 this.createSpin();
                 this.loadDraft();
+                window.scrollTo(0, 0);
             },
 
             setHeader: function () {
@@ -52,20 +52,27 @@ define(["dojo/_base/declare",
             createSpin: function() {
                 var _t = this;
                 var years = [];
-                for (var i = this.year; i >= 1947; i--) {
-                    years.push(i);
+                for (var i = 1947; i <= this.year; i++) {
+                    years.push(i.toString());
                 }
-                this.spinYear.removeChild(this.slot1)
-                this.slot1 = new SpinWheelSlot({
+                this.spinYear.removeChild(this.slotDraft)
+                this.slotDraft = new ValuePickerSlot({
                     labels: years,
                     style: {fontSize: "8pt", textAlign: "center", width: "25%"}
                 });
                 
-                this.spinYear.addChild(this.slot1)
-                this.slot1.set('value',this.year);
-                aspect.after(this.slot1, "stopAnimation", function () {
-                    _t.year = _t.slot1.get("value");
-                    _t.loadDraft();
+                this.spinYear.addChild(this.slotDraft)
+                if (this.year) {
+                    this.slotDraft.set('value',this.year);
+                }
+                else {
+                    this.slotDraft.set('value',years[0]);
+                }
+                aspect.after(this.slotDraft, "onClick", function () {
+                    setTimeout(function() {
+                        _t.year = _t.slotDraft.get("value");
+                        _t.loadDraft();
+                    },500);
                 });
             },
             createList: function(rowSet) {
@@ -107,9 +114,10 @@ define(["dojo/_base/declare",
                 if (this.draftGridListener) {
                     this.draftGridListener.remove();
                 }
-                this.draftGridListener = this.draftGrid.on("dgrid-select", function (event) {
+                this.draftGridListener = this.draftGrid.on(".dgrid-content .dgrid-row:click", function (event) {
                     // Get the rows that were just selected
-                    var jugador = event.rows[0].data;
+                    //var jugador = event.rows[0].data;
+                    var jugador = _t.draftGrid.row(event).data;
                     var target = 'historicalPlayerDetail';
                     _t.loadedStores.playerList.query({playerid: jugador.playerId}).forEach(function(player) {
                         target = 'playerDetail'

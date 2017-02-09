@@ -1,4 +1,4 @@
-<div data-dojo-type="dojox/mobile/View" class="playerDetail" data-dojo-props="keepScrollPos: false">
+<div data-dojo-type="dojox/mobile/View" data-dojo-props="keepScrollPos: false">
 
     <div data-dojo-attach-point="headingPlayerDetail" data-dojo-type="dojox/mobile/Heading"  class="headerClass">
 
@@ -13,22 +13,20 @@
         </div>
     </div>
 
+    <div data-dojo-attach-point="playerHeader">
+    </div>
+    <div data-dojo-attach-point="playerViewHeader">
+    </div>
+    <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonAverage">Average</li>
+        <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonCareer">Career</li>
+    </ul>
+    <br>
     <div data-dojo-attach-point="divProgress" data-dojo-type="dojox/mobile/Container">
     </div>
-    <div data-dojo-type="dojox/mobile/ScrollableView" data-dojo-attach-point="stationDetailScrollableView">
-        <div data-dojo-attach-point="detail" data-dojo-type="dojox/mobile/Container" >
-            <div data-dojo-attach-point="playerHeader">
+    <div data-dojo-type="dojox/mobile/View" data-dojo-attach-point="historicalPlayerDetailView">
+            <div data-dojo-attach-point="playerView" style="display: block">
             </div>
-            <div data-dojo-attach-point="playerViewHeader" data-dojo-type="dojox/mobile/View">
-            </div>
-            <ul data-dojo-type="dojox/mobile/TabBar" data-dojo-props='barType:"segmentedControl"'>
-                <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-props='selected:true' data-dojo-attach-point="tabButtonAverage">Average</li>
-                <li data-dojo-type="dojox/mobile/TabBarButton" data-dojo-attach-point="tabButtonCareer">Career</li>
-            </ul>
-            <br>
-            <div data-dojo-attach-point="playerView" style="display: block !important;">
-            </div>
-        </div>
         <br>
     </div>
 
